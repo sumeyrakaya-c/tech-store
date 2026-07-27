@@ -1,0 +1,53 @@
+/* ==========================
+   PRODUCT DETAIL LAYOUT
+========================== */
+
+.product-detail{
+
+    max-width:1400px;
+
+
+    margin:40px auto;
+
+    padding:0px;
+
+    display:grid;
+
+    grid-template-columns:1fr 1.2fr 340px;
+
+    gap:40px;
+
+    align-items:start;
+}
+
+
+.product-bottom{
+    max-width:1400px;
+    margin:5px auto;
+    padding: 10px 20px;
+
+    display:grid;
+    grid-template-columns:35% 65%;
+    gap:25px;
+
+    align-items:start;
+}
+
+.right-column{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+.product-specs{
+    width:100%;
+}
+
+.review-question-wrapper{
+    max-width:1400px;
+    margin:35px auto;
+    display:grid;
+    grid-template-columns:65% 35%;
+    gap:25px;
+    align-items:start;
+}

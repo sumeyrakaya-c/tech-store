@@ -1,0 +1,52 @@
+/* ==========================
+   PRODUCT DESCRIPTION
+========================== */
+
+.product-description{
+    border:1px solid #E5E7EB;
+    border-radius:16px;
+    padding:30px;
+    height:260px;
+    overflow:hidden;
+    position: relative;
+    top: -30px;
+     transform: translateX(-40px);
+}
+
+.product-description h3{
+
+    font-size:24px;
+    color:#111827;
+    margin-bottom:20px;
+}
+
+.product-description p{
+    font-size:15px;
+    color:#656c7b;
+    line-height:1.8;
+}
+
+
+.description-text{
+    max-height:220px;
+    overflow-y:auto;
+    padding-right:12px;
+}
+
+.description-text::-webkit-scrollbar{
+    width:6px;
+}
+
+.description-text::-webkit-scrollbar-track{
+    background:#F3F4F6;
+    border-radius:999px;
+}
+
+.description-text::-webkit-scrollbar-thumb{
+    background:#3B82F6;
+    border-radius:999px;
+}
+
+.description-text::-webkit-scrollbar-thumb:hover{
+    background:#2563EB;
+}

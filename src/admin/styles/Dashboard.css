@@ -1,0 +1,21 @@
+.dashboard h1{
+    color:#16213E;
+    font-size:32px;
+}
+
+.dashboard p{
+    color:#6B7280;
+    margin-top:10px;
+}
+
+.dashboard{
+    display:flex;
+    flex-direction:column;
+    gap:30px;
+}
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}

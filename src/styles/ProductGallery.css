@@ -1,0 +1,186 @@
+
+
+/* ==========================
+   PRODUCT GALLERY
+========================== */
+
+.product-gallery{
+
+    position: relative;
+
+    background: #f0f2f7;
+
+    border: 1px solid #EEF2F7;
+
+    border-radius: 28px;
+
+    padding: 35px 35px 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 520px;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.05);
+
+    overflow: visible;
+}
+
+.main-image{
+
+    width:370px;
+
+    height:400px;
+
+    object-fit:contain;
+
+    position:relative;
+
+    z-index:2;
+
+    transform:rotate(-8deg);
+
+    transition:.35s;
+
+    filter:drop-shadow(0 35px 40px rgba(0,0,0,.18));
+}
+
+.product-gallery:hover .main-image{
+
+    transform: rotate(0deg) scale(1.03);
+}
+
+
+.thumbnail{
+
+    width:60px;
+
+    height:60px;
+
+    object-fit:contain;
+
+    border:1px solid #ddd;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.thumbnail:hover{
+
+    border-color:#2563EB;
+}
+
+.thumbnail.active{
+
+    border:2px solid #2563EB;
+}
+
+/* FAVORITE */
+
+.favorite-btn{
+
+    position:absolute;
+
+    top:10px;
+
+    right:10px;
+
+    width:45px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.12);
+
+    transition:.25s;
+}
+
+.favorite-btn:hover{
+
+    color:#EF4444;
+
+    transform:scale(1.08);
+}
+
+/* ARROWS */
+
+.gallery-arrow{
+
+    position:absolute;
+
+    top:45%;
+
+    width:42px;
+
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 14px rgba(0,0,0,.12);
+
+    opacity:0;
+
+    transition:.25s;
+}
+
+.product-gallery:hover .gallery-arrow{
+
+    opacity:1;
+}
+
+.gallery-arrow:hover{
+
+    background:#2563EB;
+
+    color:white;
+
+    transform:scale(1.08);
+}
+
+.left-arrow{
+
+    left:22px;
+}
+
+.right-arrow{
+
+    right:2px;
+}

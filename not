@@ -1,0 +1,14 @@
+/*@media(max-width:535px)= eğer ekran küçüksefarklı tasarım kullan*/
+/*import Navbar from "./components/Navbar.";= başka dosyadaki componenti bu dosyada kullanmamızı sağlar*/
+/*JSX = javaScript içinde HTML yazmamızı sağlayan sözdimizidr.*/
+/*useState= selectedImage"mevcut olan" ---- selectedImage() "değeri değiştiren fonksiyon" otomotaik günceller. . */
+/*useParams= URL'den parametre almak için kullanılır. "const params = useParams();"*/
+/*map() = her ürün için bir productCard oluşturur "products.map(product => <ProductCard product={product} />)"*/
+/*<BrowserRouter> = sayfa enilemeden sayfalar arasında gezinmeyi sağlar*/
+/*Route = belirli bir URL'ye karşılık gelen bileşeni tanımlar*/
+/*Flexbox = "display: Flex=elemanları esnek düzende hizalar ---- justify-content = yatay eksende hizalar.  --- align-items = dikey eksende hizalar."*/
+/* componemts neden var?= örneğin productCard tek ürün kutusu, her ürün için kod yazamayacağımızdan bir kere yazıyoruz.Reactın olayı bu */
+/*pages=tüm ekranı temsil eder */
+/*main.jsx= bu dosya Reactın başlangıç noktasıdır */
+/*<BrowserRouter>=React routerın çalışmasını sağlar(sayfayı tamamen yenilemeden sadece component dağiştirir. bundan kaynaklı site hızlıdır.) */
+/*<StrictMode>/*hataları erkenden görebilmeye yarar */

@@ -1,0 +1,187 @@
+/* ==========================
+   PURCHASE CARD
+========================== */
+
+.purchase-card{
+
+    background:linear-gradient(
+        160deg,
+        #030712 0%,
+        #0F172A 45%,
+        #1E3A8A 100%
+    );
+
+    color:#fff;
+
+    border-radius:22px;
+
+    padding:28px;
+
+    Height: 520px;
+
+    width: 350px;
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.25);
+
+    min-height:400px;
+
+    position:sticky;
+
+    top:100px;
+
+    overflow:hidden;
+}
+
+.purchase-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:520px;
+    height:420px;
+
+    border-radius:50%;
+
+    background:#2563EB;
+
+    filter:blur(90px);
+
+    opacity:.25;
+
+    top:-80px;
+
+    right:-60px;
+
+    z-index:-1;
+
+    pointer-events:none;
+}
+
+.service{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:34px;
+
+    margin-bottom:18px;
+
+    color:#E5E7EB;
+
+    font-size:15px;
+}
+
+.service svg{
+
+    font-size:30px;
+
+    margin-bottom:10px;
+
+    color:#60A5FA;
+}
+
+.buy-now{
+
+    width:100%;
+
+    margin-top:35px;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:#2563EB;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.buy-now:hover{
+
+    background:#3B82F6;
+
+    transform:translateY(-2px);
+}
+
+.add-cart{
+
+    width:100%;
+
+    margin-top:14px;
+
+    padding:15px;
+
+    border-radius:14px;
+
+    border:1px solid rgba(255,255,255,.25);
+
+    background:transparent;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.add-cart:hover{
+
+    background:rgba(255,255,255,.08);
+}
+
+.purchase-wrapper{
+
+    position:relative;
+}
+
+.share-btn{
+
+    position:absolute;
+
+    top:-35px;
+
+    right:-60px;
+
+    width:49px;
+
+    height:49px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#2563EB;
+
+    color:#fff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 20px rgba(37,99,235,.25);
+
+    transition:.3s;
+}
+
+.share-btn:hover{
+
+    transform:scale(1.08);
+
+    background:#3B82F6;
+}

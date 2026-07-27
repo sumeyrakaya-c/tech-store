@@ -1,0 +1,151 @@
+/* ==========================
+   PRODUCT INFO
+========================== */
+
+.product-info{
+
+    padding:10px;
+}
+
+.brand{
+
+    color:#2563EB;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    letter-spacing:.5px;
+}
+
+.product-title{
+
+    margin:12px 0 18px;
+
+    font-size:34px;
+
+    font-weight:700;
+
+    color:#111827;
+}
+
+.rating{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:24px;
+
+    color:#555;
+}
+
+.stars{
+
+    color:#F59E0B;
+}
+
+.review-count{
+
+    color:#888;
+
+    font-size:14px;
+}
+
+.price{
+
+    margin-bottom:30px;
+
+    font-size:36px;
+
+    font-weight:700;
+}
+
+.option-group{
+
+    margin-top:30px;
+}
+
+.storage-options{
+
+    display:flex;
+
+    gap:12px;
+
+    margin-top:15px;
+}
+
+.storage-options button{
+
+    padding:12px 20px;
+
+    border:1px solid #ddd;
+
+    background:#fff;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.storage-options button:hover{
+
+    border-color:#2563EB;
+}
+
+.storage-options .active{
+
+    border:2px solid #2563EB;
+
+    color:#2563EB;
+
+    font-weight:600;
+}
+
+.color-options{
+
+    display:flex;
+
+    gap:14px;
+
+    margin-top:15px;
+}
+
+.color{
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:50%;
+
+    border:2px solid #ddd;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.color:hover{
+
+    transform:scale(1.08);
+}
+
+.black{
+
+    background:#111;
+}
+
+.white{
+
+    background:#fff;
+}
+
+.blue{
+
+    background:#2563EB;
+}

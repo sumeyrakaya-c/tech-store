@@ -1,0 +1,51 @@
+.product-questions{
+    max-width:1400px;
+    width: 500px; 
+    margin:20px auto;
+    padding:18px 28px;
+    margin:20px 0 20px 20px;
+
+    background:#dddde3;
+    border:1px solid #E6EBF5;
+    border-radius:20px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+.questions-header{
+    display:flex;
+    align-items:center;
+    width:100%;
+}
+
+.questions-header h3{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+    color:#16213E;
+}
+
+.question-count{
+    margin-left:22px;
+    color:#94A3B8;
+    font-size:14px;
+    font-weight:500;
+}
+
+.see-all{
+    margin-left:auto;
+
+    border:none;
+    background:none;
+
+    color:#2563EB;
+    font-size:15px;
+    font-weight:600;
+
+    cursor:pointer;
+    transition:.25s;
+}
+
+.see-all:hover{
+    color:#1D4ED8;
+}
