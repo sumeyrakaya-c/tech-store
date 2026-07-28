@@ -21,43 +21,43 @@ function ProductSpecs({ product }) {
                 <div className="spec-card">
                     <FiCpu />
                     <span>İşlemci</span>
-                    <strong>{product.specs.processor}</strong>
+                    <strong>Bilgi eklenmedi</strong>
                 </div>
 
                 <div className="spec-card">
                     <FiHardDrive />
                     <span>RAM</span>
-                    <strong>{product.specs.ram}</strong>
+                    <strong>bilgi eklenmedi</strong>
                 </div>
 
                 <div className="spec-card">
                     <FiHardDrive />
                     <span>Depolama</span>
-                    <strong>{product.specs.storage}</strong>
+                    <strong>Bilgi eklenmedi</strong>
                 </div>
 
                 <div className="spec-card">
                     <FiMonitor />
                     <span>Ekran</span>
-                    <strong>{product.specs.display}</strong>
+                    <strong>Bilgi eklenmedi</strong>
                 </div>
 
                 <div className="spec-card">
                     <FiBatteryCharging />
                     <span>Pil</span>
-                    <strong>{product.specs.battery}</strong>
+                    <strong>Bilgi eklenmedi</strong>
                 </div>
 
                 <div className="spec-card">
                     <FiCamera />
                     <span>Kamera</span>
-                    <strong>{product.specs.camera}</strong>
+                    <strong>Bilgi eklenmedi</strong>
                 </div>
 
                 <div className="spec-card">
                     <FiSmartphone />
                     <span>İşletim Sistemi</span>
-                    <strong>{product.specs.os}</strong>
+                    <strong>Bilgi eklenmedi</strong>
                 </div>
 
             </div>

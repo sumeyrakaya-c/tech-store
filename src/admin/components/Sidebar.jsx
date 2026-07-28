@@ -1,41 +1,76 @@
 import { NavLink } from "react-router-dom";
-import "./../styles/Sidebar.css";
+import {
+  FiHome,
+  FiBox,
+  FiPlusCircle,
+  FiShoppingBag,
+  FiUsers,
+  FiMoon,
+  FiLogOut,
+} from "react-icons/fi";
+
+import "../styles/Sidebar.css";
 
 function Sidebar() {
-    return (
-        <aside className="admin-sidebar">
+  return (
+    <aside className="admin-sidebar">
 
-            <div className="admin-sidebar-logo">
-                <h2>TeknoHup</h2>
-                <span>Admin Panel</span>
-            </div>
+      <div className="admin-sidebar-logo">
+        <h2>TeknoHup</h2>
+        <span>Admin Panel</span>
+      </div>
 
-            <nav className="admin-sidebar-menu">
+      <div className="admin-sidebar-links">
 
-                <NavLink to="/admin" end>
-                    📊 Dashboard
-                </NavLink>
+        <span className="sidebar-title">ANA MENÜ</span>
 
-                <NavLink to="/admin/products">
-                    📦 Ürünler
-                </NavLink>
+        <nav className="admin-sidebar-menu">
 
-                <NavLink to="/admin/add-product">
-                    ➕ Ürün Ekle
-                </NavLink>
+          <NavLink to="/admin" end>
+            <FiHome />
+            <span>Dashboard</span>
+          </NavLink>
 
-                <NavLink to="/admin/orders">
-                    🛒 Siparişler
-                </NavLink>
+          <NavLink to="/admin/products">
+            <FiBox />
+            <span>Ürünler</span>
+          </NavLink>
 
-                <NavLink to="/admin/users">
-                    👥 Kullanıcılar
-                </NavLink>
+          <NavLink to="/admin/add-product">
+            <FiPlusCircle />
+            <span>Ürün Ekle</span>
+          </NavLink>
 
-            </nav>
+          <NavLink to="/admin/orders">
+            <FiShoppingBag />
+            <span>Siparişler</span>
+          </NavLink>
 
-        </aside>
-    );
+          <NavLink to="/admin/users">
+            <FiUsers />
+            <span>Kullanıcılar</span>
+          </NavLink>
+
+        </nav>
+
+      </div>
+
+      <div className="admin-sidebar-footer">
+
+        <button className="theme-btn">
+          <FiMoon />
+          <span>Dark Mode</span>
+        </button>
+
+        <button className="logout-btn">
+          <FiLogOut />
+          <span>Çıkış Yap</span>
+        </button>
+
+      </div>
+
+    </aside>
+  );
 }
 
 export default Sidebar;

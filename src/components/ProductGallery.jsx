@@ -6,15 +6,19 @@ function ProductGallery({ product }) {
 
     const [selectedImage, setSelectedImage] = useState(0);
 
+    const images = product.image
+    ? [`http://localhost:5000/uploads/${product.image}`]
+    : [];
+
     const nextImage = () => {
         setSelectedImage((prev) =>
-            prev === product.images.length - 1 ? 0 : prev + 1
+           prev === images.length - 1 ? 0 : prev + 1
         );
     };
 
     const prevImage = () => {
         setSelectedImage((prev) =>
-            prev === 0 ? product.images.length - 1 : prev - 1
+            prev === 0 ? images.length - 1 : prev - 1
         );
     };
 
@@ -25,7 +29,7 @@ function ProductGallery({ product }) {
                 <FiHeart />
             </button>
 
-            {product.images.length > 1 && (
+            {images.length > 1 && (
                 <button className="gallery-arrow left-arrow" onClick={prevImage}>
                     <FiChevronLeft />
                 </button>
@@ -34,8 +38,8 @@ function ProductGallery({ product }) {
             <img
                 className="main-image"
                 src={
-                    product.images.length
-                        ? product.images[selectedImage]
+                    images.length
+                        ? images[selectedImage]
                         : "https://placehold.co/350x400?text=Resim+Yok"
                 }
                 alt={product.name}
@@ -43,16 +47,16 @@ function ProductGallery({ product }) {
 
             <div className="phone-shadow"></div>
 
-            {product.images.length > 1 && (
+            {images.length > 1 && (
                 <button className="gallery-arrow right-arrow" onClick={nextImage}>
                     <FiChevronRight />
                 </button>
             )}
 
-            {product.images.length > 1 && (
+            {images.length > 1 && (
                 <div className="thumbnail-list">
 
-                    {product.images.map((image, index) => (
+                    {images.map((image, index) => (
 
                         <img
                             key={index}

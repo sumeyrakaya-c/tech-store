@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import products from "../data/products";
+import { useEffect, useState } from "react";
 import ProductDescription from "../components/ProductDescription";
 import ProductInfo from "../components/ProductInfo";
 import ProductGallery from "../components/ProductGallery";
@@ -13,12 +13,21 @@ import "../styles/ProductDetail.css";
 function ProductDetail() {
     const { id } = useParams();
 
-    const product = products.find(item => item.id === Number(id));
+const [product, setProduct] = useState(null);
 
-    if (!product) {
-        return <h2>Ürün bulunamadı.</h2>;
-    }
+useEffect(() => {
 
+    fetch(`http://localhost:5000/api/products/${id}`)
+        .then((res) => res.json())
+        .then((data) => setProduct(data))
+        .catch((err) => console.log(err));
+
+}, [id]);
+
+if (!product) {
+    return <h2>Yükleniyor...</h2>;
+}
+    
     return (
     <>
         <div className="product-detail">

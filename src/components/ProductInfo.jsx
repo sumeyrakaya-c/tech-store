@@ -1,11 +1,10 @@
 import "../styles/ProductInfo.css";
-import ProductDescription from "./ProductDescription";
 function ProductInfo({ product }) {
     return (
         <div className="product-info">
 
             <p className="brand">
-                {product.category}
+                {product.category_name}
             </p>
 
             <h1 className="product-title">
@@ -29,7 +28,7 @@ function ProductInfo({ product }) {
             </div>
 
             <h2 className="price">
-                {product.price.toLocaleString("tr-TR")} ₺
+                {Number(product.price).toLocaleString("tr-TR")} ₺
             </h2>
 
             <hr />
