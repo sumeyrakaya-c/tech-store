@@ -1,21 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
+const upload = require("../config/multer");
 
 // Ürün ekle
-router.post("/", (req, res) => {
+router.post("/", upload.single("image"), (req, res) => {
 
-    const {
-        category_id,
-        brand_id,
-        name,
-        description,
-        price,
-        discount,
-        stock,
-        image,
-        status
-    } = req.body;
+   const {
+    category_id,
+    brand_id,
+    name,
+    description,
+    price,
+    discount,
+    stock,
+    status
+} = req.body;
+
+const image = req.file ? req.file.filename : null;
 
     const sql = `
         INSERT INTO products
