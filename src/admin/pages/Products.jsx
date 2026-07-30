@@ -1,7 +1,53 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Products.css";
 import { FiPlus, FiSearch, FiFilter } from "react-icons/fi";
 
 function Products() {
+
+    const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+
+        fetch("http://localhost:5000/api/products")
+            .then((res) => res.json())
+            .then((data) => setProducts(data))
+            .catch((err) => console.log(err));
+
+    }, []);
+
+    const handleDelete = async (id) => {
+
+        const confirmDelete = window.confirm(
+            "Bu ürünü silmek istediğinize emin misiniz?"
+        );
+
+        if (!confirmDelete) return;
+
+        try {
+
+            const response = await fetch(
+                `http://localhost:5000/api/products/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+            const result = await response.json();
+
+            alert(result.message);
+
+            setProducts(products.filter(product => product.id !== id));
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
     return (
         <div className="products-page">
 
@@ -53,49 +99,94 @@ function Products() {
 
             <div className="products-table">
 
-    <table>
+                <table>
 
-        <thead>
+                    <thead>
 
-            <tr>
+                        <tr>
 
-                <th>Görsel</th>
+                            <th>Görsel</th>
+                            <th>Ürün</th>
+                            <th>Marka</th>
+                            <th>Kategori</th>
+                            <th>Fiyat</th>
+                            <th>Stok</th>
+                            <th>Durum</th>
+                            <th>İşlem</th>
 
-                <th>Ürün</th>
+                        </tr>
 
-                <th>Marka</th>
+                    </thead>
 
-                <th>Kategori</th>
+                    <tbody>
 
-                <th>Fiyat</th>
+                        {products.length === 0 ? (
 
-                <th>Stok</th>
+                            <tr>
 
-                <th>Durum</th>
+                                <td colSpan="8" className="empty-row">
+                                    Henüz ürün bulunmuyor.
+                                </td>
 
-                <th>İşlem</th>
+                            </tr>
 
-            </tr>
+                        ) : (
 
-        </thead>
+                            products.map((product) => (
 
-        <tbody>
+                                <tr key={product.id}>
 
-            <tr>
+                                    <td>
 
-                <td colSpan="8" className="empty-row">
+                                        <img
+                                            src={`http://localhost:5000/uploads/${product.image}`}
+                                            alt={product.name}
+                                            width="60"
+                                        />
 
-                    Henüz ürün bulunmuyor.
+                                    </td>
 
-                </td>
+                                    <td>{product.name}</td>
 
-            </tr>
+                                    <td>{product.brand_name}</td>
 
-        </tbody>
+                                    <td>{product.category_name}</td>
 
-    </table>
+                                    <td>
+                                        {Number(product.price).toLocaleString("tr-TR")} ₺
+                                    </td>
 
-</div>
+                                    <td>{product.stock}</td>
+
+                                    <td>{product.status}</td>
+
+                                    <td>
+
+                                       <button
+                                            onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+                                         >
+                                             Düzenle
+                                        </button>
+
+                                        <button
+                                            onClick={() => handleDelete(product.id)}
+                                        >
+                                            Sil
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            ))
+
+                        )}
+
+                    </tbody>
+
+                </table>
+
+            </div>
 
         </div>
     );

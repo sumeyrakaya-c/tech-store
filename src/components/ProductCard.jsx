@@ -28,6 +28,39 @@ function ProductCard({ id, name, price, images }) {
         );
     };
 
+    const addToCart = async (productId) => {
+
+    try {
+
+        const response = await fetch("http://localhost:5000/api/cart", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                product_id: productId,
+                quantity: 1
+
+            })
+
+        });
+
+        const data = await response.json();
+
+        alert(data.message);
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+};
+
     return (
         <div className="product-card">
 
@@ -90,10 +123,12 @@ function ProductCard({ id, name, price, images }) {
 
             </Link>
 
-            <button className="add-cart-btn">
-                Sepete Ekle
-            </button>
-
+           <button
+    type="button"
+    onClick={() => addToCart(id)}
+>
+    Sepete Ekle
+</button>
         </div>
     );
 }

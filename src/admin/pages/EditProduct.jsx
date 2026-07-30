@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "../styles/AddProduct.css";
 
-function AddProduct() {
+function EditProduct() {
+
+    const { id } = useParams();
 
     const [categories, setCategories] = useState([]);
     const [brands, setBrands] = useState([]);
@@ -21,16 +23,16 @@ function AddProduct() {
 
     const handleChange = (e) => {
 
-        const { name, value, files } = e.target;
+    const { name, value, files } = e.target;
 
-        setFormData({
-            ...formData,
-            [name]: files ? files[0] : value
-        });
+    setFormData({
+        ...formData,
+        [name]: files ? files[0] : value
+    });
 
-    };
+};
 
-    const handleSubmit = async (e) => {
+async function handleSubmit(e) {
 
     e.preventDefault();
 
@@ -52,18 +54,16 @@ function AddProduct() {
     try {
 
         const response = await fetch(
-            "http://localhost:5000/api/products",
+            `http://localhost:5000/api/products/${id}`,
             {
-                method: "POST",
+                method: "PUT",
                 body: data
             }
         );
 
         const result = await response.json();
 
-        console.log(result);
-
-        alert("Ürün başarıyla eklendi.");
+        alert(result.message);
 
     } catch (error) {
 
@@ -71,28 +71,52 @@ function AddProduct() {
 
     }
 
-};
+}
+
 
     useEffect(() => {
 
-        fetch("http://localhost:5000/api/categories")
-            .then(res => res.json())
-            .then(data => setCategories(data))
-            .catch(err => console.log(err));
 
-        fetch("http://localhost:5000/api/brands")
-            .then(res => res.json())
-            .then(data => setBrands(data))
-            .catch(err => console.log(err));
+    // Kategorileri getir
+    fetch("http://localhost:5000/api/categories")
+        .then(res => res.json())
+        .then(data => setCategories(data))
+        .catch(err => console.log(err));
 
-    }, []);
+    // Markaları getir
+    fetch("http://localhost:5000/api/brands")
+        .then(res => res.json())
+        .then(data => setBrands(data))
+        .catch(err => console.log(err));
+
+    // Ürün bilgilerini getir
+    fetch(`http://localhost:5000/api/products/${id}`)
+        .then(res => res.json())
+        .then(data => {
+
+            setFormData({
+                name: data.name,
+                brand_id: data.brand_id,
+                category_id: data.category_id,
+                price: data.price,
+                discount: data.discount,
+                stock: data.stock,
+                status: data.status,
+                description: data.description,
+                image: null
+            });
+
+        })
+        .catch(err => console.log(err));
+
+}, [id]);
 
     return (
         <div className="add-product-page">
 
             <div className="page-header">
-                <h1>Yeni Ürün</h1>
-                <p>Mağazanıza yeni bir ürün ekleyin.</p>
+                <h1>    ü   rün Düzenle</h1>
+                <p>Ürün bilgilerini güncelleyin.</p>
             </div>
 
             <form className="product-form" onSubmit={handleSubmit}>
@@ -235,7 +259,7 @@ function AddProduct() {
                     </button>
 
                     <button type="submit">
-                        Kaydet
+                        Güncelle
                     </button>
 
                 </div>
@@ -247,4 +271,4 @@ function AddProduct() {
 
 }
 
-export default AddProduct;
+export default EditProduct;

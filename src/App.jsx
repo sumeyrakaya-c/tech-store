@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
-
+import Cart from "./pages/Cart";
 import AdminLayout from "./admin/layout/AdminLayout";
 
 import {
@@ -35,6 +35,11 @@ function AppContent() {
                     path="/product/:id"
                     element={<ProductDetail />}
                 />
+
+                <Route
+                    path="/cart"
+                    element={<Cart />}
+               />
 
                 <Route
                     path="/admin/*"

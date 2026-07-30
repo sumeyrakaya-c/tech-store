@@ -6,7 +6,40 @@ import {
     FiShare2
 } from "react-icons/fi";
 
-function PurchaseCard() {
+  function PurchaseCard({ product }) {
+
+const addToCart = async () => {
+
+    try {
+
+        const response = await fetch("http://localhost:5000/api/cart", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                product_id: product.id,
+                quantity: 1
+
+            })
+
+        });
+
+        const data = await response.json();
+
+        alert(data.message);
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+};
 
     return (
 
@@ -43,9 +76,12 @@ function PurchaseCard() {
                     ⚡ Hızlı Al
                 </button>
 
-                <button className="add-cart">
-                    🛒 Sepete Ekle
-                </button>
+                <button
+    className="add-cart"
+    onClick={addToCart}
+>
+    🛒 Sepete Ekle
+</button>
 
             </div>
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import {
   FiMenu,
@@ -33,9 +34,13 @@ function Navbar() {
         </div>
 
         <div className="nav-right">
-          <FiHome className="icon" />
+          <Link to="/">
+             <FiHome className="icon" />
+          </Link>
           <FiHeart className="icon" />
-          <FiShoppingCart className="icon" />
+          <Link to="/cart">
+             <FiShoppingCart className="icon" />
+          </Link>
           <FiUser className="icon" />
         </div>
       </nav>

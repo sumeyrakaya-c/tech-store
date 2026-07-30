@@ -127,4 +127,93 @@ router.get("/:id", (req, res) => {
 
 });
 
+// Ürün sil
+router.delete("/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    const sql = "DELETE FROM products WHERE id = ?";
+
+    db.query(sql, [id], (err, result) => {
+
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).json({
+                message: "Ürün bulunamadı."
+            });
+        }
+
+        res.json({
+            message: "Ürün başarıyla silindi."
+        });
+
+    });
+
+});
+
+// Ürün güncelle
+router.put("/:id", upload.single("image"), (req, res) => {
+
+    const { id } = req.params;
+
+    const {
+        category_id,
+        brand_id,
+        name,
+        description,
+        price,
+        discount,
+        stock,
+        status
+    } = req.body;
+
+    let sql = `
+        UPDATE products
+        SET
+            category_id = ?,
+            brand_id = ?,
+            name = ?,
+            description = ?,
+            price = ?,
+            discount = ?,
+            stock = ?,
+            status = ?
+    `;
+
+    let values = [
+        category_id,
+        brand_id,
+        name,
+        description,
+        price,
+        discount,
+        stock,
+        status
+    ];
+
+    if (req.file) {
+        sql += ", image = ?";
+        values.push(req.file.filename);
+    }
+
+    sql += " WHERE id = ?";
+    values.push(id);
+
+    db.query(sql, values, (err) => {
+
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        res.json({
+            message: "Ürün başarıyla güncellendi."
+        });
+
+    });
+
+});
+
 module.exports = router;

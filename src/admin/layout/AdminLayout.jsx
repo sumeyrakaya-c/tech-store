@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import EditProduct from "../pages/EditProduct";
 import Sidebar from "../components/Sidebar";
 
 import Dashboard from "../pages/Dashboard";
@@ -23,6 +23,11 @@ function AdminLayout() {
                     <Route index element={<Dashboard />} />
 
                     <Route path="products" element={<Products />} />
+
+                    <Route
+                     path="products/edit/:id"
+                      element={<EditProduct />}
+                   />             
 
                     <Route path="add-product" element={<AddProduct />} />
 
