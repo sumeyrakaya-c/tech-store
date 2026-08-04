@@ -159,6 +159,8 @@
     opacity:0;
 
     transition:.25s;
+
+    transform:translateY(-50%);
 }
 
 .product-gallery:hover .gallery-arrow{
@@ -172,7 +174,7 @@
 
     color:white;
 
-    transform:scale(1.08);
+    transform:translateY(-50%);
 }
 
 .left-arrow{

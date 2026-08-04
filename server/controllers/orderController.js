@@ -2,6 +2,19 @@ const db = require("../config/db");
 
 const createOrder = (req, res) => {
 
+   const {
+    userId,
+    fullName,
+    phone,
+    city,
+    district,
+    address,
+    note,
+    subtotal,
+    shippingFee,
+    totalPrice
+} = req.body;
+
     // Sepetteki ürünleri al
     const cartSql = `
         SELECT
@@ -10,7 +23,7 @@ const createOrder = (req, res) => {
             products.price
         FROM cart
         INNER JOIN products
-        ON cart.product_id = products.id
+            ON cart.product_id = products.id
     `;
 
     db.query(cartSql, (err, cartItems) => {
@@ -28,70 +41,92 @@ const createOrder = (req, res) => {
             });
         }
 
-        // Toplam fiyat
-        const totalPrice = cartItems.reduce((total, item) => {
-            return total + (item.price * item.quantity);
-        }, 0);
-
         // Sipariş oluştur
-        const orderSql = `
-            INSERT INTO orders (total_price)
-            VALUES (?)
-        `;
+       const orderSql = `
+    INSERT INTO orders
+    (
+        user_id,
+        full_name,
+        phone,
+        city,
+        district,
+        address,
+        note,
+        subtotal,
+        shipping_fee,
+        total_price
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
-        db.query(orderSql, [totalPrice], (err, result) => {
-
-            if (err) {
-                console.log(err);
-                return res.status(500).json({
-                    message: "Sipariş oluşturulamadı."
-                });
-            }
-
-            const orderId = result.insertId;
-
-            // Sipariş ürünlerini ekle
-            const values = cartItems.map(item => ([
-                orderId,
-                item.product_id,
-                item.quantity,
-                item.price
-            ]));
-
-            const orderItemsSql = `
-                INSERT INTO order_items
-                (order_id, product_id, quantity, price)
-                VALUES ?
-            `;
-
-            db.query(orderItemsSql, [values], (err) => {
+        db.query(
+    orderSql,
+    [
+        userId,
+        fullName,
+        phone,
+        city,
+        district,
+        address,
+        note,
+        subtotal,
+        shippingFee,
+        totalPrice
+    ],   // <-- BURADA VİRGÜL VAR
+    (err, result) => {
 
                 if (err) {
                     console.log(err);
                     return res.status(500).json({
-                        message: "Sipariş ürünleri eklenemedi."
+                        message: "Sipariş oluşturulamadı."
                     });
                 }
 
-                // Sepeti temizle
-                db.query("DELETE FROM cart", (err) => {
+                const orderId = result.insertId;
+
+                // Sipariş ürünlerini ekle
+                const values = cartItems.map(item => ([
+                    orderId,
+                    item.product_id,
+                    item.quantity,
+                    item.price
+                ]));
+
+                const orderItemsSql = `
+                    INSERT INTO order_items
+                    (order_id, product_id, quantity, price)
+                    VALUES ?
+                `;
+
+                db.query(orderItemsSql, [values], (err) => {
 
                     if (err) {
                         console.log(err);
                         return res.status(500).json({
-                            message: "Sepet temizlenemedi."
+                            message: "Sipariş ürünleri eklenemedi."
                         });
                     }
 
-                    res.json({
-                        message: "Sipariş başarıyla oluşturuldu."
+                    // Sepeti temizle
+                    db.query("DELETE FROM cart", (err) => {
+
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).json({
+                                message: "Sepet temizlenemedi."
+                            });
+                        }
+
+                        res.json({
+                            message: "Sipariş başarıyla oluşturuldu."
+                        });
+
                     });
 
                 });
 
-            });
-
-        });
+            }
+        );
 
     });
 
@@ -183,9 +218,39 @@ const getOrderDetail = (req, res) => {
 
 };
 
+const getMyOrders = (req, res) => {
+
+    const { userId } = req.params;
+
+    const sql = `
+        SELECT *
+        FROM orders
+        WHERE user_id = ?
+        ORDER BY created_at DESC
+    `;
+
+    db.query(sql, [userId], (err, results) => {
+
+        if (err) {
+
+            console.log(err);
+
+            return res.status(500).json({
+                message: "Siparişler alınamadı."
+            });
+
+        }
+
+        res.json(results);
+
+    });
+
+};
+
 module.exports = {
     createOrder,
     getOrders,
     updateOrderStatus,
-    getOrderDetail
+    getOrderDetail,
+    getMyOrders
 };

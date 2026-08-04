@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -8,68 +8,284 @@ import {
   FiUser,
   FiSearch,
   FiHome,
+  FiLogOut
 } from "react-icons/fi";
 
-function Navbar() {
+function Navbar({
+    search,
+    setSearch,
+    category,
+    setCategory
+}) {
+
   const [isOpen, setIsOpen] = useState(false);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+
+  const logout = () => {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    window.location.href = "/";
+
+  };
 
   return (
     <>
       <nav className="navbar">
+
         <div className="nav-left">
+
           <FiMenu
             className="icon"
             onClick={() => setIsOpen(!isOpen)}
           />
+
           <h2 className="logo">
             <span>Tekno</span>Hup
           </h2>
+
         </div>
 
         <div className="nav-center">
+
           <div className="search-box">
+
             <FiSearch />
-            <input type="text" placeholder="Ürün ara..." />
+
+           <input
+              type="text"
+              placeholder="Ürün ara..."
+              value={search}
+              onChange={(e) => {
+
+    console.log("Yazılan:", e.target.value);
+
+    setSearch(e.target.value);
+
+}}
+            />
+
           </div>
+
         </div>
 
         <div className="nav-right">
-          <Link to="/">
-             <FiHome className="icon" />
-          </Link>
-          <FiHeart className="icon" />
-          <Link to="/cart">
-             <FiShoppingCart className="icon" />
-          </Link>
-          <FiUser className="icon" />
-        </div>
-      </nav>
-      {isOpen && 
-        <div
-           className="overlay"
-           onClick={() => setIsOpen(false)}
-           ></div>}
-      {isOpen && (
-        <div className={isOpen ? "sidebar active" : "sidebar"}>
-          <h3>Kategoriler</h3>
 
-          <ul>
-            <li>💻 Bilgisayar</li>
-            <li>📱 Telefon</li>
-            <li>🖥️ Monitör</li>
-            <li>⌨️ Klavye</li>
-            <li>🖱️ Mouse</li>
-            <li>🎧 Kulaklık</li>
-            <li>⌚ Akıllı Saat</li>
-            <li>💾 Depolama</li>
-            <li>🎮 Oyuncu Ekipmanları</li>
-            <li>🔌 Kablo & Adaptör</li>
-            <li>🧩 Aksesuarlar</li>
-          </ul>
+          <Link
+    to="/"
+    onClick={() => {
+        setSearch("");
+        setCategory("");
+    }}
+>
+    <FiHome className="icon" />
+</Link>
+
+            <Link to="/favorites">
+    <FiHeart className="icon" />
+</Link>
+
+          <Link to="/cart">
+            <FiShoppingCart className="icon" />
+          </Link>
+
+          {!user ? (
+
+            <>
+
+              <Link to="/login">
+                <FiUser className="icon" />
+              </Link>
+
+              <Link
+                to="/register"
+                style={{
+                  marginLeft: "15px",
+                  textDecoration: "none"
+                }}
+              >
+                Kayıt Ol
+              </Link>
+
+            </>
+
+          ) : (
+
+            <>
+
+              <Link
+                to="/profile"
+                style={{
+                  marginLeft: "15px",
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  color: "inherit"
+                }}
+              >
+                {user.fullName}
+              </Link>
+
+              <Link
+                to="/my-orders"
+                style={{
+                  marginLeft: "20px",
+                  textDecoration: "none",
+                  color: "inherit"
+                }}
+              >
+                Siparişlerim
+              </Link>
+
+              {user.role === "admin" && (
+
+                <Link
+                  to="/admin"
+                  style={{
+                    marginLeft: "20px",
+                    textDecoration: "none",
+                    color: "inherit"
+                  }}
+                >
+                  Admin Paneli
+                </Link>
+
+              )}
+
+              <FiLogOut
+                className="icon"
+                style={{
+                  marginLeft: "20px",
+                  cursor: "pointer"
+                }}
+                onClick={logout}
+              />
+
+            </>
+
+          )}
+
         </div>
+
+      </nav>
+
+      {isOpen && (
+
+        <div
+          className="overlay"
+          onClick={() => setIsOpen(false)}
+        />
+
       )}
+
+      {isOpen && (
+
+        <div className="sidebar active">
+
+          <h3>Kategoriler</h3>
+<ul>
+
+    <li onClick={() => {
+        setCategory("");
+        setIsOpen(false);
+    }}>
+        🏠 Tüm Ürünler
+    </li>
+
+    <li onClick={() => {
+        setCategory(2);
+        setIsOpen(false);
+    }}>
+        💻 Bilgisayar
+    </li>
+
+    <li onClick={() => {
+        setCategory(1);
+        setIsOpen(false);
+    }}>
+        📱 Telefon
+    </li>
+
+    <li onClick={() => {
+        setCategory(3);
+        setIsOpen(false);
+    }}>
+        📱 Tablet
+    </li>
+
+    <li onClick={() => {
+        setCategory(4);
+        setIsOpen(false);
+    }}>
+        🖥️ Monitör
+    </li>
+
+    <li onClick={() => {
+        setCategory(6);
+        setIsOpen(false);
+    }}>
+        ⌨️ Klavye
+    </li>
+
+    <li onClick={() => {
+        setCategory(7);
+        setIsOpen(false);
+    }}>
+        🖱️ Mouse
+    </li>
+
+    <li onClick={() => {
+        setCategory(5);
+        setIsOpen(false);
+    }}>
+        🎧 Kulaklık
+    </li>
+
+    <li onClick={() => {
+        setCategory(8);
+        setIsOpen(false);
+    }}>
+        ⌚ Akıllı Saat
+    </li>
+
+    <li onClick={() => {
+        setCategory(9);
+        setIsOpen(false);
+    }}>
+        💾 Depolama
+    </li>
+
+    <li onClick={() => {
+        setCategory(10);
+        setIsOpen(false);
+    }}>
+        🎮 Oyuncu Ekipmanları
+    </li>
+
+    <li onClick={() => {
+        setCategory(11);
+        setIsOpen(false);
+    }}>
+        🔌 Kablo & Adaptör
+    </li>
+
+    <li onClick={() => {
+        setCategory(12);
+        setIsOpen(false);
+    }}>
+        🧩 Aksesuarlar
+    </li>
+
+</ul>
+        </div>
+
+      )}
+
     </>
   );
+
 }
 
 export default Navbar;

@@ -16,7 +16,9 @@ function AddProduct() {
         stock: "",
         status: "active",
         description: "",
-        image: null
+        image: null,
+        image2: null,
+        image3: null
     });
 
     const handleChange = (e) => {
@@ -34,6 +36,8 @@ function AddProduct() {
 
     e.preventDefault();
 
+    console.log(formData);
+
     const data = new FormData();
 
     data.append("name", formData.name);
@@ -47,6 +51,13 @@ function AddProduct() {
 
     if (formData.image) {
         data.append("image", formData.image);
+    }
+
+    if (formData.image2) {
+        data.append("image2", formData.image2);
+    }
+    if (formData.image3) {
+        data.append("image3", formData.image3);
     }
 
     try {
@@ -226,6 +237,25 @@ function AddProduct() {
                         onChange={handleChange}
                     />
 
+                </div>
+
+                <div className="form-group">
+
+                    <label>Ürün Görseli 2</label>   
+                    <input
+                        type="file"
+                        name="image2"
+                        onChange={handleChange}
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Ürün Görseli 3</label>   
+                    <input
+                        type="file"
+                        name="image3"
+                        onChange={handleChange}
+                    />
                 </div>
 
                 <div className="form-buttons">

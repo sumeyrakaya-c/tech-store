@@ -1,5 +1,5 @@
-import "../styles/ReviewCard.css";
-import { useState } from "react";
+import "../styles/ProductCard.css";
+import { useEffect, useState } from "react";
 import {
     FiHeart,
     FiChevronLeft,
@@ -7,8 +7,29 @@ import {
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-function ProductCard({ id, name, price, images }) {
+function ProductCard({
+    id,
+    name,
+    price,
+    images,
+    onFavoriteRemoved
+}) {
     const [currentImage, setCurrentImage] = useState(0);
+
+    useEffect(() => {
+
+    if (!user) return;
+
+    fetch(`http://localhost:5000/api/favorites/${user.id}/${id}`)
+        .then(res => res.json())
+        .then(data => setIsFavorite(data.isFavorite))
+        .catch(err => console.log(err));
+
+}, [id]);
+
+    const [isFavorite, setIsFavorite] = useState(false);
+
+const user = JSON.parse(localStorage.getItem("user"));
 
     const nextImage = (e) => {
         e.preventDefault();
@@ -27,6 +48,82 @@ function ProductCard({ id, name, price, images }) {
             prev === 0 ? images.length - 1 : prev - 1
         );
     };
+
+    const toggleFavorite = async () => {
+
+    if (!user) {
+
+        alert("Favorilere eklemek için giriş yapmalısınız.");
+
+        return;
+
+    }
+
+    try {
+
+        if (!isFavorite) {
+
+            const res = await fetch("http://localhost:5000/api/favorites", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    user_id: user.id,
+                    product_id: id
+
+                })
+
+            });
+
+            const data = await res.json();
+
+            alert(data.message);
+
+            setIsFavorite(true);
+
+        } else {
+
+            const res = await fetch("http://localhost:5000/api/favorites", {
+
+                method: "DELETE",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    user_id: user.id,
+                    product_id: id
+
+                })
+
+            });
+
+            const data = await res.json();
+
+            alert(data.message);
+
+            setIsFavorite(false);
+
+            if (onFavoriteRemoved) {
+    onFavoriteRemoved(id);
+}
+
+        }
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+};
 
     const addToCart = async (productId) => {
 
@@ -64,11 +161,21 @@ function ProductCard({ id, name, price, images }) {
     return (
         <div className="product-card">
 
-            <div className="favorite-icon">
-                <FiHeart />
-            </div>
+           <div
+    className="favorite-icon"
+    onClick={toggleFavorite}
+    style={{
+        color: isFavorite ? "red" : "#555",
+        cursor: "pointer"
+    }}
+>
+    <FiHeart />
+</div>
 
-            <Link to={`/product/${id}`} className="product-link">
+           <Link
+    to={`/product/${id}`}
+    className="product-link"
+>
 
                 <div className="image-container">
 

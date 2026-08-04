@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
 function Orders() {
-
     const [orders, setOrders] = useState([]);
-    const [selectedOrder, setSelectedOrder] = useState(null);
-    const [orderDetail, setOrderDetail] = useState([]);
+const [selectedOrder, setSelectedOrder] = useState(null);
 
+const [orderInfo, setOrderInfo] = useState(null);
+const [orderDetail, setOrderDetail] = useState([]);
     useEffect(() => {
 
         fetch("http://localhost:5000/api/orders")
@@ -43,20 +43,27 @@ function Orders() {
 
     const showOrderDetail = async (id) => {
 
-        try {
+    try {
 
-            const res = await fetch(`http://localhost:5000/api/orders/${id}`);
-            const data = await res.json();
+        const detailRes = await fetch(
+            `http://localhost:5000/api/orders/${id}`
+        );
 
-            setSelectedOrder(id);
-            setOrderDetail(data);
+        const detail = await detailRes.json();
 
-        } catch (error) {
-            console.log(error);
-        }
+        const selected = orders.find(order => order.id === id);
 
-    };
+        setSelectedOrder(id);
+        setOrderInfo(selected);
+        setOrderDetail(detail);
 
+    } catch (error) {
+
+        console.log(error);
+
+    }
+
+};
     return (
 
         <div style={{ padding: "30px" }}>
@@ -161,6 +168,71 @@ function Orders() {
                 >
 
                     <h2>Sipariş #{selectedOrder}</h2>
+
+                    {orderInfo && (
+
+    <div
+        style={{
+            marginBottom: "30px",
+            background: "#f8f8f8",
+            padding: "20px",
+            borderRadius: "10px"
+        }}
+    >
+
+        <h3>Teslimat Bilgileri</h3>
+
+        <p>
+            <strong>Ad Soyad:</strong> {orderInfo.full_name}
+        </p>
+
+        <p>
+            <strong>Telefon:</strong> {orderInfo.phone}
+        </p>
+
+        <p>
+            <strong>İl:</strong> {orderInfo.city}
+        </p>
+
+        <p>
+            <strong>İlçe:</strong> {orderInfo.district}
+        </p>
+
+        <p>
+            <strong>Adres:</strong>
+            <br />
+            {orderInfo.address}
+        </p>
+
+        <p>
+            <strong>Sipariş Notu:</strong>
+            <br />
+            {orderInfo.note || "-"}
+        </p>
+
+        <hr />
+
+        <p>
+            <strong>Ara Toplam:</strong>
+            {" "}
+            {Number(orderInfo.subtotal).toLocaleString("tr-TR")} ₺
+        </p>
+
+        <p>
+            <strong>Kargo:</strong>
+            {" "}
+            {Number(orderInfo.shipping_fee).toLocaleString("tr-TR")} ₺
+        </p>
+
+        <h3>
+            Genel Toplam :
+            {" "}
+            {Number(orderInfo.total_price).toLocaleString("tr-TR")} ₺
+        </h3>
+
+    </div>
+
+)}
 
                     {orderDetail.length === 0 ? (
 

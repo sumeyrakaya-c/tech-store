@@ -7,11 +7,13 @@ import PurchaseCard from "../components/PurchaseCard";
 import ProductSpecs from "../components/ProductSpecs";
 import ProductQuestions from "../components/ProductQuestions";
 import ReviewSection from "../components/ReviewSection";
-
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 import "../styles/ProductDetail.css";
 
 function ProductDetail() {
     const { id } = useParams();
+const navigate = useNavigate();
 
 const [product, setProduct] = useState(null);
 
@@ -29,8 +31,20 @@ if (!product) {
 }
     
     return (
-    <>
-        <div className="product-detail">
+        <>
+    <div className="back-container">
+
+        <button
+            className="back-button"
+            onClick={() => navigate(-1)}
+        >
+            <FiArrowLeft />
+            Geri
+        </button>
+
+    </div>
+
+    <div className="product-detail">
             <ProductInfo product={product} />
             <ProductGallery product={product} />
             <PurchaseCard product={product} />

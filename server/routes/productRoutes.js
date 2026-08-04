@@ -4,8 +4,14 @@ const db = require("../config/db");
 const upload = require("../config/multer");
 
 // Ürün ekle
-router.post("/", upload.single("image"), (req, res) => {
-
+router.post(
+    "/",
+    upload.fields([
+        { name: "image", maxCount: 1 },
+        { name: "image2", maxCount: 1 },
+        { name: "image3", maxCount: 1 },
+    ]),
+    (req, res) => {
    const {
     category_id,
     brand_id,
@@ -17,7 +23,20 @@ router.post("/", upload.single("image"), (req, res) => {
     status
 } = req.body;
 
-const image = req.file ? req.file.filename : null;
+const image =
+    req.files?.image
+        ? req.files.image[0].filename
+        : null;
+
+const image2 =
+    req.files?.image2
+        ? req.files.image2[0].filename
+        : null;
+
+    const image3 =
+    req.files?.image3
+        ? req.files.image3[0].filename
+        : null;    
 
     const sql = `
         INSERT INTO products
@@ -30,9 +49,11 @@ const image = req.file ? req.file.filename : null;
             discount,
             stock,
             image,
+            image2,
+            image3,
             status
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     db.query(
@@ -46,6 +67,8 @@ const image = req.file ? req.file.filename : null;
             discount,
             stock,
             image,
+            image2,
+            image3,
             status
         ],
         (err, result) => {
@@ -64,10 +87,14 @@ const image = req.file ? req.file.filename : null;
 
 });
 
-// Tüm ürünleri getir
+// Tüm ürünleri getir + Arama
 router.get("/", (req, res) => {
 
-    const sql = `
+    const { search, category } = req.query;
+
+    console.log("Search =", search);
+
+    let sql = `
         SELECT
             products.*,
             categories.name AS category_name,
@@ -77,10 +104,50 @@ router.get("/", (req, res) => {
             ON products.category_id = categories.id
         INNER JOIN brands
             ON products.brand_id = brands.id
-        ORDER BY products.id DESC
     `;
 
-    db.query(sql, (err, results) => {
+    let values = [];
+
+    let conditions = [];
+
+if (search && search.trim() !== "") {
+
+    conditions.push(`
+        (
+            products.name LIKE ?
+            OR brands.name LIKE ?
+            OR categories.name LIKE ?
+        )
+    `);
+
+    values.push(
+        `%${search}%`,
+        `%${search}%`,
+        `%${search}%`
+    );
+
+}
+
+if (category) {
+
+    conditions.push(`products.category_id = ?`);
+
+    values.push(Number(category));
+
+}
+
+if (conditions.length > 0) {
+
+    sql += " WHERE " + conditions.join(" AND ");
+
+}
+
+    sql += " ORDER BY products.id DESC";
+
+    console.log(sql);
+    console.log(values);
+
+    db.query(sql, values, (err, results) => {
 
         if (err) {
             return res.status(500).json(err);
@@ -89,6 +156,7 @@ router.get("/", (req, res) => {
         res.json(results);
 
     });
+
 });
 
 // Tek ürün getir
@@ -132,22 +200,31 @@ router.delete("/:id", (req, res) => {
 
     const { id } = req.params;
 
-    const sql = "DELETE FROM products WHERE id = ?";
+    db.query("DELETE FROM cart WHERE product_id = ?", [id], () => {
 
-    db.query(sql, [id], (err, result) => {
+        db.query("DELETE FROM favorites WHERE product_id = ?", [id], () => {
 
-        if (err) {
-            return res.status(500).json(err);
-        }
+            db.query("DELETE FROM order_items WHERE product_id = ?", [id], () => {
 
-        if (result.affectedRows === 0) {
-            return res.status(404).json({
-                message: "Ürün bulunamadı."
+                db.query(
+                    "DELETE FROM products WHERE id = ?",
+                    [id],
+                    (err, result) => {
+
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).json(err);
+                        }
+
+                        res.json({
+                            message: "Ürün silindi."
+                        });
+
+                    }
+                );
+
             });
-        }
 
-        res.json({
-            message: "Ürün başarıyla silindi."
         });
 
     });
@@ -155,7 +232,14 @@ router.delete("/:id", (req, res) => {
 });
 
 // Ürün güncelle
-router.put("/:id", upload.single("image"), (req, res) => {
+router.put(
+    "/:id",
+    upload.fields([
+        { name: "image", maxCount: 1 },
+        { name: "image2", maxCount: 1 },
+        { name: "image3", maxCount: 1 }
+    ]),
+    (req, res) => {
 
     const { id } = req.params;
 
@@ -194,10 +278,20 @@ router.put("/:id", upload.single("image"), (req, res) => {
         status
     ];
 
-    if (req.file) {
-        sql += ", image = ?";
-        values.push(req.file.filename);
-    }
+    if (req.files?.image) {
+    sql += ", image = ?";
+    values.push(req.files.image[0].filename);
+}
+
+if (req.files?.image2) {
+    sql += ", image2 = ?";
+    values.push(req.files.image2[0].filename);
+}
+
+if (req.files?.image3) {
+    sql += ", image3 = ?";
+    values.push(req.files.image3[0].filename);
+}
 
     sql += " WHERE id = ?";
     values.push(id);

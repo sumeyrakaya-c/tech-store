@@ -2,6 +2,48 @@
    PRODUCT DETAIL LAYOUT
 ========================== */
 
+.back-container{
+
+    max-width:1400px;
+
+    margin:25px auto 10px;
+
+    padding:0 20px;
+
+}
+
+.back-button{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    border:none;
+
+    background:transparent;
+
+    color:#2563EB;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.back-button:hover{
+
+    color:#1D4ED8;
+
+    transform:translateX(-4px);
+
+}
+
 .product-detail{
 
     max-width:1400px;

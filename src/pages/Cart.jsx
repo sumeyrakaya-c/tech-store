@@ -74,19 +74,71 @@ const [note, setNote] = useState("");
     };
 
     // Siparişi oluştur
+// Siparişi oluştur
 const checkout = async () => {
+
+    if (
+        !fullName ||
+        !phone ||
+        !city ||
+        !district ||
+        !address
+    ) {
+        alert("Lütfen teslimat bilgilerini eksiksiz doldurun.");
+        return;
+    }
 
     try {
 
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+            alert("Sipariş verebilmek için giriş yapmalısınız.");
+            return;
+        }
+
         const response = await fetch("http://localhost:5000/api/orders", {
-            method: "POST"
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                userId: user.id,
+
+                fullName,
+                phone,
+                city,
+                district,
+                address,
+                note,
+
+                subtotal: totalPrice,
+
+                shippingFee,
+
+                totalPrice: grandTotal
+
+            })
+
         });
 
         const data = await response.json();
 
         if (response.ok) {
 
-            setCart([]);      // Sepeti hemen boşalt
+            setCart([]);
+
+            setFullName("");
+            setPhone("");
+            setCity("");
+            setDistrict("");
+            setAddress("");
+            setNote("");
+
             alert(data.message);
 
         } else {
@@ -102,7 +154,6 @@ const checkout = async () => {
     }
 
 };
-
     useEffect(() => {
 
         loadCart();
