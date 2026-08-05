@@ -1,88 +1,147 @@
+import { useEffect, useState } from "react";
 import "../styles/ReviewSection.css";
 import ReviewCard from "./ReviewCard";
-import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import ReviewForm from "./ReviewForm";
 
-const reviews = [
-  {
-    id: 1,
-    rating: 5,
-    date: "14.07.2026",
-    name: "H**** K****",
-    comment:
-      "Telefon gerçekten beklediğimden daha iyi çıktı. Kamera performansı oldukça başarılı ve şarjı uzun süre gidiyor.",
-    likes: 126,
-  },
-  {
-    id: 2,
-    rating: 4,
-    date: "12.07.2026",
-    name: "A**** D****",
-    comment:
-      "Ekran kalitesi çok güzel fakat bataryası biraz daha iyi olabilirdi. Genel olarak memnun kaldım.",
-    likes: 84,
-  },
-];
+function ReviewSection({ productId }) {
 
-function ReviewSection() {
-  return (
-    <section className="review-section">
+    const user = JSON.parse(localStorage.getItem("user"));
 
-      <div className="review-header">
+    const [reviews, setReviews] = useState([]);
 
-        <div className="review-left">
+    const [stats, setStats] = useState({
+        average_rating: 0,
+        review_count: 0
+    });
 
-          <h2>Ürün Değerlendirmeleri</h2>
+    const [canReview, setCanReview] = useState(false);
 
-          <div className="review-summary">
+    const loadReviews = () => {
 
-            <div className="section-stars">
-  ★★★★★
-</div>
+        fetch(`http://localhost:5000/api/reviews/${productId}`)
+            .then((res) => res.json())
+            .then((data) => setReviews(data))
+            .catch((err) => console.log(err));
 
+        fetch(`http://localhost:5000/api/reviews/stats/${productId}`)
+            .then((res) => res.json())
+            .then((data) => setStats(data))
+            .catch((err) => console.log(err));
 
-            <span className="review-score">4.8</span>
+        if (user) {
 
-            <span className="review-count">
-              (25.654 Puan | 5.425 Yorum)
-            </span>
+            fetch(
+                `http://localhost:5000/api/reviews/can-review/${user.id}/${productId}`
+            )
+                .then((res) => res.json())
+                .then((data) => setCanReview(data.canReview))
+                .catch((err) => console.log(err));
 
-          </div>
+        } else {
 
-        </div>
+            setCanReview(false);
 
-        <div className="review-right">
+        }
 
-          <button>Tümü →</button>
+    };
 
-          <div className="review-arrows">
+    useEffect(() => {
 
-            <button>
-              <FaChevronLeft/>
-            </button>
+        loadReviews();
 
-            <button>
-              <FaChevronRight/>
-            </button>
+    }, [productId]);
 
-          </div>
+    return (
 
-        </div>
+        <section className="review-section">
 
-      </div>
+            <div className="review-header">
 
-      <div className="review-list">
+                <div className="review-left">
 
-        {reviews.map(review=>(
-          <ReviewCard
-            key={review.id}
-            review={review}
-          />
-        ))}
+                    <h2>Ürün Değerlendirmeleri</h2>
 
-      </div>
+                    <div className="review-summary">
 
-    </section>
-  );
+                        <div className="section-stars">
+                            ★★★★★
+                        </div>
+
+                        <span className="review-score">
+                            {stats.average_rating || 0}
+                        </span>
+
+                        <span className="review-count">
+                            ({stats.review_count} Değerlendirme)
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div className="review-right">
+
+                    <button>Tümü →</button>
+
+                    <div className="review-arrows">
+
+                        <button>
+                            <FaChevronLeft />
+                        </button>
+
+                        <button>
+                            <FaChevronRight />
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {canReview && (
+
+               <ReviewCard
+                     key={review.id}
+                    review={review}
+                    onDelete={loadReviews}
+                    />
+
+            )}
+
+            <div className="review-list">
+
+                {reviews.length === 0 ? (
+
+                    <p
+                        style={{
+                            padding: "20px",
+                            textAlign: "center"
+                        }}
+                    >
+                        Bu ürün için henüz yorum yapılmamış.
+                    </p>
+
+                ) : (
+
+                    reviews.map((review) => (
+
+                        <ReviewCard
+                            key={review.id}
+                            review={review}
+                        />
+
+                    ))
+
+                )}
+
+            </div>
+
+        </section>
+
+    );
+
 }
 
 export default ReviewSection;

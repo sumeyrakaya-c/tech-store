@@ -3,35 +3,6 @@ const router = express.Router();
 const db = require("../config/db");
 const upload = require("../config/multer");
 
-module.exports = router;
-
-router.get("/:productId", (req, res) => {
-
-    const { productId } = req.params;
-
-    const sql = `
-        SELECT
-            reviews.*,
-            users.fullName
-        FROM reviews
-        INNER JOIN users
-            ON reviews.user_id = users.id
-        WHERE product_id = ?
-        ORDER BY created_at DESC
-    `;
-
-    db.query(sql, [productId], (err, results) => {
-
-        if (err) {
-            return res.status(500).json(err);
-        }
-
-        res.json(results);
-
-    });
-
-});
-
 router.get("/stats/:productId", (req, res) => {
 
     const { productId } = req.params;
@@ -45,8 +16,10 @@ router.get("/stats/:productId", (req, res) => {
 
         FROM reviews
 
-        WHERE product_id = ?
-    `;
+         WHERE
+         product_id = ?
+         AND deleted = 0
+          `;
 
     db.query(sql,[productId],(err,result)=>{
 
@@ -76,7 +49,9 @@ router.get("/distribution/:productId",(req,res)=>{
 
         FROM reviews
 
-        WHERE product_id=?
+         WHERE
+         product_id = ?
+         AND deleted = 0
 
         GROUP BY rating
 
@@ -146,8 +121,10 @@ router.post(
             `
             SELECT id
             FROM reviews
-            WHERE user_id = ?
+            WHERE
+            user_id = ?
             AND product_id = ?
+            AND deleted = 0
             `,
             [user_id, product_id],
 
@@ -177,10 +154,9 @@ router.post(
                     ON orders.id = order_items.order_id
 
                     WHERE
-
                     orders.user_id = ?
-
                     AND order_items.product_id = ?
+                    AND orders.status = 'Teslim Edildi'
 
                     LIMIT 1
                     `,
@@ -295,3 +271,118 @@ router.post(
     }
 
 );
+
+router.get("/can-review/:userId/:productId", (req, res) => {
+
+    const { userId, productId } = req.params;
+
+    const sql = `
+        SELECT orders.id
+        FROM orders
+        INNER JOIN order_items
+            ON orders.id = order_items.order_id
+        WHERE
+            orders.user_id = ?
+            AND order_items.product_id = ?
+            AND orders.status = 'Teslim Edildi'
+        LIMIT 1
+    `;
+
+    db.query(sql, [userId, productId], (err, order) => {
+
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        if (order.length === 0) {
+
+            return res.json({
+                canReview: false
+            });
+
+        }
+
+        db.query(
+            `
+            SELECT id
+            FROM reviews
+            WHERE
+                user_id = ?
+                AND product_id = ?
+                AND deleted = 0
+            `,
+            [userId, productId],
+            (err, review) => {
+
+                if (err) {
+                    return res.status(500).json(err);
+                }
+
+                res.json({
+                    canReview: review.length === 0
+                });
+
+            }
+        );
+
+    });
+
+});
+
+router.delete("/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    const sql = `
+       UPDATE reviews
+       SET
+       deleted = 1,
+       updated_at = NOW()
+       WHERE id = ?
+    `;
+
+    db.query(sql, [id], (err) => {
+
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        res.json({
+            message: "Yorum silindi."
+        });
+
+    });
+
+});
+
+router.get("/:productId", (req, res) => {
+
+    const { productId } = req.params;
+
+    const sql = `
+        SELECT
+            reviews.*,
+            users.fullName
+        FROM reviews
+        INNER JOIN users
+            ON reviews.user_id = users.id
+            WHERE
+            reviews.product_id = ?
+            AND reviews.deleted = 0
+            ORDER BY created_at DESC
+            `;
+
+    db.query(sql, [productId], (err, results) => {
+
+        if (err) {
+            return res.status(500).json(err);
+        }
+
+        res.json(results);
+
+    });
+
+});
+
+
+module.exports = router;

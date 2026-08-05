@@ -1,34 +1,38 @@
 import { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 function Login() {
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleLogin = async (e) => {
 
         e.preventDefault();
 
-        console.log("Butona basıldı");
-
         try {
 
             const res = await fetch("http://localhost:5000/api/auth/login", {
+
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
                 body: JSON.stringify({
                     email,
                     password
                 })
+
             });
 
-            console.log("Status:", res.status);
-
             const data = await res.json();
-
-            console.log(data);
 
             alert(data.message);
 
@@ -37,14 +41,17 @@ function Login() {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
 
-                // İstersen girişten sonra ana sayfaya yönlendirebiliriz.
-                // window.location.href = "/";
+                // Geldiği sayfaya geri dön
+                const from = location.state?.from || "/";
+
+                navigate(from, { replace: true });
 
             }
 
         } catch (error) {
 
             console.log(error);
+
             alert("Sunucuya bağlanırken hata oluştu.");
 
         }
@@ -77,18 +84,66 @@ function Login() {
 
                 <br /><br />
 
-                <input
-                    type="password"
-                    placeholder="Şifre"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    style={{
-                        width: "100%",
-                        padding: "10px"
-                    }}
-                />
+                <div
+    style={{
+        position: "relative"
+    }}
+>
 
-                <br /><br />
+    <input
+        type={showPassword ? "text" : "password"}
+        placeholder="Şifre"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{
+            width: "100%",
+            padding: "10px 45px 10px 10px",
+            boxSizing: "border-box"
+        }}
+    />
+
+    <button
+        type="button"
+        onClick={() => setShowPassword(!showPassword)}
+        style={{
+            position: "absolute",
+            right: "12px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            border: "none",
+            background: "transparent",
+            cursor: "pointer",
+            fontSize: "20px",
+            color: "#666"
+        }}
+    >
+        {showPassword ? <FiEyeOff /> : <FiEye />}
+    </button>
+
+</div>
+
+<div
+    style={{
+        textAlign: "right",
+        marginTop: "10px"
+    }}
+>
+
+    <Link
+        to="/forgot-password"
+        style={{
+            textDecoration: "none",
+            fontSize: "14px",
+            color: "#0A84FF"
+        }}
+    >
+        Şifremi Unuttum?
+    </Link>
+
+</div>
+
+<br />
+                
 
                 <button
                     type="submit"
@@ -100,6 +155,30 @@ function Login() {
                 >
                     Giriş Yap
                 </button>
+
+                <br /><br />
+
+                <div
+    style={{
+        textAlign: "center",
+        marginTop: "20px"
+    }}
+>
+
+    Hesabın yok mu?{" "}
+
+    <Link
+        to="/register"
+        style={{
+            color: "#0A84FF",
+            textDecoration: "none",
+            fontWeight: "600"
+        }}
+    >
+        Kayıt Ol
+    </Link>
+
+</div>
 
             </form>
 

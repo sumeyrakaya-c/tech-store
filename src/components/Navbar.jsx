@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import {
   FiMenu,
@@ -19,6 +19,9 @@ function Navbar({
 }) {
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigate = useNavigate();
+ const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -91,28 +94,67 @@ function Navbar({
           <Link to="/cart">
             <FiShoppingCart className="icon" />
           </Link>
+             
+             <FiUser
+    className="icon"
+    style={{ cursor: "pointer" }}
+    onClick={() => {
 
-          {!user ? (
+        if (user) {
 
-            <>
+            navigate("/profile");
 
-              <Link to="/login">
-                <FiUser className="icon" />
-              </Link>
+        } else {
 
-              <Link
-                to="/register"
-                style={{
-                  marginLeft: "15px",
-                  textDecoration: "none"
-                }}
-              >
-                Kayıt Ol
-              </Link>
+            navigate("/login", {
+                state: {
+                    from: location.pathname
+                }
+            });
 
-            </>
+        }
 
-          ) : (
+    }}
+/>
+
+{!user ? (
+
+    <>
+
+        <Link
+            to="/login"
+            state={{
+                from: location.pathname
+            }}
+            style={{
+                marginLeft: "15px",
+                textDecoration: "none"
+            }}
+        >
+            Giriş Yap
+        </Link>
+
+        <span
+            style={{
+                margin: "0 6px",
+                color: "#999"
+            }}
+        >
+            /
+        </span>
+
+        <Link
+            to="/register"
+            style={{
+                textDecoration: "none"
+            }}
+        >
+            Kayıt Ol
+        </Link>
+
+    </>
+
+) : (
 
             <>
 
@@ -125,7 +167,7 @@ function Navbar({
                   color: "inherit"
                 }}
               >
-                {user.fullName}
+                {user?.fullName}
               </Link>
 
               <Link
@@ -139,7 +181,7 @@ function Navbar({
                 Siparişlerim
               </Link>
 
-              {user.role === "admin" && (
+              {user?.role === "admin" && (
 
                 <Link
                   to="/admin"
@@ -165,8 +207,7 @@ function Navbar({
 
             </>
 
-          )}
-
+            )}
         </div>
 
       </nav>

@@ -57,7 +57,9 @@ if (!product) {
 
         <ProductQuestions />
 
-        <ReviewSection />
+        <ReviewSection
+    productId={product.id}
+/>
     </>
 );
 
