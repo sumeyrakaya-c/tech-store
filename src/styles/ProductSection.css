@@ -1,65 +1,192 @@
+/* ===================================
+   PRODUCT SECTION
+=================================== */
+
 .product-section{
 
-    max-width:1400px;
+    position:relative;
 
-    margin:35px auto;
+    overflow:hidden;
 
-    padding:0 20px;
+    max-width:1450px;
+
+    margin:70px auto;
+
+    padding:35px;
+
+    background:
+
+    linear-gradient(
+    145deg,
+    rgba(255,255,255,.96),
+    rgba(247,250,255,.96)
+    );
+
+    border-radius:30px;
+
+    border:1px solid rgba(37,99,235,.08);
+
+    backdrop-filter:blur(15px);
+
+    box-shadow:
+
+    0 20px 50px rgba(15,23,42,.06);
 
 }
 
-.section-header{
+.product-section::before{
 
-    display:flex;
+    content:"";
 
-    justify-content:space-between;
+    position:absolute;
 
-    align-items:center;
-    
-    margin-bottom:25px;
+    width:260px;
+
+    height:260px;
+
+    background:#3B82F6;
+
+    opacity:.06;
+
+    border-radius:50%;
+
+    top:-120px;
+
+    right:-120px;
 
 }
 
-.section-header h2{
+/* ===================================
+   BAŞLIK
+=================================== */
 
-    font-size:24px;
+.section-title{
 
-    color:#111827;
+    font-size:31px;
 
     font-weight:700;
 
+    color:#111827;
+
+    margin-bottom:35px;
+
+    padding-left:18px;
+
+    border-left:6px solid #2563EB;
+
 }
 
-.section-header button{
+/* ===================================
+   SLIDER
+=================================== */
 
-    border:none;
+.product-slider{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+/* ===================================
+   ÜRÜNLER
+=================================== */
+
+.section-products{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:flex-start;
+
+    gap:25px;
+
+    overflow:hidden;
+
+}
+
+/* ===================================
+   OKLAR
+=================================== */
+
+.slider-btn{
+
+    width:58px;
+
+    height:58px;
+
+    background:white;
+
+    border:1px solid rgba(37,99,235,.12);
+
+    box-shadow:
+
+    0 12px 30px rgba(15,23,42,.08);
+
+}
+.slider-btn:hover{
 
     background:#2563EB;
 
     color:white;
 
-    padding:10px 18px;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    transition:.3s;
+    transform:scale(1.1);
 
 }
 
-.section-header button:hover{
+.slider-btn:disabled{
 
-    background:#1D4ED8;
+    opacity:.35;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
 
 }
 
-.section-products{
+/* ===================================
+   RESPONSIVE
+=================================== */
 
-    display:grid;
+@media(max-width:1200px){
 
-    grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    .section-products{
 
-    gap:30px;
+        justify-content:center;
+
+        flex-wrap:wrap;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .product-slider{
+
+        gap:10px;
+
+    }
+
+    .slider-btn{
+
+        width:42px;
+
+        height:42px;
+
+        font-size:22px;
+
+    }
+
+    .section-title{
+
+        font-size:24px;
+
+    }
 
 }

@@ -1,163 +1,211 @@
+import { useState } from "react";
+import {
+    FiHeart,
+    FiChevronLeft,
+    FiChevronRight
+} from "react-icons/fi";
+
 import "../styles/ProductGallery.css";
-import { useEffect, useState } from "react";
-import { FiHeart, FiChevronLeft, FiChevronRight } from "react-icons/fi";
+
 
 function ProductGallery({ product }) {
 
-    const [selectedImage, setSelectedImage] = useState(0);
+    const [currentImage, setCurrentImage] = useState(0);
+    const [favorite, setFavorite] = useState(false);
 
-    const [isFavorite, setIsFavorite] = useState(false);
 
-const user = JSON.parse(localStorage.getItem("user"));
+    /*
+        Ürünün görsellerini hazırlıyoruz.
 
-    const images = [
-        product.image && `http://localhost:5000/uploads/${product.image}`,
-        product.image2 && `http://localhost:5000/uploads/${product.image2}`,
-        product.image3 && `http://localhost:5000/uploads/${product.image3}`
-    ].filter(Boolean);
+        Backend'den image gelirse:
+        [image]
 
-    const nextImage = (e) => {
+        images dizisi gelirse:
+        images
 
-        e.preventDefault();
-        e.stopPropagation();
+        Böylece ikisini de destekliyoruz.
+    */
 
-        setSelectedImage((prev) =>
-            prev === images.length - 1 ? 0 : prev + 1
-        );
+    let images = [];
 
-    };
 
-useEffect(() => {
+    if (Array.isArray(product?.images)) {
 
-    if (!user) return;
-
-    fetch(`http://localhost:5000/api/favorites/${user.id}/${product.id}`)
-        .then(res => res.json())
-        .then(data => setIsFavorite(data.isFavorite))
-        .catch(err => console.log(err));
-
-}, [product.id]);
-
-    const prevImage = (e) => {
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        setSelectedImage((prev) =>
-            prev === 0 ? images.length - 1 : prev - 1
-        );
-
-    };
-
-    const toggleFavorite = async () => {
-
-    if (!user) {
-
-        alert("Favorilere eklemek için giriş yapmalısınız.");
-        return;
+        images = product.images;
 
     }
+    else if (product?.images) {
 
-    try {
+        try {
 
-        if (!isFavorite) {
+            const parsedImages =
+                JSON.parse(product.images);
 
-            const res = await fetch("http://localhost:5000/api/favorites", {
+            if (Array.isArray(parsedImages)) {
 
-                method: "POST",
+                images = parsedImages;
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+            }
 
-                body: JSON.stringify({
+        } catch {
 
-                    user_id: user.id,
-                    product_id: product.id
-
-                })
-
-            });
-
-            const data = await res.json();
-
-            alert(data.message);
-
-            setIsFavorite(true);
-
-        } else {
-
-            const res = await fetch("http://localhost:5000/api/favorites", {
-
-                method: "DELETE",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    user_id: user.id,
-                    product_id: product.id
-
-                })
-
-            });
-
-            const data = await res.json();
-
-            alert(data.message);
-
-            setIsFavorite(false);
+            images = [product.images];
 
         }
 
-    } catch (error) {
+    }
+    else if (product?.image) {
 
-        console.log(error);
+        images = [product.image];
 
     }
 
-};
+
+    /*
+        Fotoğraf URL'sini oluştur
+    */
+
+    const getImageUrl = (image) => {
+
+        if (!image) {
+            return "";
+        }
+
+
+        if (
+            image.startsWith("http://") ||
+            image.startsWith("https://") ||
+            image.startsWith("/")
+        ) {
+
+            return image;
+
+        }
+
+
+        return `http://localhost:5000/uploads/${image}`;
+
+    };
+
+
+    const nextImage = () => {
+
+        if (images.length <= 1) {
+            return;
+        }
+
+
+        setCurrentImage(
+            (prev) =>
+                (prev + 1) % images.length
+        );
+
+    };
+
+
+    const previousImage = () => {
+
+        if (images.length <= 1) {
+            return;
+        }
+
+
+        setCurrentImage(
+            (prev) =>
+                (prev - 1 + images.length) %
+                images.length
+        );
+
+    };
+
 
     return (
 
         <div className="product-gallery">
 
-           <button
-    type="button"
-    className="favorite-btn"
-    onClick={toggleFavorite}
-    style={{
-        color: isFavorite ? "red" : "#555"
-    }}
->
-    <FiHeart />
-</button>
+
+            {/* FAVORİ */}
+
+            <button
+                type="button"
+                className="favorite-btn"
+                onClick={() =>
+                    setFavorite(!favorite)
+                }
+            >
+
+                <FiHeart
+                    style={{
+                        color: favorite
+                            ? "#EF4444"
+                            : "#374151",
+
+                        fill: favorite
+                            ? "#EF4444"
+                            : "none"
+                    }}
+                />
+
+            </button>
+
+
+
+            {/* ANA FOTOĞRAF */}
+
+            {images.length > 0 ? (
+
+                <img
+                    className="main-image"
+                    src={getImageUrl(
+                        images[currentImage]
+                    )}
+                    alt={
+                        product?.name ||
+                        "Ürün görseli"
+                    }
+                />
+
+            ) : (
+
+                <div
+                    style={{
+                        width: "370px",
+                        height: "400px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#64748b",
+                        textAlign: "center"
+                    }}
+                >
+
+                    Ürün görseli bulunamadı.
+
+                </div>
+
+            )}
+
+
+
+            {/* SOL OK */}
 
             {images.length > 1 && (
 
                 <button
                     type="button"
                     className="gallery-arrow left-arrow"
-                    onClick={prevImage}
+                    onClick={previousImage}
                 >
+
                     <FiChevronLeft />
+
                 </button>
 
             )}
 
-            <img
-                className="main-image"
-                src={
-                    images.length
-                        ? images[selectedImage]
-                        : "https://placehold.co/350x400?text=Resim+Yok"
-                }
-                alt={product.name}
-            />
 
-            <div className="phone-shadow"></div>
+
+            {/* SAĞ OK */}
 
             {images.length > 1 && (
 
@@ -166,30 +214,52 @@ useEffect(() => {
                     className="gallery-arrow right-arrow"
                     onClick={nextImage}
                 >
+
                     <FiChevronRight />
+
                 </button>
 
             )}
 
+
+
+            {/* KÜÇÜK FOTOĞRAFLAR */}
+
             {images.length > 1 && (
 
-                <div className="thumbnail-list">
+                <div
+                    style={{
+                        display: "flex",
+                        gap: "10px",
+                        marginTop: "20px"
+                    }}
+                >
 
-                    {images.map((image, index) => (
+                    {images.map(
+                        (image, index) => (
 
-                        <img
-                            key={index}
-                            src={image}
-                            alt={product.name}
-                            className={
-                                selectedImage === index
-                                    ? "thumbnail active"
-                                    : "thumbnail"
-                            }
-                            onClick={() => setSelectedImage(index)}
-                        />
+                            <img
+                                key={index}
+                                className={
+                                    `thumbnail ${
+                                        currentImage === index
+                                            ? "active"
+                                            : ""
+                                    }`
+                                }
+                                src={getImageUrl(image)}
+                                alt={
+                                    `${product?.name || "Ürün"} ${
+                                        index + 1
+                                    }`
+                                }
+                                onClick={() =>
+                                    setCurrentImage(index)
+                                }
+                            />
 
-                    ))}
+                        )
+                    )}
 
                 </div>
 
@@ -200,5 +270,6 @@ useEffect(() => {
     );
 
 }
+
 
 export default ProductGallery;

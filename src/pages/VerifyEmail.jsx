@@ -5,27 +5,30 @@ import devices from "../assets/devices.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-function ForgotPassword() {
+function VerifyEmail() {
 
-    const [email, setEmail] = useState("");
+    const [code, setCode] = useState("");
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+    const email = localStorage.getItem("verifyEmail");
+
+    const handleVerify = async (e) => {
 
         e.preventDefault();
 
         try {
 
             const res = await fetch(
-                "http://localhost:5000/api/auth/forgot-password",
+                "http://localhost:5000/api/auth/verify-email",
                 {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
-                        email
+                        email,
+                        code
                     })
                 }
             );
@@ -36,13 +39,9 @@ function ForgotPassword() {
 
             if (res.ok) {
 
-                localStorage.setItem(
-                    "resetEmail",
-                    email
-                );
+                localStorage.removeItem("verifyEmail");
 
-                // Kod girme sayfasına geç
-                navigate("/reset-password");
+                navigate("/login");
 
             }
 
@@ -60,8 +59,6 @@ function ForgotPassword() {
 
         <div className="auth-page">
 
-            {/* SOL */}
-
             <div className="auth-left">
 
                 <img
@@ -72,32 +69,31 @@ function ForgotPassword() {
 
                 <h1>
 
-                    Şifrenizi
+                    E-Postanızı
                     <br />
-                    Güvenle Yenileyin
+                    Doğrulayın
 
                 </h1>
 
                 <p>
 
-                    Hesabınıza kayıtlı e-posta adresine
-                    doğrulama kodu göndereceğiz.
+                    Size gönderdiğimiz
+                    6 haneli doğrulama kodunu girerek
+                    hesabınızı aktif hale getirin.
 
                 </p>
 
                 <div className="features">
 
-                    <span>✔ Güvenli İşlem</span>
+                    <span>✔ Güvenli Doğrulama</span>
 
                     <span>✔ 10 Dakika Geçerli Kod</span>
 
-                    <span>✔ Hızlı Şifre Yenileme</span>
+                    <span>✔ Hesabınızı Aktifleştirin</span>
 
                 </div>
 
             </div>
-
-            {/* SAĞ */}
 
             <div className="auth-right">
 
@@ -109,26 +105,26 @@ function ForgotPassword() {
 
                 <h2>
 
-                    Şifremi Unuttum
+                    E-Posta Doğrulama
 
                 </h2>
 
                 <p className="auth-subtitle">
 
-                    Hesabınıza ait e-posta adresini girin.
+                    Mail adresinize gelen doğrulama kodunu giriniz.
 
                 </p>
 
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleVerify}>
 
                     <div className="auth-input-group">
 
                         <input
                             className="auth-input"
-                            type="email"
-                            placeholder="E-posta"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            type="text"
+                            placeholder="6 Haneli Kod"
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
                         />
 
                     </div>
@@ -138,7 +134,7 @@ function ForgotPassword() {
                         className="auth-btn"
                     >
 
-                        Doğrulama Kodu Gönder
+                        Hesabı Doğrula
 
                     </button>
 
@@ -146,13 +142,13 @@ function ForgotPassword() {
 
                         <span>
 
-                            Şifreni hatırladın mı?
+                            Yanlış e-posta mı kullandınız?
 
                         </span>
 
-                        <Link to="/login">
+                        <Link to="/register">
 
-                            ← Giriş Yap
+                            ← Kayıt Sayfasına Dön
 
                         </Link>
 
@@ -168,4 +164,4 @@ function ForgotPassword() {
 
 }
 
-export default ForgotPassword;
+export default VerifyEmail;

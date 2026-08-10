@@ -1,33 +1,47 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/HeroBanner.css";
+
 import phone from "../assets/images/banners/phone.png";
 import laptop from "../assets/images/banners/laptop.png";
 import gaming from "../assets/images/banners/gaming.png";
 
 const banners = [
+
     {
-        title: "Yeni Nesil Teknoloji",
-        subtitle: "iPhone, laptop ve oyuncu ekipmanlarında büyük indirimler.",
-        button: "Alışverişe Başla",
-        image: phone
+        id: 1,
+        title: "ASUS ROG STRIX G18",
+        subtitle: "Gücün Yeni Tanımı",
+        description: "Intel Ultra 9 • RTX 5090 • 64 GB RAM",
+        image: laptop,
+        productId: 1
     },
+
     {
-        title: "İş ve Eğitim İçin",
-        subtitle: "Güçlü performans sunan dizüstü bilgisayarları keşfet.",
-        button: "Fırsatları Gör",
-        image: laptop
+        id: 2,
+        title: "iPhone 17 Pro",
+        subtitle: "Titanyum Performans",
+        description: "Apple Intelligence ile geleceği keşfet.",
+        image: phone,
+        productId: 2
     },
+
     {
-        title: "Oyuncular İçin",
-        subtitle: "Profesyonel oyuncu ekipmanlarını şimdi keşfet.",
-        button: "İncele",
-        image: gaming
+        id: 3,
+        title: "Logitech G PRO X",
+        subtitle: "Profesyonellerin Tercihi",
+        description: "Oyuncular için tasarlanmış üst düzey ekipman.",
+        image: gaming,
+        productId: 3
     }
+
 ];
 
 function HeroBanner() {
 
     const [current, setCurrent] = useState(0);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -45,19 +59,32 @@ function HeroBanner() {
 
     return (
 
-        <section className="hero-banner">
+        <section
+            className="hero-banner"
+            onClick={() =>
+                navigate(`/product/${banners[current].productId}`)
+            }
+        >
 
             <div className="hero-content">
 
-                <h1>{banners[current].title}</h1>
+                <h1>
 
-                <p>{banners[current].subtitle}</p>
+                    {banners[current].title}
 
-                <button>
+                </h1>
 
-                    {banners[current].button}
+                <h3>
 
-                </button>
+                    {banners[current].subtitle}
+
+                </h3>
+
+                <p>
+
+                    {banners[current].description}
+
+                </p>
 
             </div>
 
@@ -65,18 +92,18 @@ function HeroBanner() {
 
                 <img
                     src={banners[current].image}
-                    alt=""
+                    alt={banners[current].title}
                 />
 
             </div>
 
             <div className="hero-dots">
 
-                {banners.map((_, index) => (
+                {banners.map((banner, index) => (
 
                     <span
 
-                        key={index}
+                        key={banner.id}
 
                         className={
                             current === index
@@ -84,7 +111,13 @@ function HeroBanner() {
                                 : "dot"
                         }
 
-                        onClick={() => setCurrent(index)}
+                        onClick={(e) => {
+
+                            e.stopPropagation();
+
+                            setCurrent(index);
+
+                        }}
 
                     />
 

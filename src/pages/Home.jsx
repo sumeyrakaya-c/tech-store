@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import ProductSection from "../components/ProductSection";
+
 import HeroBanner from "../components/HeroBanner";
+import ProductSection from "../components/ProductSection";
 
 function Home({ search, category }) {
 
     const [products, setProducts] = useState([]);
 
-    // Ürünleri getir
     useEffect(() => {
 
         fetch(
@@ -18,7 +18,6 @@ function Home({ search, category }) {
 
     }, [search, category]);
 
-    // Scroll konumunu geri yükle
     useEffect(() => {
 
         const scrollPosition = sessionStorage.getItem("scrollPosition");
@@ -40,7 +39,10 @@ function Home({ search, category }) {
     return (
 
         <>
+
             <HeroBanner />
+
+
 
             {products.length === 0 ? (
 
@@ -56,10 +58,24 @@ function Home({ search, category }) {
 
             ) : (
 
-                <ProductSection
-                    title="🆕 Yeni Gelenler"
-                    products={products}
-                />
+                <>
+
+                    <ProductSection
+                        title="🔥 İndirimdekiler"
+                        products={products}
+                    />
+
+                    <ProductSection
+                        title="🆕 Yeni Gelenler"
+                        products={products}
+                    />
+
+                    <ProductSection
+                        title="🏆 En Çok Satanlar"
+                        products={products}
+                    />
+
+                </>
 
             )}
 

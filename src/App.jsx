@@ -1,17 +1,5 @@
 import { useState } from "react";
-import Profile from "./pages/profile";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import ForgotPassword from "./pages/ForgotPassword";
 import "./App.css";
-import Navbar from "./components/Navbar";
-import MyOrders from "./pages/MyOrders";
-import Favorites from "./pages/Favorites";
-
-import Home from "./pages/Home";
-import ProductDetail from "./pages/ProductDetail";
-import Cart from "./pages/Cart";
-import AdminLayout from "./admin/layout/AdminLayout";
 
 import {
     BrowserRouter,
@@ -20,12 +8,29 @@ import {
     useLocation,
 } from "react-router-dom";
 
+// Pages
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword"; // ✅ YENİ
+import Profile from "./pages/profile";
+import Favorites from "./pages/Favorites";
+import MyOrders from "./pages/MyOrders";
+import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
+
+// Components
+import Navbar from "./components/Navbar";
+
+// Admin
+import AdminLayout from "./admin/layout/AdminLayout";
+
 function AppContent() {
 
-     const [search, setSearch] = useState("");
-
-     console.log("App search:", search);
-     const [category, setCategory] = useState("");
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
 
     const location = useLocation();
 
@@ -35,55 +40,66 @@ function AppContent() {
         <>
 
             {!isAdmin && (
-            <Navbar
-    search={search}
-    setSearch={setSearch}
-    category={category}
-    setCategory={setCategory}
-/>
-)}
-
+                <Navbar
+                    search={search}
+                    setSearch={setSearch}
+                    category={category}
+                    setCategory={setCategory}
+                />
+            )}
 
             <Routes>
 
                 <Route
-    path="/my-orders"
-    element={<MyOrders />}
-/>
-
-                <Route
-    path="/favorites"
-    element={<Favorites />}
-/>
-
-                <Route
-    path="/profile"
-    element={<Profile />}
-/>
+                    path="/"
+                    element={
+                        <Home
+                            search={search}
+                            category={category}
+                        />
+                    }
+                />
 
                 <Route
                     path="/login"
                     element={<Login />}
                 />
 
-               <Route
+                <Route
                     path="/register"
                     element={<Register />}
                 />
-               <Route
+
+                <Route
+                    path="/verify-email"
+                    element={<VerifyEmail />}
+                />
+
+                <Route
                     path="/forgot-password"
                     element={<ForgotPassword />}
-               />
+                />
 
-               <Route
-                   path="/"
-                   element={
-                   <Home
-            search={search}
-            category={category}
-        />
-    }
-/>
+                {/* ✅ Yeni Şifre Oluştur */}
+                <Route
+                    path="/reset-password"
+                    element={<ResetPassword />}
+                />
+
+                <Route
+                    path="/profile"
+                    element={<Profile />}
+                />
+
+                <Route
+                    path="/favorites"
+                    element={<Favorites />}
+                />
+
+                <Route
+                    path="/my-orders"
+                    element={<MyOrders />}
+                />
 
                 <Route
                     path="/product/:id"
@@ -93,7 +109,7 @@ function AppContent() {
                 <Route
                     path="/cart"
                     element={<Cart />}
-               />
+                />
 
                 <Route
                     path="/admin/*"

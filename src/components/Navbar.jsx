@@ -8,7 +8,6 @@ import {
   FiUser,
   FiSearch,
   FiHome,
-  FiLogOut
 } from "react-icons/fi";
 
 function Navbar({
@@ -24,6 +23,7 @@ function Navbar({
  const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem("user"));
+  const [profileMenu, setProfileMenu] = useState(false);
 
 
   const logout = () => {
@@ -32,6 +32,8 @@ function Navbar({
     localStorage.removeItem("user");
 
     window.location.href = "/";
+
+    
 
   };
 
@@ -42,9 +44,9 @@ function Navbar({
         <div className="nav-left">
 
           <FiMenu
-            className="icon"
-            onClick={() => setIsOpen(!isOpen)}
-          />
+    className="icon"
+    onClick={() => setIsOpen(!isOpen)}
+/>
 
           <h2 className="logo">
             <span>Tekno</span>Hup
@@ -167,19 +169,8 @@ function Navbar({
                   color: "inherit"
                 }}
               >
-                {user?.fullName}
               </Link>
 
-              <Link
-                to="/my-orders"
-                style={{
-                  marginLeft: "20px",
-                  textDecoration: "none",
-                  color: "inherit"
-                }}
-              >
-                Siparişlerim
-              </Link>
 
               {user?.role === "admin" && (
 
@@ -196,14 +187,7 @@ function Navbar({
 
               )}
 
-              <FiLogOut
-                className="icon"
-                style={{
-                  marginLeft: "20px",
-                  cursor: "pointer"
-                }}
-                onClick={logout}
-              />
+              
 
             </>
 

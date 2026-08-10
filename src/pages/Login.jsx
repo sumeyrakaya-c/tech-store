@@ -1,6 +1,10 @@
+import "../styles/auth.css";
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+
+import logo from "../assets/logo.png";
+import devices from "../assets/devices.png";
 
 function Login() {
 
@@ -41,7 +45,6 @@ function Login() {
                 localStorage.setItem("token", data.token);
                 localStorage.setItem("user", JSON.stringify(data.user));
 
-                // Geldiği sayfaya geri dön
                 const from = location.state?.from || "/";
 
                 navigate(from, { replace: true });
@@ -60,127 +63,127 @@ function Login() {
 
     return (
 
-        <div
-            style={{
-                maxWidth: "500px",
-                margin: "50px auto"
-            }}
-        >
+        <div className="auth-page">
 
-            <h1>Giriş Yap</h1>
+            {/* SOL TARAF */}
 
-            <form onSubmit={handleLogin}>
+            <div className="auth-left">
 
-                <input
-                    type="email"
-                    placeholder="E-posta"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={{
-                        width: "100%",
-                        padding: "10px"
-                    }}
+                <img
+                    src={devices}
+                    alt="Teknoloji Ürünleri"
+                    className="devices-image"
                 />
 
-                <br /><br />
+                <h1>
 
-                <div
-    style={{
-        position: "relative"
-    }}
->
+                    Teknoloji
+                    <br />
+                    Bir Tık Uzağında
 
-    <input
-        type={showPassword ? "text" : "password"}
-        placeholder="Şifre"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        style={{
-            width: "100%",
-            padding: "10px 45px 10px 10px",
-            boxSizing: "border-box"
-        }}
-    />
+                </h1>
 
-    <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)}
-        style={{
-            position: "absolute",
-            right: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            border: "none",
-            background: "transparent",
-            cursor: "pointer",
-            fontSize: "20px",
-            color: "#666"
-        }}
-    >
-        {showPassword ? <FiEyeOff /> : <FiEye />}
-    </button>
+                <p>
 
-</div>
+                    Laptop, telefon, kulaklık,
+                    akıllı saat ve daha fazlası.
 
-<div
-    style={{
-        textAlign: "right",
-        marginTop: "10px"
-    }}
->
+                </p>
 
-    <Link
-        to="/forgot-password"
-        style={{
-            textDecoration: "none",
-            fontSize: "14px",
-            color: "#0A84FF"
-        }}
-    >
-        Şifremi Unuttum?
+                <div className="features">
+
+                    <span>✔ Güvenli Alışveriş</span>
+
+                    <span>✔ Hızlı Teslimat</span>
+
+                    <span>✔ Orijinal Ürün Garantisi</span>
+
+                </div>
+
+            </div>
+
+            {/* SAĞ TARAF */}
+
+            <div className="auth-right">
+
+                <img
+                    src={logo}
+                    alt="TeknoHup"
+                    className="brand-logo"
+                />
+
+                <h2>Hoş Geldiniz</h2>
+
+                <p className="auth-subtitle">
+
+                    Hesabınıza giriş yaparak alışverişe devam edin.
+
+                </p>
+
+                <form onSubmit={handleLogin}>
+
+                    <div className="auth-input-group">
+
+                        <input
+                            className="auth-input"
+                            type="email"
+                            placeholder="E-posta"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+
+                    </div>
+
+                    <div className="auth-password">
+
+                        <input
+                            className="auth-input"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Şifre"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+
+                        <button
+                            type="button"
+                            className="password-toggle"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? <FiEyeOff /> : <FiEye />}
+                        </button>
+
+                    </div>
+
+                    <div className="auth-forgot">
+
+    <Link to="/forgot-password">
+        Şifremi Unuttum
     </Link>
 
 </div>
 
-<br />
-                
+                    <button
+                        type="submit"
+                        className="auth-btn"
+                    >
+                        Giriş Yap
+                    </button>
 
-                <button
-                    type="submit"
-                    style={{
-                        width: "100%",
-                        padding: "12px",
-                        cursor: "pointer"
-                    }}
-                >
-                    Giriş Yap
-                </button>
+                    <div className="auth-link">
 
-                <br /><br />
+    <span>Henüz hesabın yok mu?</span>
 
-                <div
-    style={{
-        textAlign: "center",
-        marginTop: "20px"
-    }}
->
+    <Link to="/register">
 
-    Hesabın yok mu?{" "}
+        Hemen Kayıt Ol →
 
-    <Link
-        to="/register"
-        style={{
-            color: "#0A84FF",
-            textDecoration: "none",
-            fontWeight: "600"
-        }}
-    >
-        Kayıt Ol
     </Link>
 
 </div>
 
-            </form>
+                </form>
+
+            </div>
 
         </div>
 

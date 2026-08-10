@@ -362,7 +362,7 @@ router.get("/:productId", (req, res) => {
     const sql = `
         SELECT
             reviews.*,
-            users.fullName
+            users.full_name
         FROM reviews
         INNER JOIN users
             ON reviews.user_id = users.id
@@ -384,5 +384,119 @@ router.get("/:productId", (req, res) => {
 
 });
 
+router.get("/user/:userId", (req, res) => {
+
+    const { userId } = req.params;
+
+    const sql = `
+        SELECT
+            reviews.id,
+            reviews.product_id,
+            reviews.order_id,
+            reviews.rating,
+            reviews.comment,
+            reviews.anonymous,
+            reviews.image1,
+            reviews.image2,
+            reviews.image3,
+            reviews.created_at,
+            products.name AS product_name,
+            products.image AS product_image
+        FROM reviews
+
+        INNER JOIN products
+            ON reviews.product_id = products.id
+
+        WHERE
+            reviews.user_id = ?
+            AND reviews.deleted = 0
+
+        ORDER BY reviews.created_at DESC
+    `;
+
+    db.query(sql, [userId], (err, results) => {
+
+        if (err) {
+
+    console.log("REVIEWS SQL HATASI:", err);
+
+    return res.status(500).json({
+        message: "Yorumlar getirilemedi.",
+        error: err.message
+    });
+
+}
+
+        res.json(results);
+
+    });
+
+});
+
+router.get("/user-orders/:userId", (req, res) => {
+
+    const { userId } = req.params;
+
+    const sql = `
+        SELECT
+            orders.id AS order_id,
+            orders.created_at AS order_date,
+            orders.status,
+
+            order_items.product_id,
+
+            products.name AS product_name,
+            products.image AS product_image,
+
+            reviews.id AS review_id,
+            reviews.rating,
+            reviews.comment
+
+        FROM orders
+
+        INNER JOIN order_items
+            ON orders.id = order_items.order_id
+
+        INNER JOIN products
+            ON order_items.product_id = products.id
+
+        LEFT JOIN reviews
+            ON reviews.order_id = orders.id
+            AND reviews.product_id = order_items.product_id
+            AND reviews.user_id = ?
+            AND reviews.deleted = 0
+
+        WHERE
+            orders.user_id = ?
+            AND orders.status = 'Teslim Edildi'
+
+        ORDER BY orders.created_at DESC
+    `;
+
+    db.query(
+        sql,
+        [userId, userId],
+        (err, results) => {
+
+            if (err) {
+
+                console.log(
+                    "SİPARİŞ YORUMLARI SQL HATASI:",
+                    err
+                );
+
+                return res.status(500).json({
+                    message: "Sipariş yorumları getirilemedi.",
+                    error: err.message
+                });
+
+            }
+
+            res.json(results);
+
+        }
+    );
+
+});
 
 module.exports = router;
