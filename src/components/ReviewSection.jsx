@@ -17,17 +17,52 @@ function ReviewSection({ productId }) {
 
     const [canReview, setCanReview] = useState(false);
 
+    // Yorum formu açık mı?
+    const [showReviewForm, setShowReviewForm] = useState(false);
+
+    // Tüm yorumlar popup'ı
+    const [showAllReviews, setShowAllReviews] = useState(false);
+
+    // Ana sayfadaki yorumların başlangıç sırası
+    const [reviewStart, setReviewStart] = useState(0);
+
+
+    // =========================
+    // YORUMLARI YÜKLE
+    // =========================
+
     const loadReviews = () => {
 
         fetch(`http://localhost:5000/api/reviews/${productId}`)
             .then((res) => res.json())
-            .then((data) => setReviews(data))
+            .then((data) => {
+
+                setReviews(data);
+
+                // Yorumlar yenilendiğinde başa dön
+                setReviewStart(0);
+
+            })
             .catch((err) => console.log(err));
+
+
+        // =========================
+        // İSTATİSTİKLER
+        // =========================
 
         fetch(`http://localhost:5000/api/reviews/stats/${productId}`)
             .then((res) => res.json())
-            .then((data) => setStats(data))
+            .then((data) => {
+
+                setStats(data);
+
+            })
             .catch((err) => console.log(err));
+
+
+        // =========================
+        // KULLANICI YORUM YAPABİLİR Mİ?
+        // =========================
 
         if (user) {
 
@@ -35,7 +70,11 @@ function ReviewSection({ productId }) {
                 `http://localhost:5000/api/reviews/can-review/${user.id}/${productId}`
             )
                 .then((res) => res.json())
-                .then((data) => setCanReview(data.canReview))
+                .then((data) => {
+
+                    setCanReview(data.canReview);
+
+                })
                 .catch((err) => console.log(err));
 
         } else {
@@ -46,21 +85,108 @@ function ReviewSection({ productId }) {
 
     };
 
+
     useEffect(() => {
 
         loadReviews();
 
     }, [productId]);
 
+
+    // =========================
+    // MODAL SCROLL
+    // =========================
+
+    useEffect(() => {
+
+        if (showAllReviews) {
+
+            document.body.style.overflow = "hidden";
+
+        } else {
+
+            document.body.style.overflow = "auto";
+
+        }
+
+        return () => {
+
+            document.body.style.overflow = "auto";
+
+        };
+
+    }, [showAllReviews]);
+
+
+    // =========================
+    // YORUM OKLARI
+    // =========================
+
+    const showPreviousReviews = () => {
+
+        setReviewStart((current) => {
+
+            return Math.max(current - 1, 0);
+
+        });
+
+    };
+
+
+    const showNextReviews = () => {
+
+        setReviewStart((current) => {
+
+            /*
+             * 0'dan başlayarak birer birer ilerliyoruz.
+             *
+             * Örnek:
+             * 2 yorum varsa:
+             * 0 -> yorum 1 + yorum 2
+             * 1 -> yorum 2
+             *
+             * 3 yorum varsa:
+             * 0 -> yorum 1 + yorum 2
+             * 1 -> yorum 2 + yorum 3
+             * 2 -> yorum 3
+             */
+
+            const maxStart = Math.max(reviews.length - 1, 0);
+
+            return Math.min(current + 1, maxStart);
+
+        });
+
+    };
+
+
+    // =========================
+    // GÖSTERİLECEK YORUMLAR
+    // =========================
+
+    const visibleReviews = reviews.slice(
+        reviewStart,
+        reviewStart + 2
+    );
+
+
     return (
 
         <section className="review-section">
+
+
+            {/* =========================
+                HEADER
+            ========================= */}
 
             <div className="review-header">
 
                 <div className="review-left">
 
-                    <h2>Ürün Değerlendirmeleri</h2>
+                    <h2>
+                        Ürün Değerlendirmeleri
+                    </h2>
+
 
                     <div className="review-summary">
 
@@ -68,31 +194,81 @@ function ReviewSection({ productId }) {
                             ★★★★★
                         </div>
 
+
                         <span className="review-score">
+
                             {stats.average_rating || 0}
+
                         </span>
 
+
                         <span className="review-count">
+
                             ({stats.review_count} Değerlendirme)
+
                         </span>
 
                     </div>
 
                 </div>
 
+
                 <div className="review-right">
 
-                    <button>Tümü →</button>
+
+                    {/* TÜM YORUMLAR */}
+
+                    <button
+                        type="button"
+                        onClick={() =>
+                            setShowAllReviews(true)
+                        }
+                    >
+
+                        Tümü →
+
+                    </button>
+
+
+                    {/* OKLAR */}
 
                     <div className="review-arrows">
 
-                        <button>
+
+                        {/* SOL */}
+
+                        <button
+                            type="button"
+                            onClick={showPreviousReviews}
+                            className={
+                                reviewStart === 0
+                                    ? "arrow-disabled"
+                                    : ""
+                            }
+                        >
+
                             <FaChevronLeft />
+
                         </button>
 
-                        <button>
+
+                        {/* SAĞ */}
+
+                        <button
+                            type="button"
+                            onClick={showNextReviews}
+                            className={
+                                reviews.length === 0 ||
+                                reviewStart >= reviews.length - 1
+                                    ? "arrow-disabled"
+                                    : ""
+                            }
+                        >
+
                             <FaChevronRight />
+
                         </button>
+
 
                     </div>
 
@@ -100,15 +276,55 @@ function ReviewSection({ productId }) {
 
             </div>
 
-            {canReview && (
 
-               <ReviewCard
-                     key={review.id}
-                    review={review}
-                    onDelete={loadReviews}
-                    />
+            {/* =========================
+                YORUM YAP BUTONU
+            ========================= */}
+
+            {canReview && !showReviewForm && (
+
+                <div className="review-action">
+
+                    <button
+                        type="button"
+                        className="write-review-btn"
+                        onClick={() =>
+                            setShowReviewForm(true)
+                        }
+                    >
+
+                        Değerlendirme Yap
+
+                    </button>
+
+                </div>
 
             )}
+
+
+            {/* =========================
+                YORUM FORMU
+            ========================= */}
+
+            {canReview && showReviewForm && (
+
+                <ReviewForm
+                    productId={productId}
+                    onSuccess={() => {
+
+                        loadReviews();
+
+                        setShowReviewForm(false);
+
+                    }}
+                />
+
+            )}
+
+
+            {/* =========================
+                YORUMLAR
+            ========================= */}
 
             <div className="review-list">
 
@@ -120,16 +336,19 @@ function ReviewSection({ productId }) {
                             textAlign: "center"
                         }}
                     >
+
                         Bu ürün için henüz yorum yapılmamış.
+
                     </p>
 
                 ) : (
 
-                    reviews.map((review) => (
+                    visibleReviews.map((review) => (
 
                         <ReviewCard
                             key={review.id}
                             review={review}
+                            onDelete={loadReviews}
                         />
 
                     ))
@@ -137,6 +356,115 @@ function ReviewSection({ productId }) {
                 )}
 
             </div>
+
+
+            {/* =========================
+                TÜM YORUMLAR MODAL
+            ========================= */}
+
+            {showAllReviews && (
+
+                <div
+                    className="reviews-modal-overlay"
+                    onClick={() =>
+                        setShowAllReviews(false)
+                    }
+                >
+
+                    <div
+                        className="reviews-modal"
+                        onClick={(e) =>
+                            e.stopPropagation()
+                        }
+                    >
+
+
+                        {/* =========================
+                            HEADER
+                        ========================= */}
+
+                        <div className="reviews-modal-header">
+
+                            <div>
+
+                                <h2>
+                                    Ürün Değerlendirmeleri
+                                </h2>
+
+
+                                <div className="reviews-modal-summary">
+
+                                    <span className="section-stars">
+                                        ★★★★★
+                                    </span>
+
+
+                                    <strong>
+                                        {stats.average_rating || 0}
+                                    </strong>
+
+
+                                    <span>
+                                        ({stats.review_count} Değerlendirme)
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            {/* KAPAT */}
+
+                            <button
+                                type="button"
+                                className="reviews-modal-close"
+                                onClick={() =>
+                                    setShowAllReviews(false)
+                                }
+                            >
+
+                                ×
+
+                            </button>
+
+                        </div>
+
+
+                        {/* =========================
+                            YORUMLAR
+                        ========================= */}
+
+                        <div className="reviews-modal-content">
+
+                            {reviews.length === 0 ? (
+
+                                <p className="no-reviews">
+
+                                    Bu ürün için henüz yorum yapılmamış.
+
+                                </p>
+
+                            ) : (
+
+                                reviews.map((review) => (
+
+                                    <ReviewCard
+                                        key={review.id}
+                                        review={review}
+                                        onDelete={loadReviews}
+                                    />
+
+                                ))
+
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            )}
 
         </section>
 

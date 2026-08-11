@@ -15,6 +15,7 @@ const categoryRoutes = require("./routes/categoryRoutes");
 const brandRoutes = require("./routes/brandRoutes");
 const productRoutes = require("./routes/productRoutes");
 const reviewRoutes = require("./routes/reviews");
+const questionRoutes = require("./routes/questions");
 
 
 const app = express();
@@ -64,7 +65,10 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/brands", brandRoutes);
 
 app.use("/api/products", productRoutes);
+
 app.use("/api/reviews", reviewRoutes);
+
+app.use("/api/questions", questionRoutes);
 
 
 // =========================================

@@ -1,409 +1,335 @@
+import "../styles/auth.css";
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate, Link } from "react-router-dom";
 
-import {
-    FiUser,
-    FiMail,
-    FiPhone,
-    FiEdit2,
-    FiSave,
-    FiPackage,
-    FiHeart,
-    FiLogOut
-} from "react-icons/fi";
+import logo from "../assets/logo.png";
+import devices from "../assets/devices.png";
 
-import "../styles/Profile.css";
-
-
-function Profile() {
+function Register() {
 
     const navigate = useNavigate();
 
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [password, setPassword] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
-    // Kullanıcı giriş yapmamışsa login'e gönder
-    if (!user) {
+    const handleRegister = async (e) => {
 
-        navigate("/login");
-
-        return null;
-
-    }
+        e.preventDefault();
 
 
-    const [fullName, setFullName] = useState(
-        user.fullName || ""
-    );
+        if (!fullName || !email || !password) {
 
-    const [email, setEmail] = useState(
-        user.email || ""
-    );
+            alert("Lütfen zorunlu alanları doldurun.");
 
-    const [phone, setPhone] = useState(
-        user.phone || ""
-    );
+            return;
+        }
 
 
-    const [editing, setEditing] = useState(false);
+        if (password.length < 6) {
+
+            alert("Şifre en az 6 karakter olmalıdır.");
+
+            return;
+        }
 
 
-    // Bilgileri kaydet
-    const handleSave = () => {
-
-        const updatedUser = {
-
-            ...user,
-
-            fullName: fullName,
-            email: email,
-            phone: phone
-
-        };
+        setLoading(true);
 
 
-        localStorage.setItem(
-            "user",
-            JSON.stringify(updatedUser)
-        );
+        try {
+
+            const res = await fetch(
+                "http://localhost:5000/api/auth/register",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        fullName,
+                        email,
+                        phone,
+                        password
+                    })
+                }
+            );
 
 
-        setEditing(false);
-
-        alert("Bilgileriniz güncellendi.");
-
-    };
+            const data = await res.json();
 
 
-    // Çıkış
-    const handleLogout = () => {
+            console.log("Kayıt sonucu:", data);
 
-        localStorage.removeItem("token");
 
-        localStorage.removeItem("user");
+            if (!res.ok) {
 
-        navigate("/");
+                alert(
+                    data.message ||
+                    "Kayıt sırasında bir hata oluştu."
+                );
+
+                return;
+            }
+
+
+            alert(
+                data.message ||
+                "Doğrulama kodu e-posta adresinize gönderildi."
+            );
+
+
+            navigate("/verify-email", {
+
+                state: {
+                    email: email
+                }
+
+            });
+
+
+        } catch (error) {
+
+            console.log("KAYIT HATASI:", error);
+
+            alert(
+                "Sunucuya bağlanırken hata oluştu."
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
 
     };
 
 
     return (
 
-        <div className="profile-page">
+        <div className="auth-page">
 
 
-            <div className="profile-container">
+            {/* =====================================
+                SOL TARAF
+            ===================================== */}
+
+            <div className="auth-left">
 
 
-                {/* =================================
-                    SOL PROFİL MENÜSÜ
-                ================================= */}
+                <img
+                    src={devices}
+                    alt="Teknoloji Ürünleri"
+                    className="devices-image"
+                />
 
-                <aside className="profile-sidebar">
+
+                <h1>
+
+                    Teknoloji
+                    <br />
+                    Bir Tık Uzağında
+
+                </h1>
 
 
-                    <div className="profile-avatar">
+                <p>
 
-                        <FiUser />
+                    Laptop, telefon, kulaklık,
+                    akıllı saat ve daha fazlası.
+
+                </p>
+
+
+                <div className="features">
+
+                    <span>
+                        ✔ Güvenli Alışveriş
+                    </span>
+
+                    <span>
+                        ✔ Hızlı Teslimat
+                    </span>
+
+                    <span>
+                        ✔ Orijinal Ürün Garantisi
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            {/* =====================================
+                SAĞ TARAF
+            ===================================== */}
+
+            <div className="auth-right">
+
+
+                <img
+                    src={logo}
+                    alt="TeknoHup"
+                    className="brand-logo"
+                />
+
+
+                <h2>
+                    Hesap Oluştur
+                </h2>
+
+
+                <p className="auth-subtitle">
+
+                    TeknoHup'a katılın ve
+                    alışverişe başlayın.
+
+                </p>
+
+
+
+                <form onSubmit={handleRegister}>
+
+
+                    {/* AD SOYAD */}
+
+                    <div className="auth-input-group">
+
+                        <input
+                            className="auth-input"
+                            type="text"
+                            placeholder="Ad Soyad"
+                            value={fullName}
+                            onChange={(e) =>
+                                setFullName(e.target.value)
+                            }
+                        />
 
                     </div>
 
 
-                    <h2>
 
-                        {fullName || "Kullanıcı"}
+                    {/* E-POSTA */}
 
-                    </h2>
+                    <div className="auth-input-group">
+
+                        <input
+                            className="auth-input"
+                            type="email"
+                            placeholder="E-posta"
+                            value={email}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                        />
+
+                    </div>
 
 
-                    <p>
 
-                        {email}
+                    {/* TELEFON */}
 
-                    </p>
+                    <div className="auth-input-group">
+
+                        <input
+                            className="auth-input"
+                            type="text"
+                            placeholder="Telefon"
+                            value={phone}
+                            onChange={(e) =>
+                                setPhone(e.target.value)
+                            }
+                        />
+
+                    </div>
 
 
-                    <div className="profile-menu">
+
+                    {/* ŞİFRE */}
+
+                    <div className="auth-password">
+
+                        <input
+                            className="auth-input"
+                            type={
+                                showPassword
+                                    ? "text"
+                                    : "password"
+                            }
+                            placeholder="Şifre"
+                            value={password}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                        />
 
 
                         <button
-                            className="active"
-                        >
-
-                            <FiUser />
-
-                            Profilim
-
-                        </button>
-
-
-                        <button
+                            type="button"
+                            className="password-toggle"
                             onClick={() =>
-                                navigate("/my-orders")
+                                setShowPassword(!showPassword)
                             }
                         >
 
-                            <FiPackage />
-
-                            Siparişlerim
-
-                        </button>
-
-
-                        <button
-                            onClick={() =>
-                                navigate("/favorites")
+                            {showPassword
+                                ? <FiEyeOff />
+                                : <FiEye />
                             }
-                        >
-
-                            <FiHeart />
-
-                            Favorilerim
 
                         </button>
 
-
-                        <button
-                            onClick={handleLogout}
-                        >
-
-                            <FiLogOut />
-
-                            Çıkış Yap
-
-                        </button>
-
-
-                    </div>
-
-
-                </aside>
-
-
-
-                {/* =================================
-                    SAĞ PROFİL ALANI
-                ================================= */}
-
-                <main className="profile-content">
-
-
-                    <div className="profile-header">
-
-
-                        <div>
-
-                            <h1>
-
-                                Profilim
-
-                            </h1>
-
-
-                            <p>
-
-                                Hesap bilgilerinizi
-                                görüntüleyebilir ve
-                                düzenleyebilirsiniz.
-
-                            </p>
-
-                        </div>
-
-
-                        {!editing && (
-
-                            <button
-                                className="edit-profile-btn"
-                                onClick={() =>
-                                    setEditing(true)
-                                }
-                            >
-
-                                <FiEdit2 />
-
-                                Düzenle
-
-                            </button>
-
-                        )}
-
-
                     </div>
 
 
 
-                    {/* =================================
-                        KİŞİSEL BİLGİLER
-                    ================================= */}
+                    {/* KAYIT OL */}
 
-                    <div className="profile-card">
+                    <button
+                        type="submit"
+                        className="auth-btn"
+                        disabled={loading}
+                    >
 
+                        {loading
+                            ? "Kayıt oluşturuluyor..."
+                            : "Kayıt Ol"
+                        }
 
-                        <h3>
+                    </button>
 
-                            Kişisel Bilgiler
 
-                        </h3>
 
+                    {/* GİRİŞ */}
 
-                        {/* AD SOYAD */}
+                    <div className="auth-link">
 
-                        <div className="profile-field">
+                        <span>
+                            Zaten hesabın var mı?
+                        </span>
 
-                            <label>
 
-                                Ad Soyad
+                        <Link to="/login">
 
-                            </label>
+                            Giriş Yap →
 
-
-                            <div className="profile-input">
-
-                                <FiUser />
-
-
-                                <input
-                                    type="text"
-                                    value={fullName}
-                                    disabled={!editing}
-                                    onChange={(e) =>
-                                        setFullName(
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                            </div>
-
-                        </div>
-
-
-
-                        {/* E-POSTA */}
-
-                        <div className="profile-field">
-
-                            <label>
-
-                                E-posta
-
-                            </label>
-
-
-                            <div className="profile-input">
-
-                                <FiMail />
-
-
-                                <input
-                                    type="email"
-                                    value={email}
-                                    disabled={!editing}
-                                    onChange={(e) =>
-                                        setEmail(
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                            </div>
-
-                        </div>
-
-
-
-                        {/* TELEFON */}
-
-                        <div className="profile-field">
-
-                            <label>
-
-                                Telefon
-
-                            </label>
-
-
-                            <div className="profile-input">
-
-                                <FiPhone />
-
-
-                                <input
-                                    type="text"
-                                    value={phone}
-                                    disabled={!editing}
-                                    onChange={(e) =>
-                                        setPhone(
-                                            e.target.value
-                                        )
-                                    }
-                                />
-
-                            </div>
-
-                        </div>
-
-
-
-                        {/* =================================
-                            BUTONLAR
-                        ================================= */}
-
-                        {editing && (
-
-                            <div className="profile-actions">
-
-
-                                <button
-                                    className="cancel-btn"
-                                    onClick={() => {
-
-                                        setFullName(
-                                            user.fullName || ""
-                                        );
-
-                                        setEmail(
-                                            user.email || ""
-                                        );
-
-                                        setPhone(
-                                            user.phone || ""
-                                        );
-
-                                        setEditing(false);
-
-                                    }}
-                                >
-
-                                    Vazgeç
-
-                                </button>
-
-
-                                <button
-                                    className="save-profile-btn"
-                                    onClick={handleSave}
-                                >
-
-                                    <FiSave />
-
-                                    Kaydet
-
-                                </button>
-
-
-                            </div>
-
-                        )}
-
+                        </Link>
 
                     </div>
 
 
-                </main>
+                </form>
 
 
             </div>
@@ -416,4 +342,4 @@ function Profile() {
 }
 
 
-export default Profile;
+export default Register;

@@ -8,6 +8,7 @@ import {
   FiUser,
   FiSearch,
   FiHome,
+  FiLogOut,
 } from "react-icons/fi";
 
 function Navbar({
@@ -123,75 +124,61 @@ function Navbar({
 
     <>
 
-        <Link
-            to="/login"
-            state={{
-                from: location.pathname
-            }}
-            style={{
-                marginLeft: "15px",
-                textDecoration: "none"
-            }}
-        >
-            Giriş Yap
-        </Link>
+  <Link
+    to="/login"
+    state={{
+        from: location.pathname
+    }}
+    className="auth-link login-link"
+>
+    Giriş Yap
+</Link>
 
-        <span
-            style={{
-                margin: "0 6px",
-                color: "#999"
-            }}
-        >
-            /
-        </span>
+<span className="auth-separator">
+    /
+</span>
 
-        <Link
-            to="/register"
-            style={{
-                textDecoration: "none"
-            }}
-        >
-            Kayıt Ol
-        </Link>
+<Link
+    to="/register"
+    state={{
+        from: location.pathname
+    }}
+    className="nav-auth-link"
+>
+    Kayıt Ol
+</Link>
 
     </>
-
 ) : (
 
-            <>
+    <>
 
-              <Link
-                to="/profile"
+     <button
+    className="logout-icon"
+    onClick={logout}
+    title="Çıkış Yap"
+>
+    <FiLogOut />
+</button>
+
+        {user?.role === "admin" && (
+
+            <Link
+                to="/admin"
                 style={{
-                  marginLeft: "15px",
-                  fontWeight: "600",
-                  textDecoration: "none",
-                  color: "inherit"
-                }}
-              >
-              </Link>
-
-
-              {user?.role === "admin" && (
-
-                <Link
-                  to="/admin"
-                  style={{
                     marginLeft: "20px",
                     textDecoration: "none",
                     color: "inherit"
-                  }}
-                >
-                  Admin Paneli
-                </Link>
+                }}
+            >
+                Admin Paneli
+            </Link>
 
-              )}
+        )}
 
-              
+    </>
 
-            </>
-
-            )}
+)}
         </div>
 
       </nav>
