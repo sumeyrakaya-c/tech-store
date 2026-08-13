@@ -1,0 +1,197 @@
+/* =========================================
+   EDIT PRODUCT
+========================================= */
+
+.edit-product-page {
+    width: 100%;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.edit-product-page .page-header h1 {
+    color: #16213E;
+}
+
+.edit-product-page .page-header p {
+    color: #6B7280;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.edit-product-form {
+    color: #111827;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.edit-product-form .form-group label {
+    color: #16213E;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   INPUT / SELECT / TEXTAREA
+========================================= */
+
+.edit-product-form input,
+.edit-product-form select,
+.edit-product-form textarea {
+    color: #111827 !important;
+
+    background: #FFFFFF !important;
+
+    border: 1px solid #D1D5DB;
+}
+
+.edit-product-form input::placeholder,
+.edit-product-form textarea::placeholder {
+    color: #9CA3AF;
+}
+
+
+/* SELECT */
+
+.edit-product-form select {
+    color: #111827 !important;
+
+    cursor: pointer;
+}
+
+.edit-product-form select option {
+    background: #FFFFFF;
+    color: #111827;
+}
+
+
+/* FOCUS */
+
+.edit-product-form input:focus,
+.edit-product-form select:focus,
+.edit-product-form textarea:focus {
+    border-color: #2563EB;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, .10);
+}
+
+
+/* =========================================
+   FILE INPUT
+========================================= */
+
+.edit-image-group input[type="file"] {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.edit-image-group small {
+    color: #6B7280;
+
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   BUTONLAR
+========================================= */
+
+.edit-product-form .form-buttons {
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 5px;
+}
+
+
+/* İPTAL */
+
+.edit-cancel-btn {
+    padding: 13px 24px;
+
+    border: 1px solid #D1D5DB;
+    border-radius: 10px;
+
+    background: #FFFFFF;
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.edit-cancel-btn:hover {
+    background: #F3F4F6;
+
+    border-color: #9CA3AF;
+}
+
+
+/* GÜNCELLE */
+
+.edit-submit-btn {
+    padding: 13px 28px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563EB;
+    color: #FFFFFF;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.edit-submit-btn:hover {
+    background: #1D4ED8;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 7px 16px rgba(37, 99, 235, .20);
+}
+
+.edit-submit-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 650px) {
+
+    .edit-product-form .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .edit-product-form .form-buttons {
+        flex-direction: column;
+    }
+
+    .edit-cancel-btn,
+    .edit-submit-btn {
+        width: 100%;
+    }
+
+}

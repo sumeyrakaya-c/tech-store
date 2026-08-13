@@ -1,49 +1,135 @@
-.stat-card{
-    background:#fff;
+/* =========================
+   STAT CARDS
+========================= */
 
-    border-radius:18px;
+.stat-card {
+    background: #FFFFFF;
 
-    padding:25px;
+    border: 1px solid #E5E7EB;
+    border-radius: 18px;
 
-    display:flex;
+    padding: 25px;
 
-    align-items:center;
+    display: flex;
+    align-items: center;
 
-    gap:18px;
+    gap: 18px;
 
-    box-shadow:0 5px 20px rgba(0,0,0,.06);
+    box-shadow: 0 5px 20px rgba(15, 23, 42, .06);
 
-    transition:.25s;
+    transition: .25s ease;
 }
 
-.stat-card:hover{
-    transform:translateY(-5px);
+.stat-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 25px rgba(15, 23, 42, .09);
 }
 
-.stat-icon{
-    width:65px;
-    height:65px;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+/* =========================
+   ICON
+========================= */
 
-    border-radius:16px;
+.stat-icon {
+    width: 65px;
+    height: 65px;
 
-    background:#EFF6FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    color:#2563EB;
+    flex-shrink: 0;
 
-    font-size:30px;
+    border-radius: 16px;
+
+    background: #EFF6FF;
+
+    color: #2563EB;
+
+    font-size: 30px;
 }
 
-.stat-info h4{
-    color:#6B7280;
-    margin-bottom:8px;
-    font-size:15px;
+.stat-icon svg {
+    width: 30px;
+    height: 30px;
 }
 
-.stat-info h2{
-    color:#16213E;
-    font-size:28px;
+
+/* =========================
+   INFO
+========================= */
+
+.stat-info {
+    min-width: 0;
+}
+
+.stat-info h4 {
+    margin: 0 0 8px;
+
+    color: #6B7280;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.stat-info h2 {
+    margin: 0;
+
+    color: #16213E;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    .stat-icon {
+        width: 58px;
+        height: 58px;
+
+        font-size: 26px;
+    }
+
+    .stat-icon svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .stat-info h2 {
+        font-size: 24px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .stat-card {
+        padding: 18px;
+    }
+
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+
+        border-radius: 13px;
+    }
+
+    .stat-info h4 {
+        font-size: 13px;
+    }
+
+    .stat-info h2 {
+        font-size: 21px;
+    }
+
 }

@@ -1,0 +1,105 @@
+.users-page {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.users-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.users-header h1 {
+    margin: 0 0 8px;
+    color: #111827;
+    font-size: 32px;
+}
+
+.users-header p {
+    margin: 0;
+    color: #6B7280;
+    font-size: 16px;
+}
+
+.user-count {
+    background: #FFFFFF;
+    padding: 18px 25px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, .08);
+    color: #6B7280;
+    font-size: 16px;
+}
+
+.user-count strong {
+    color: #2563EB;
+    font-size: 20px;
+    margin-left: 8px;
+}
+
+.users-table {
+    background: #FFFFFF;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, .08);
+}
+
+.users-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th {
+    background: #F8FAFC;
+    color: #111827;
+    padding: 18px;
+    text-align: left;
+    border-bottom: 1px solid #E5E7EB;
+    font-size: 15px;
+}
+
+.users-table td {
+    padding: 18px;
+    color: #374151;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.users-table tbody tr:hover {
+    background: #F8FAFC;
+}
+
+.role-admin,
+.role-user {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.role-admin {
+    background: #DBEAFE;
+    color: #1D4ED8;
+}
+
+.role-user {
+    background: #ECFDF5;
+    color: #047857;
+}
+
+.users-empty {
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.users-empty h3 {
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.users-empty p {
+    color: #6B7280;
+}

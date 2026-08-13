@@ -1,119 +1,276 @@
-.admin-sidebar{
-    width:260px;
-    min-height:100vh;
+/* =========================
+   ADMIN SIDEBAR
+========================= */
 
-    display:flex;
-    flex-direction:column;
+.admin-sidebar {
+    width: 260px;
+    min-height: 100vh;
 
-    background:#16213E;
-    color:#fff;
+    display: flex;
+    flex-direction: column;
+
+    background: #16213E;
+    color: #FFFFFF;
+
+    flex-shrink: 0;
 }
 
-.admin-sidebar-logo{
-    padding:30px 25px;
-    border-bottom:1px solid rgba(255,255,255,.1);
+
+/* =========================
+   LOGO
+========================= */
+
+.admin-sidebar-logo {
+    padding: 30px 25px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, .10);
 }
 
-.admin-sidebar-logo h2{
-    margin:0;
-    font-size:24px;
-    font-weight:700;
+.admin-sidebar-logo h2 {
+    margin: 0;
+
+    font-size: 24px;
+    font-weight: 700;
+
+    color: #FFFFFF;
 }
 
-.admin-sidebar-logo span{
-    color:#B8C1D1;
-    font-size:14px;
+.admin-sidebar-logo span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #B8C1D1;
+
+    font-size: 14px;
 }
 
-.admin-sidebar-links{
-    flex:1;
-    padding:25px 15px;
+
+/* =========================
+   SIDEBAR LINKS
+========================= */
+
+.admin-sidebar-links {
+    flex: 1;
+
+    padding: 25px 15px;
 }
 
-.sidebar-title{
-    display:block;
+.sidebar-title {
+    display: block;
 
-    margin:0 10px 15px;
+    margin: 0 10px 15px;
 
-    font-size:12px;
-    letter-spacing:1px;
+    font-size: 12px;
+    font-weight: 600;
 
-    color:#8FA2C9;
+    letter-spacing: 1px;
+
+    color: #8FA2C9;
+
+    text-transform: uppercase;
 }
 
-.admin-sidebar-menu{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+
+/* =========================
+   MENU
+========================= */
+
+.admin-sidebar-menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
 }
 
-.admin-sidebar-menu a{
-    display:flex;
-    align-items:center;
-    gap:14px;
+.admin-sidebar-menu a {
+    display: flex;
+    align-items: center;
 
-    padding:14px 16px;
+    gap: 14px;
 
-    border-radius:12px;
+    padding: 14px 16px;
 
-    text-decoration:none;
+    border-radius: 12px;
 
-    color:#DCE5F6;
+    text-decoration: none;
 
-    transition:.25s;
+    color: #DCE5F6;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: .25s ease;
 }
 
-.admin-sidebar-menu a svg{
-    font-size:20px;
+.admin-sidebar-menu a svg {
+    width: 20px;
+    height: 20px;
+
+    flex-shrink: 0;
+
+    font-size: 20px;
 }
 
-.admin-sidebar-menu a:hover{
-    background:rgba(255,255,255,.08);
+.admin-sidebar-menu a:hover {
+    background: rgba(255, 255, 255, .08);
+
+    color: #FFFFFF;
+
+    transform: translateX(2px);
 }
 
-.admin-sidebar-menu a.active{
-    background:#2563EB;
-    color:#fff;
+.admin-sidebar-menu a.active {
+    background: #2563EB;
+
+    color: #FFFFFF;
+
+    box-shadow: 0 4px 12px rgba(37, 99, 235, .25);
 }
 
-.admin-sidebar-footer{
-    padding:20px 15px;
-    border-top:1px solid rgba(255,255,255,.1);
 
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+/* =========================
+   FOOTER
+========================= */
+
+.admin-sidebar-footer {
+    padding: 20px 15px;
+
+    border-top: 1px solid rgba(255, 255, 255, .10);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
 }
+
+
+/* =========================
+   FOOTER BUTTONS
+========================= */
 
 .theme-btn,
-.logout-btn{
+.logout-btn {
+    width: 100%;
 
-    display:flex;
-    align-items:center;
-    gap:12px;
+    display: flex;
+    align-items: center;
 
-    padding:14px 16px;
+    gap: 12px;
 
-    border:none;
+    padding: 14px 16px;
 
-    border-radius:12px;
+    border: none;
 
-    cursor:pointer;
+    border-radius: 12px;
 
-    background:transparent;
+    cursor: pointer;
 
-    color:#DCE5F6;
+    background: transparent;
 
-    transition:.25s;
+    color: #DCE5F6;
 
-    font-size:15px;
+    font-family: inherit;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    text-align: left;
+
+    transition: .25s ease;
 }
 
-.theme-btn:hover{
-    background:rgba(255,255,255,.08);
+.theme-btn svg,
+.logout-btn svg {
+    width: 19px;
+    height: 19px;
+
+    flex-shrink: 0;
 }
 
-.logout-btn:hover{
-    background:#EF4444;
-    color:#fff;
+
+/* Tema */
+
+.theme-btn:hover {
+    background: rgba(255, 255, 255, .08);
+
+    color: #FFFFFF;
+}
+
+
+/* Çıkış */
+
+.logout-btn:hover {
+    background: #EF4444;
+
+    color: #FFFFFF;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .admin-sidebar {
+        width: 220px;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .admin-sidebar {
+        width: 75px;
+    }
+
+    .admin-sidebar-logo {
+        padding: 25px 10px;
+
+        text-align: center;
+    }
+
+    .admin-sidebar-logo h2 {
+        font-size: 18px;
+    }
+
+    .admin-sidebar-logo span {
+        display: none;
+    }
+
+    .admin-sidebar-links {
+        padding: 20px 10px;
+    }
+
+    .sidebar-title {
+        display: none;
+    }
+
+    .admin-sidebar-menu a {
+        justify-content: center;
+
+        padding: 14px 10px;
+    }
+
+    .admin-sidebar-menu a span {
+        display: none;
+    }
+
+    .admin-sidebar-footer {
+        padding: 15px 10px;
+    }
+
+    .theme-btn,
+    .logout-btn {
+        justify-content: center;
+
+        padding: 14px 10px;
+    }
+
+    .theme-btn span,
+    .logout-btn span {
+        display: none;
+    }
+
 }

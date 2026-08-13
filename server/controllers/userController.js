@@ -2,13 +2,56 @@ const db = require("../config/db");
 
 
 // =========================================
+// TÜM KULLANICILARI GETİR
+// ADMIN PANELİ
+// =========================================
+
+const getAllUsers = (req, res) => {
+
+    const sql = `
+        SELECT
+            id,
+            full_name,
+            email,
+            phone,
+            city,
+            district,
+            address,
+            role
+        FROM users
+        ORDER BY id DESC
+    `;
+
+    db.query(sql, (err, results) => {
+
+        if (err) {
+
+            console.log(
+                "KULLANICILAR GETİRME HATASI:",
+                err
+            );
+
+            return res.status(500).json({
+                message: "Kullanıcılar getirilemedi.",
+                error: err.message
+            });
+
+        }
+
+        res.json(results);
+
+    });
+
+};
+
+
+// =========================================
 // PROFİL BİLGİLERİNİ GETİR
 // =========================================
 
 const getProfile = (req, res) => {
 
     const { id } = req.params;
-
 
     const sql = `
         SELECT
@@ -24,7 +67,6 @@ const getProfile = (req, res) => {
         WHERE id = ?
     `;
 
-
     db.query(sql, [id], (err, results) => {
 
         if (err) {
@@ -37,7 +79,6 @@ const getProfile = (req, res) => {
 
         }
 
-
         if (results.length === 0) {
 
             return res.status(404).json({
@@ -46,13 +87,11 @@ const getProfile = (req, res) => {
 
         }
 
-
         res.json(results[0]);
 
     });
 
 };
-
 
 
 // =========================================
@@ -63,7 +102,6 @@ const updateProfile = (req, res) => {
 
     const { id } = req.params;
 
-
     const {
         fullName,
         phone,
@@ -72,20 +110,16 @@ const updateProfile = (req, res) => {
         address
     } = req.body;
 
-
     const sql = `
         UPDATE users
-
         SET
             full_name = ?,
             phone = ?,
             city = ?,
             district = ?,
             address = ?
-
         WHERE id = ?
     `;
-
 
     db.query(
         sql,
@@ -113,7 +147,6 @@ const updateProfile = (req, res) => {
 
             }
 
-
             if (result.affectedRows === 0) {
 
                 return res.status(404).json({
@@ -122,11 +155,8 @@ const updateProfile = (req, res) => {
 
             }
 
-
             res.json({
-
                 message: "Profil başarıyla güncellendi."
-
             });
 
         }
@@ -135,10 +165,12 @@ const updateProfile = (req, res) => {
 };
 
 
+// =========================================
+// EXPORT
+// =========================================
 
 module.exports = {
-
+    getAllUsers,
     getProfile,
     updateProfile
-
 };

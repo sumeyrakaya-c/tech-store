@@ -14,7 +14,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword"; // ✅ YENİ
+import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/profile";
 import Favorites from "./pages/Favorites";
 import MyOrders from "./pages/MyOrders";
@@ -27,6 +27,7 @@ import Navbar from "./components/Navbar";
 // Admin
 import AdminLayout from "./admin/layout/AdminLayout";
 
+
 function AppContent() {
 
     const [search, setSearch] = useState("");
@@ -36,9 +37,11 @@ function AppContent() {
 
     const isAdmin = location.pathname.startsWith("/admin");
 
+
     return (
         <>
 
+            {/* Admin sayfalarında normal Navbar gösterme */}
             {!isAdmin && (
                 <Navbar
                     search={search}
@@ -48,7 +51,12 @@ function AppContent() {
                 />
             )}
 
+
             <Routes>
+
+                {/* =========================
+                    NORMAL SAYFALAR
+                ========================= */}
 
                 <Route
                     path="/"
@@ -60,56 +68,70 @@ function AppContent() {
                     }
                 />
 
+
                 <Route
                     path="/login"
                     element={<Login />}
                 />
+
 
                 <Route
                     path="/register"
                     element={<Register />}
                 />
 
+
                 <Route
                     path="/verify-email"
                     element={<VerifyEmail />}
                 />
+
 
                 <Route
                     path="/forgot-password"
                     element={<ForgotPassword />}
                 />
 
-                {/* ✅ Yeni Şifre Oluştur */}
+
                 <Route
                     path="/reset-password"
                     element={<ResetPassword />}
                 />
+
 
                 <Route
                     path="/profile"
                     element={<Profile />}
                 />
 
+
                 <Route
                     path="/favorites"
                     element={<Favorites />}
                 />
+
 
                 <Route
                     path="/my-orders"
                     element={<MyOrders />}
                 />
 
+
                 <Route
                     path="/product/:id"
                     element={<ProductDetail />}
                 />
 
+
                 <Route
                     path="/cart"
                     element={<Cart />}
                 />
+
+
+                {/* =========================
+                    ADMIN PANEL
+                ========================= */}
 
                 <Route
                     path="/admin/*"
@@ -122,12 +144,17 @@ function AppContent() {
     );
 }
 
+
 function App() {
+
     return (
         <BrowserRouter>
+
             <AppContent />
+
         </BrowserRouter>
     );
 }
+
 
 export default App;

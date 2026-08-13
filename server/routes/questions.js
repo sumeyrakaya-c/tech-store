@@ -14,6 +14,7 @@ router.get("/product/:productId", (req, res) => {
     const sql = `
         SELECT
             questions.id,
+            questions.user_id,
             questions.question,
             questions.answer,
             questions.status,
@@ -260,55 +261,116 @@ router.put("/:id/answer", (req, res) => {
 
 });
 
-
 // =========================================
-// SORUYU SİL
+// ADMIN HERHANGİ BİR SORUYU SİLSİN
 // =========================================
 
-router.delete("/:id", (req, res) => {
+router.delete("/admin/:id", (req, res) => {
 
     const { id } = req.params;
-
 
     const sql = `
         DELETE FROM questions
         WHERE id = ?
     `;
 
+    db.query(
+        sql,
+        [id],
+        (err, result) => {
 
-    db.query(sql, [id], (err, result) => {
+            if (err) {
 
-        if (err) {
+                console.log(
+                    "ADMIN SORU SİLME HATASI:",
+                    err
+                );
 
-            console.log(
-                "SORU SİLME HATASI:",
-                err
-            );
+                return res.status(500).json({
+                    message: "Soru silinemedi.",
+                    error: err.message
+                });
 
-            return res.status(500).json({
-                message: "Soru silinemedi.",
-                error: err.message
+            }
+
+            if (result.affectedRows === 0) {
+
+                return res.status(404).json({
+                    message: "Soru bulunamadı."
+                });
+
+            }
+
+            res.json({
+                message: "Soru admin tarafından silindi."
             });
 
         }
-
-
-        if (result.affectedRows === 0) {
-
-            return res.status(404).json({
-                message: "Soru bulunamadı."
-            });
-
-        }
-
-
-        res.json({
-            message: "Soru silindi."
-        });
-
-    });
+    );
 
 });
 
+
+// =========================================
+// KULLANICI KENDİ SORUSUNU SİLSİN
+// =========================================
+
+router.delete("/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    // req.body gelmezse hata vermesin
+    const { user_id } = req.body || {};
+
+    if (!user_id) {
+
+        return res.status(400).json({
+            message: "Kullanıcı bilgisi bulunamadı."
+        });
+
+    }
+
+    const sql = `
+        DELETE FROM questions
+        WHERE id = ?
+        AND user_id = ?
+    `;
+
+    db.query(
+        sql,
+        [id, user_id],
+        (err, result) => {
+
+            if (err) {
+
+                console.log(
+                    "KULLANICI SORU SİLME HATASI:",
+                    err
+                );
+
+                return res.status(500).json({
+                    message: "Soru silinemedi.",
+                    error: err.message
+                });
+
+            }
+
+            if (result.affectedRows === 0) {
+
+                return res.status(403).json({
+                    message:
+                        "Bu soruyu silme yetkiniz yok veya soru bulunamadı."
+                });
+
+            }
+
+            res.json({
+                message: "Sorunuz silindi."
+            });
+
+        }
+    );
+
+});
 
 module.exports = router;

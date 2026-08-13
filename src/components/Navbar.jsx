@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
+import "../styles/Navbar.css";
 import {
   FiMenu,
   FiHeart,
@@ -12,20 +12,88 @@ import {
 } from "react-icons/fi";
 
 function Navbar({
-    search,
-    setSearch,
-    category,
-    setCategory
+  search,
+  setSearch,
+  category,
+  setCategory
 }) {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   const navigate = useNavigate();
- const location = useLocation();
+  const location = useLocation();
 
   const user = JSON.parse(localStorage.getItem("user"));
   const [profileMenu, setProfileMenu] = useState(false);
 
+
+  // =========================================
+  // SEPET SAYISINI GETİR
+  // =========================================
+
+  const loadCartCount = async () => {
+
+    try {
+
+      const response = await fetch(
+        "http://localhost:5000/api/cart"
+      );
+
+      if (!response.ok) {
+        return;
+      }
+
+      const data = await response.json();
+
+      const total = data.reduce(
+        (sum, item) => sum + Number(item.quantity || 0),
+        0
+      );
+
+      setCartCount(total);
+
+    } catch (error) {
+
+      console.log("Sepet sayısı alınamadı:", error);
+
+    }
+
+  };
+
+
+  // =========================================
+  // NAVBAR AÇILINCA + SEPET DEĞİŞİNCE
+  // =========================================
+
+  useEffect(() => {
+
+    loadCartCount();
+
+    const handleCartUpdate = () => {
+      loadCartCount();
+    };
+
+    window.addEventListener(
+      "cartUpdated",
+      handleCartUpdate
+    );
+
+    return () => {
+
+      window.removeEventListener(
+        "cartUpdated",
+        handleCartUpdate
+      );
+
+    };
+
+  }, []);
+
+
+  // =========================================
+  // ÇIKIŞ
+  // =========================================
 
   const logout = () => {
 
@@ -34,20 +102,25 @@ function Navbar({
 
     window.location.href = "/";
 
-    
-
   };
 
+
   return (
+
     <>
+
       <nav className="navbar">
+
+        {/* =========================
+            SOL
+        ========================= */}
 
         <div className="nav-left">
 
           <FiMenu
-    className="icon"
-    onClick={() => setIsOpen(!isOpen)}
-/>
+            className="icon"
+            onClick={() => setIsOpen(!isOpen)}
+          />
 
           <h2 className="logo">
             <span>Tekno</span>Hup
@@ -55,133 +128,202 @@ function Navbar({
 
         </div>
 
+
+        {/* =========================
+            ARAMA
+        ========================= */}
+
         <div className="nav-center">
 
           <div className="search-box">
 
             <FiSearch />
 
-           <input
+            <input
               type="text"
               placeholder="Ürün ara..."
               value={search}
               onChange={(e) => {
 
-    console.log("Yazılan:", e.target.value);
+                setSearch(e.target.value);
 
-    setSearch(e.target.value);
-
-}}
+              }}
             />
 
           </div>
 
         </div>
 
+
+        {/* =========================
+            SAĞ
+        ========================= */}
+
         <div className="nav-right">
 
+
+          {/* ANA SAYFA */}
+
           <Link
-    to="/"
-    onClick={() => {
-        setSearch("");
-        setCategory("");
-    }}
->
-    <FiHome className="icon" />
-</Link>
+            to="/"
+            onClick={() => {
 
-            <Link to="/favorites">
-    <FiHeart className="icon" />
-</Link>
+              setSearch("");
+              setCategory("");
 
-          <Link to="/cart">
-            <FiShoppingCart className="icon" />
+            }}
+          >
+
+            <FiHome className="icon" />
+
           </Link>
-             
-             <FiUser
-    className="icon"
-    style={{ cursor: "pointer" }}
-    onClick={() => {
 
-        if (user) {
 
-            navigate("/profile");
+          {/* FAVORİLER */}
 
-        } else {
+          <Link to="/favorites">
 
-            navigate("/login", {
-                state: {
+            <FiHeart className="icon" />
+
+          </Link>
+
+
+          {/* =========================
+              SEPET
+          ========================= */}
+
+          <Link
+            to="/cart"
+            className="cart-nav-link"
+          >
+
+            <FiShoppingCart className="icon" />
+
+
+            {/* SEPET SAYISI */}
+
+            {cartCount > 0 && (
+
+              <span className="cart-badge">
+
+                {cartCount}
+
+              </span>
+
+            )}
+
+          </Link>
+
+
+          {/* =========================
+              KULLANICI
+          ========================= */}
+
+          <FiUser
+            className="icon"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+
+              if (user) {
+
+                navigate("/profile");
+
+              } else {
+
+                navigate("/login", {
+                  state: {
                     from: location.pathname
-                }
-            });
+                  }
+                });
 
-        }
+              }
 
-    }}
-/>
+            }}
+          />
 
-{!user ? (
 
-    <>
+          {/* =========================
+              GİRİŞ / KAYIT
+          ========================= */}
 
-  <Link
-    to="/login"
-    state={{
-        from: location.pathname
-    }}
-    className="auth-link login-link"
->
-    Giriş Yap
-</Link>
+          {!user ? (
 
-<span className="auth-separator">
-    /
-</span>
+            <>
 
-<Link
-    to="/register"
-    state={{
-        from: location.pathname
-    }}
-    className="nav-auth-link"
->
-    Kayıt Ol
-</Link>
+              <Link
+                to="/login"
+                state={{
+                  from: location.pathname
+                }}
+                className="auth-link login-link"
+              >
+                Giriş Yap
+              </Link>
 
-    </>
-) : (
+              <span className="auth-separator">
+                /
+              </span>
 
-    <>
+              <Link
+                to="/register"
+                state={{
+                  from: location.pathname
+                }}
+                className="nav-auth-link"
+              >
+                Kayıt Ol
+              </Link>
 
-     <button
-    className="logout-icon"
-    onClick={logout}
-    title="Çıkış Yap"
->
-    <FiLogOut />
-</button>
+            </>
 
-        {user?.role === "admin" && (
+          ) : (
 
-            <Link
-                to="/admin"
-                style={{
+            <>
+
+              {/* ÇIKIŞ */}
+
+              <button
+                className="logout-icon"
+                onClick={logout}
+                title="Çıkış Yap"
+              >
+
+                <FiLogOut />
+
+              </button>
+
+
+              {/* ADMİN */}
+
+              {user?.role === "admin" && (
+
+                <Link
+                  to="/admin"
+                  style={{
                     marginLeft: "20px",
                     textDecoration: "none",
                     color: "inherit"
-                }}
-            >
-                Admin Paneli
-            </Link>
+                  }}
+                >
 
-        )}
+                  Admin Paneli
 
-    </>
+                </Link>
 
-)}
+              )}
+
+            </>
+
+          )}
+
         </div>
 
       </nav>
+
+
+      {/* =========================
+          OVERLAY
+      ========================= */}
 
       {isOpen && (
 
@@ -192,110 +334,182 @@ function Navbar({
 
       )}
 
+
+      {/* =========================
+          SIDEBAR
+      ========================= */}
+
       {isOpen && (
 
         <div className="sidebar active">
 
           <h3>Kategoriler</h3>
-<ul>
 
-    <li onClick={() => {
-        setCategory("");
-        setIsOpen(false);
-    }}>
-        🏠 Tüm Ürünler
-    </li>
+          <ul>
 
-    <li onClick={() => {
-        setCategory(2);
-        setIsOpen(false);
-    }}>
-        💻 Bilgisayar
-    </li>
+            <li
+              onClick={() => {
 
-    <li onClick={() => {
-        setCategory(1);
-        setIsOpen(false);
-    }}>
-        📱 Telefon
-    </li>
+                setCategory("");
+                setIsOpen(false);
 
-    <li onClick={() => {
-        setCategory(3);
-        setIsOpen(false);
-    }}>
-        📱 Tablet
-    </li>
+              }}
+            >
+              🏠 Tüm Ürünler
+            </li>
 
-    <li onClick={() => {
-        setCategory(4);
-        setIsOpen(false);
-    }}>
-        🖥️ Monitör
-    </li>
 
-    <li onClick={() => {
-        setCategory(6);
-        setIsOpen(false);
-    }}>
-        ⌨️ Klavye
-    </li>
+            <li
+              onClick={() => {
 
-    <li onClick={() => {
-        setCategory(7);
-        setIsOpen(false);
-    }}>
-        🖱️ Mouse
-    </li>
+                setCategory(2);
+                setIsOpen(false);
 
-    <li onClick={() => {
-        setCategory(5);
-        setIsOpen(false);
-    }}>
-        🎧 Kulaklık
-    </li>
+              }}
+            >
+              💻 Bilgisayar
+            </li>
 
-    <li onClick={() => {
-        setCategory(8);
-        setIsOpen(false);
-    }}>
-        ⌚ Akıllı Saat
-    </li>
 
-    <li onClick={() => {
-        setCategory(9);
-        setIsOpen(false);
-    }}>
-        💾 Depolama
-    </li>
+            <li
+              onClick={() => {
 
-    <li onClick={() => {
-        setCategory(10);
-        setIsOpen(false);
-    }}>
-        🎮 Oyuncu Ekipmanları
-    </li>
+                setCategory(1);
+                setIsOpen(false);
 
-    <li onClick={() => {
-        setCategory(11);
-        setIsOpen(false);
-    }}>
-        🔌 Kablo & Adaptör
-    </li>
+              }}
+            >
+              📱 Telefon
+            </li>
 
-    <li onClick={() => {
-        setCategory(12);
-        setIsOpen(false);
-    }}>
-        🧩 Aksesuarlar
-    </li>
 
-</ul>
+            <li
+              onClick={() => {
+
+                setCategory(3);
+                setIsOpen(false);
+
+              }}
+            >
+              📱 Tablet
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(4);
+                setIsOpen(false);
+
+              }}
+            >
+              🖥️ Monitör
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(6);
+                setIsOpen(false);
+
+              }}
+            >
+              ⌨️ Klavye
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(7);
+                setIsOpen(false);
+
+              }}
+            >
+              🖱️ Mouse
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(5);
+                setIsOpen(false);
+
+              }}
+            >
+              🎧 Kulaklık
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(8);
+                setIsOpen(false);
+
+              }}
+            >
+              ⌚ Akıllı Saat
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(9);
+                setIsOpen(false);
+
+              }}
+            >
+              💾 Depolama
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(10);
+                setIsOpen(false);
+
+              }}
+            >
+              🎮 Oyuncu Ekipmanları
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(11);
+                setIsOpen(false);
+
+              }}
+            >
+              🔌 Kablo & Adaptör
+            </li>
+
+
+            <li
+              onClick={() => {
+
+                setCategory(12);
+                setIsOpen(false);
+
+              }}
+            >
+              🧩 Aksesuarlar
+            </li>
+
+          </ul>
+
         </div>
 
       )}
 
     </>
+
   );
 
 }

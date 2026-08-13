@@ -1,214 +1,611 @@
-.products-page{
+/* =========================================
+   PRODUCTS PAGE
+========================================= */
 
-    display:flex;
+.products-page {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+}
 
-    flex-direction:column;
 
-    gap:25px;
+/* =========================================
+   HEADER
+========================================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.page-eyebrow {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+
+    color: #2563EB;
+}
+
+.page-header h1 {
+    margin: 0 0 8px;
+
+    color: #16213E;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 0;
+
+    color: #6B7280;
+    font-size: 15px;
+}
+
+
+/* =========================================
+   YENİ ÜRÜN BUTONU
+========================================= */
+
+.add-product-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    padding: 13px 20px;
+
+    border: none;
+    border-radius: 11px;
+
+    background: #2563EB;
+    color: #FFFFFF;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.add-product-btn svg {
+    font-size: 18px;
+}
+
+.add-product-btn:hover {
+    background: #1D4ED8;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, .22);
+}
+
+.add-product-btn:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   TOOLBAR
+========================================= */
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+/* =========================================
+   ARAMA
+========================================= */
+
+.product-search-box {
+    width: 360px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 15px;
+
+    background: #FFFFFF;
+
+    border: 1px solid #E5E7EB;
+    border-radius: 11px;
+
+    transition: .2s ease;
+}
+
+.product-search-box svg {
+    flex-shrink: 0;
+
+    color: #6B7280;
+    font-size: 18px;
+}
+
+.product-search-box input {
+    width: 100%;
+
+    padding: 13px 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-size: 14px;
+}
+
+.product-search-box input::placeholder {
+    color: #9CA3AF;
+}
+
+.product-search-box:focus-within {
+    border-color: #2563EB;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, .10);
+}
+
+
+/* =========================================
+   FİLTRE
+========================================= */
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 12px 18px;
+
+    border: 1px solid #E5E7EB;
+    border-radius: 11px;
+
+    background: #FFFFFF;
+    color: #374151;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.filter-btn svg {
+    font-size: 17px;
+}
+
+.filter-btn:hover {
+    border-color: #2563EB;
+
+    color: #2563EB;
+
+    background: #F8FAFF;
+}
+
+
+/* =========================================
+   TABLO
+========================================= */
+
+.products-table {
+    width: 100%;
+
+    background: #FFFFFF;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, .06);
+
+    overflow-x: auto;
+}
+
+.products-table table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    min-width: 950px;
+}
+
+
+/* =========================================
+   TABLO BAŞLIKLARI
+========================================= */
+
+.products-table th {
+    padding: 17px 18px;
+
+    background: #F8FAFC;
+
+    color: #475569;
+
+    text-align: left;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: .5px;
+
+    border-bottom: 1px solid #E5E7EB;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   TABLO SATIRLARI
+========================================= */
+
+.products-table td {
+    padding: 16px 18px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    border-bottom: 1px solid #F0F1F3;
+
+    vertical-align: middle;
+}
+
+.products-table tbody tr {
+    transition: background .2s ease;
+}
+
+.products-table tbody tr:hover {
+    background: #FAFBFF;
+}
+
+.products-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* =========================================
+   ÜRÜN GÖRSELİ
+========================================= */
+
+.product-image-wrapper {
+    width: 58px;
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #F8FAFC;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.product-table-image {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    padding: 5px;
+}
+
+
+/* =========================================
+   ÜRÜN ADI
+========================================= */
+
+.product-name-cell {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 180px;
+}
+
+.product-name-cell strong {
+    color: #16213E;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1.4;
+}
+
+.product-name-cell span {
+    color: #9CA3AF;
+
+    font-size: 11px;
+}
+
+
+/* =========================================
+   FİYAT
+========================================= */
+
+.product-price {
+    color: #16213E;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   KATEGORİ
+========================================= */
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+
+    border-radius: 7px;
+
+    background: #F1F5F9;
+
+    color: #475569;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   STOK
+========================================= */
+
+.stock-badge {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 10px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.stock-in {
+    background: #ECFDF5;
+    color: #047857;
+}
+
+.stock-out {
+    background: #FEF2F2;
+    color: #DC2626;
+}
+
+
+/* =========================================
+   DURUM
+========================================= */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 6px 10px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+.status-active {
+    background: #ECFDF5;
+    color: #047857;
+}
+
+.status-passive {
+    background: #FEF2F2;
+    color: #DC2626;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+/* =========================================
+   İŞLEM BUTONLARI
+========================================= */
+
+.product-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+/* DÜZENLE */
+
+.edit-product-btn,
+.delete-product-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    font-size: 12px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .2s ease;
+}
+
+.edit-product-btn svg,
+.delete-product-btn svg {
+    font-size: 14px;
+}
+
+
+/* DÜZENLE */
+
+.edit-product-btn {
+    border: 1px solid #BFDBFE;
+
+    background: #EFF6FF;
+
+    color: #2563EB;
+}
+
+.edit-product-btn:hover {
+    background: #2563EB;
+
+    border-color: #2563EB;
+
+    color: #FFFFFF;
+
+    transform: translateY(-1px);
+}
+
+
+/* SİL */
+
+.delete-product-btn {
+    border: 1px solid #FECACA;
+
+    background: #FEF2F2;
+
+    color: #DC2626;
+}
+
+.delete-product-btn:hover {
+    background: #DC2626;
+
+    border-color: #DC2626;
+
+    color: #FFFFFF;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   BOŞ DURUM
+========================================= */
+
+.empty-row {
+    height: 250px;
+
+    text-align: center;
+
+    color: #9CA3AF !important;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   ALT BİLGİ
+========================================= */
+
+.products-footer {
+    display: flex;
+    justify-content: flex-end;
+
+    color: #6B7280;
+
+    font-size: 13px;
+}
+
+.products-footer strong {
+    color: #16213E;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .product-search-box {
+        width: 100%;
+    }
+
+    .filter-btn {
+        width: fit-content;
+    }
 
 }
 
-.page-header{
 
-    display:flex;
+@media (max-width: 600px) {
 
-    justify-content:space-between;
+    .products-page {
+        gap: 18px;
+    }
 
-    align-items:center;
+    .page-header h1 {
+        font-size: 26px;
+    }
 
-}
+    .add-product-btn {
+        width: 100%;
+    }
 
-.page-header h1{
-
-    color:var(--text);
-
-    margin-bottom:8px;
-
-}
-
-.page-header p{
-
-    color:var(--text-secondary);
-
-}
-
-.add-product-btn{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:14px 22px;
-
-    background:var(--primary);
-
-    color:white;
-
-    border:none;
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-    transition:var(--transition);
-
-}
-
-.add-product-btn:hover{
-
-    background:var(--primary-hover);
-
-}
-
-.toolbar{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-}
-
-.search-box{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    width:350px;
-
-    background:var(--surface);
-
-    border:1px solid var(--border);
-
-    border-radius:12px;
-
-    padding:0 15px;
-
-}
-
-.search-box input{
-
-    flex:1;
-
-    border:none;
-
-    outline:none;
-
-    padding:14px 0;
-
-    background:transparent;
-
-}
-
-.filter-btn{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    padding:14px 18px;
-
-    border:1px solid var(--border);
-
-    background:var(--surface);
-
-    border-radius:12px;
-
-    cursor:pointer;
-
-}
-
-.products-table{
-
-    background:var(--surface);
-
-    border-radius:16px;
-
-    min-height:450px;
-
-    box-shadow:var(--shadow);
-
-}
-
-.empty-state{
-
-    height:450px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    flex-direction:column;
-
-}
-
-.empty-state h3{
-
-    color:var(--text);
-
-}
-
-.empty-state p{
-
-    color:var(--text-secondary);
-
-}
-
-.products-table{
-
-    background:var(--surface);
-
-    border-radius:16px;
-
-    box-shadow:var(--shadow);
-
-    overflow:hidden;
-}
-
-.products-table table{
-
-    width:100%;
-
-    border-collapse:collapse;
-}
-
-.products-table th{
-
-    background:#F8FAFC;
-
-    padding:18px;
-
-    text-align:left;
-
-    font-size:15px;
-
-    color:var(--text);
-
-    border-bottom:1px solid var(--border);
-}
-
-.products-table td{
-
-    padding:18px;
-
-    border-bottom:1px solid var(--border);
-}
-
-.empty-row{
-
-    text-align:center;
-
-    color:var(--text-secondary);
-
-    height:250px;
 }

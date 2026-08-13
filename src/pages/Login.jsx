@@ -21,44 +21,82 @@ function Login() {
 
         try {
 
-            const res = await fetch("http://localhost:5000/api/auth/login", {
+            const res = await fetch(
+                "http://localhost:5000/api/auth/login",
+                {
+                    method: "POST",
 
-                method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-                    email,
-                    password
-                })
-
-            });
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                }
+            );
 
             const data = await res.json();
 
-            alert(data.message);
+            console.log("LOGIN STATUS:", res.status);
+            console.log("LOGIN DATA:", data);
 
-            if (res.ok) {
+            // Giriş başarısızsa
+            if (!res.ok) {
 
-                localStorage.setItem("token", data.token);
-                localStorage.setItem("user", JSON.stringify(data.user));
+                alert(data.message || "E-posta veya şifre hatalı.");
 
-                const from = location.state?.from || "/";
-
-                navigate(from, { replace: true });
-
+                return;
             }
+
+            // Token kaydet
+            localStorage.setItem(
+                "token",
+                data.token
+            );
+
+            // Kullanıcı bilgilerini kaydet
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
+
+            console.log("GİRİŞ YAPAN KULLANICI:", data.user);
+
+            // =====================================
+            // ADMIN KONTROLÜ
+            // =====================================
+
+            if (data.user.role === "admin") {
+
+                console.log("ADMIN GİRİŞİ");
+
+                navigate("/admin", {
+                    replace: true
+                });
+
+                return;
+            }
+
+            // =====================================
+            // NORMAL KULLANICI
+            // =====================================
+
+            const from = location.state?.from || "/";
+
+            navigate(from, {
+                replace: true
+            });
 
         } catch (error) {
 
-            console.log(error);
+            console.log("LOGIN HATASI:", error);
 
-            alert("Sunucuya bağlanırken hata oluştu.");
-
+            alert(
+                "Sunucuya bağlanırken hata oluştu."
+            );
         }
-
     };
 
     return (
@@ -76,31 +114,34 @@ function Login() {
                 />
 
                 <h1>
-
                     Teknoloji
                     <br />
                     Bir Tık Uzağında
-
                 </h1>
 
                 <p>
-
                     Laptop, telefon, kulaklık,
                     akıllı saat ve daha fazlası.
-
                 </p>
 
                 <div className="features">
 
-                    <span>✔ Güvenli Alışveriş</span>
+                    <span>
+                        ✔ Güvenli Alışveriş
+                    </span>
 
-                    <span>✔ Hızlı Teslimat</span>
+                    <span>
+                        ✔ Hızlı Teslimat
+                    </span>
 
-                    <span>✔ Orijinal Ürün Garantisi</span>
+                    <span>
+                        ✔ Orijinal Ürün Garantisi
+                    </span>
 
                 </div>
 
             </div>
+
 
             {/* SAĞ TARAF */}
 
@@ -112,15 +153,18 @@ function Login() {
                     className="brand-logo"
                 />
 
-                <h2>Hoş Geldiniz</h2>
+                <h2>
+                    Hoş Geldiniz
+                </h2>
 
                 <p className="auth-subtitle">
-
                     Hesabınıza giriş yaparak alışverişe devam edin.
-
                 </p>
 
+
                 <form onSubmit={handleLogin}>
+
+                    {/* E-POSTA */}
 
                     <div className="auth-input-group">
 
@@ -129,38 +173,64 @@ function Login() {
                             type="email"
                             placeholder="E-posta"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) =>
+                                setEmail(e.target.value)
+                            }
+                            required
                         />
 
                     </div>
+
+
+                    {/* ŞİFRE */}
 
                     <div className="auth-password">
 
                         <input
                             className="auth-input"
-                            type={showPassword ? "text" : "password"}
+                            type={
+                                showPassword
+                                    ? "text"
+                                    : "password"
+                            }
                             placeholder="Şifre"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) =>
+                                setPassword(e.target.value)
+                            }
+                            required
                         />
 
                         <button
                             type="button"
                             className="password-toggle"
-                            onClick={() => setShowPassword(!showPassword)}
+                            onClick={() =>
+                                setShowPassword(!showPassword)
+                            }
                         >
-                            {showPassword ? <FiEyeOff /> : <FiEye />}
+
+                            {showPassword
+                                ? <FiEyeOff />
+                                : <FiEye />
+                            }
+
                         </button>
 
                     </div>
 
+
+                    {/* ŞİFREMİ UNUTTUM */}
+
                     <div className="auth-forgot">
 
-    <Link to="/forgot-password">
-        Şifremi Unuttum
-    </Link>
+                        <Link to="/forgot-password">
+                            Şifremi Unuttum
+                        </Link>
 
-</div>
+                    </div>
+
+
+                    {/* GİRİŞ */}
 
                     <button
                         type="submit"
@@ -169,26 +239,27 @@ function Login() {
                         Giriş Yap
                     </button>
 
+
+                    {/* KAYIT */}
+
                     <div className="auth-link">
 
-    <span>Henüz hesabın yok mu?</span>
+                        <span>
+                            Henüz hesabın yok mu?
+                        </span>
 
-    <Link to="/register">
+                        <Link to="/register">
+                            Hemen Kayıt Ol →
+                        </Link>
 
-        Hemen Kayıt Ol →
-
-    </Link>
-
-</div>
+                    </div>
 
                 </form>
 
             </div>
 
         </div>
-
     );
-
 }
 
 export default Login;

@@ -1,40 +1,82 @@
-:root{
+/* =========================
+   ADMIN THEME
+========================= */
 
-    /* Brand */
+:root {
 
-    --primary:#2563EB;
-    --primary-hover:#1D4ED8;
+    /* =========================
+       BRAND
+    ========================= */
 
-    /* Background */
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --primary-light: #EFF6FF;
 
-    --background:#F5F7FB;
-    --surface:#FFFFFF;
 
-    /* Text */
+    /* =========================
+       BACKGROUND
+    ========================= */
 
-    --text:#111827;
-    --text-secondary:#6B7280;
+    --background: #F5F7FB;
+    --surface: #FFFFFF;
+    --surface-hover: #F8FAFC;
 
-    /* Border */
 
-    --border:#E5E7EB;
+    /* =========================
+       TEXT
+    ========================= */
 
-    /* Status */
+    --text: #111827;
+    --text-dark: #16213E;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --text-light: #DCE5F6;
 
-    --success:#10B981;
-    --warning:#F59E0B;
-    --danger:#EF4444;
 
-    /* Radius */
+    /* =========================
+       BORDER
+    ========================= */
 
-    --radius:16px;
+    --border: #E5E7EB;
+    --border-light: #EEF0F4;
 
-    /* Shadow */
 
-    --shadow:0 10px 25px rgba(15,23,42,.08);
+    /* =========================
+       STATUS
+    ========================= */
 
-    /* Transition */
+    --success: #10B981;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+    --info: #3B82F6;
 
-    --transition:.25s ease;
+
+    /* =========================
+       RADIUS
+    ========================= */
+
+    --radius: 16px;
+    --radius-small: 10px;
+    --radius-large: 20px;
+
+
+    /* =========================
+       SHADOW
+    ========================= */
+
+    --shadow: 0 10px 25px rgba(15, 23, 42, .08);
+
+    --shadow-small:
+        0 4px 12px rgba(15, 23, 42, .06);
+
+    --shadow-large:
+        0 15px 35px rgba(15, 23, 42, .12);
+
+
+    /* =========================
+       TRANSITION
+    ========================= */
+
+    --transition: .25s ease;
 
 }

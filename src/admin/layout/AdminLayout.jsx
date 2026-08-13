@@ -7,6 +7,7 @@ import Products from "../pages/Products";
 import AddProduct from "../pages/AddProduct";
 import Orders from "../pages/Orders";
 import Users from "../pages/Users";
+import Questions from "../pages/Questions";
 
 import "../styles/AdminLayout.css";
 
@@ -34,6 +35,8 @@ function AdminLayout() {
                     <Route path="orders" element={<Orders />} />
 
                     <Route path="users" element={<Users />} />
+
+                    <Route path="questions" element={<Questions />} />
 
                 </Routes>
 

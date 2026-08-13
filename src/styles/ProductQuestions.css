@@ -49,3 +49,338 @@
 .see-all:hover{
     color:#1D4ED8;
 }
+
+/* =========================
+   SORU SOR BUTONU
+========================= */
+
+.ask-question-btn {
+    margin-top: 18px;
+    padding: 11px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #2563eb;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.ask-question-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+
+/* =========================
+   SORU FORMU
+========================= */
+
+.question-form {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.question-form textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: vertical;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #dbe3ef;
+    border-radius: 12px;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1e293b;
+    background: white;
+}
+
+.question-form textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
+}
+
+
+/* =========================
+   FORM BUTONLARI
+========================= */
+
+.question-form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.cancel-question-btn,
+.submit-question-btn {
+    padding: 10px 16px;
+    border-radius: 9px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.cancel-question-btn {
+    border: 1px solid #dbe3ef;
+    background: white;
+    color: #475569;
+}
+
+.cancel-question-btn:hover {
+    background: #f1f5f9;
+}
+
+.submit-question-btn {
+    border: none;
+    background: #2563eb;
+    color: white;
+}
+
+.submit-question-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   SORULAR
+========================= */
+
+.questions-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.questions-message {
+    margin: 0;
+    padding: 12px 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+
+/* =========================
+   SORU KARTI
+========================= */
+
+.question-card {
+    padding: 17px;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    background: white;
+}
+
+.question-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 8px;
+}
+
+.question-top strong {
+    color: #16213e;
+    font-size: 14px;
+}
+
+.question-top span {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.question-text {
+    margin: 0;
+    color: #334155;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   MAĞAZA CEVABI
+========================= */
+
+.question-answer {
+    margin-top: 13px;
+    padding: 13px;
+    border-radius: 11px;
+    background: #eff6ff;
+    border-left: 3px solid #2563eb;
+}
+
+.question-answer strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #2563eb;
+    font-size: 13px;
+}
+
+.question-answer p {
+    margin: 0;
+    color: #334155;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.question-pending {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 5px 9px;
+    border-radius: 7px;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.questions-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 25px;
+
+    background: rgba(15, 23, 42, .5);
+    backdrop-filter: blur(6px);
+}
+
+.questions-modal {
+    width: min(800px, 95vw);
+    max-height: 85vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: white;
+    border-radius: 22px;
+
+    box-shadow: 0 25px 80px rgba(0, 0, 0, .25);
+}
+
+.questions-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding: 24px 28px;
+
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.questions-modal-header h2 {
+    margin: 0 0 5px;
+    color: #16213e;
+    font-size: 23px;
+}
+
+.questions-modal-header span {
+    color: #94a3b8;
+    font-size: 14px;
+}
+
+.questions-modal-close {
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #f1f5f9;
+    color: #475569;
+
+    font-size: 26px;
+
+    cursor: pointer;
+    transition: .25s;
+}
+
+.questions-modal-close:hover {
+    background: #2563eb;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.questions-modal-content {
+    padding: 22px 28px 30px;
+
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+
+/* =========================
+   MOBİL
+========================= */
+
+@media (max-width: 700px) {
+
+    .questions-modal-overlay {
+        padding: 15px;
+    }
+
+    .questions-modal {
+        width: 100%;
+        max-height: 90vh;
+        border-radius: 18px;
+    }
+
+    .questions-modal-header {
+        padding: 20px;
+    }
+
+    .questions-modal-content {
+        padding: 18px;
+    }
+
+    .question-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+}
+
+.question-top-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.question-delete-btn {
+    border: none;
+    background: transparent;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 6px;
+    transition: 0.2s ease;
+}
+
+.question-delete-btn:hover {
+    background: #fef2f2;
+    color: #dc2626;
+}

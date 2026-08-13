@@ -55,7 +55,7 @@ if (!product) {
             <ProductSpecs product={product} />
         </div>
 
-        <ProductQuestions />
+        <ProductQuestions productId={product.id} />
 
         <ReviewSection
     productId={product.id}
