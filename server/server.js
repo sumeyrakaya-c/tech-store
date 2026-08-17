@@ -5,6 +5,11 @@ const cors = require("cors");
 
 require("./config/db");
 
+
+// =========================================
+// ROUTES
+// =========================================
+
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
@@ -16,6 +21,18 @@ const brandRoutes = require("./routes/brandRoutes");
 const productRoutes = require("./routes/productRoutes");
 const reviewRoutes = require("./routes/reviews");
 const questionRoutes = require("./routes/questions");
+const productSpecsRoutes = require("./routes/productSpecs");
+const productStorageRoutes = require("./routes/productStorage");
+const returnRoutes = require("./routes/returnRoutes");
+const aiRoutes = require("./routes/aiRoutes");
+
+
+// =========================================
+// TRANSLATION MIDDLEWARE
+// =========================================
+
+const translationMiddleware =
+    require("./middleware/translationMiddleware");
 
 
 const app = express();
@@ -45,30 +62,95 @@ app.use(
 
 
 // =========================================
+// MERKEZİ ÇEVİRİ
+// =========================================
+
+app.use(translationMiddleware);
+
+
+// =========================================
 // API ROUTES
 // =========================================
 
-app.use("/api/users", userRoutes);
+app.use(
+    "/api/users",
+    userRoutes
+);
 
-app.use("/api/auth", authRoutes);
+app.use(
+    "/api/auth",
+    authRoutes
+);
 
-app.use("/api/dashboard", dashboardRoutes);
+app.use(
+    "/api/dashboard",
+    dashboardRoutes
+);
 
-app.use("/api/cart", cartRoutes);
+app.use(
+    "/api/cart",
+    cartRoutes
+);
 
-app.use("/api/orders", orderRoutes);
+app.use(
+    "/api/orders",
+    orderRoutes
+);
 
-app.use("/api/favorites", favoriteRoutes);
+app.use(
+    "/api/favorites",
+    favoriteRoutes
+);
 
-app.use("/api/categories", categoryRoutes);
+app.use(
+    "/api/categories",
+    categoryRoutes
+);
 
-app.use("/api/brands", brandRoutes);
+app.use(
+    "/api/brands",
+    brandRoutes
+);
 
-app.use("/api/products", productRoutes);
+app.use(
+    "/api/products",
+    productRoutes
+);
 
-app.use("/api/reviews", reviewRoutes);
+app.use(
+    "/api/reviews",
+    reviewRoutes
+);
 
-app.use("/api/questions", questionRoutes);
+app.use(
+    "/api/questions",
+    questionRoutes
+);
+
+app.use(
+    "/api/product-specs",
+    productSpecsRoutes
+);
+
+app.use(
+    "/api/returns",
+    returnRoutes
+);
+
+app.use(
+    "/api/product-storage-options",
+    productStorageRoutes
+);
+
+
+// =========================================
+// AI ASİSTAN
+// =========================================
+
+app.use(
+    "/api/ai",
+    aiRoutes
+);
 
 
 // =========================================
@@ -77,7 +159,9 @@ app.use("/api/questions", questionRoutes);
 
 app.get("/", (req, res) => {
 
-    res.send("🚀 TeknoHup API çalışıyor.");
+    res.send(
+        "🚀 TeknoHup API çalışıyor."
+    );
 
 });
 
@@ -86,12 +170,17 @@ app.get("/", (req, res) => {
 // SERVER
 // =========================================
 
-const PORT = process.env.PORT || 5000;
+const PORT =
+    process.env.PORT || 5000;
 
-app.listen(PORT, () => {
 
-    console.log(
-        `✅ Server ${PORT} portunda çalışıyor.`
-    );
+app.listen(
+    PORT,
+    () => {
 
-});
+        console.log(
+            `✅ Server ${PORT} portunda çalışıyor.`
+        );
+
+    }
+);

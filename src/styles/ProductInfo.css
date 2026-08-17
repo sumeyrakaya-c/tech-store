@@ -2,150 +2,209 @@
    PRODUCT INFO
 ========================== */
 
-.product-info{
-
-    padding:10px;
+.product-info {
+    padding: 10px;
 }
 
-.brand{
 
-    color:#2563EB;
+/* ==========================
+   MARKA / KATEGORİ
+========================== */
 
-    font-size:15px;
+.brand {
+    color: #2563EB;
 
-    font-weight:600;
+    font-size: 15px;
 
-    letter-spacing:.5px;
+    font-weight: 600;
+
+    letter-spacing: .5px;
 }
 
-.product-title{
 
-    margin:12px 0 18px;
+/* ==========================
+   ÜRÜN BAŞLIĞI
+========================== */
 
-    font-size:34px;
+.product-title {
+    margin: 12px 0 18px;
 
-    font-weight:700;
+    font-size: 34px;
 
-    color:#111827;
+    font-weight: 700;
+
+    color: #111827;
 }
 
-.rating{
 
-    display:flex;
+/* ==========================
+   DEĞERLENDİRME
+========================== */
 
-    align-items:center;
+.rating {
+    display: flex;
 
-    gap:10px;
+    align-items: center;
 
-    margin-bottom:24px;
+    gap: 10px;
 
-    color:#555;
+    margin-bottom: 24px;
+
+    color: #555;
 }
 
-.stars{
-
-    color:#F59E0B;
+.stars {
+    color: #F59E0B;
 }
 
-.review-count{
+.review-count {
+    color: #888;
 
-    color:#888;
-
-    font-size:14px;
+    font-size: 14px;
 }
 
-.price{
 
-    margin-bottom:30px;
+/* ==========================
+   FİYAT
+========================== */
 
-    font-size:36px;
+.price {
+    margin-bottom: 30px;
 
-    font-weight:700;
+    font-size: 36px;
+
+    font-weight: 700;
 }
 
-.option-group{
 
-    margin-top:30px;
+/* ==========================
+   SEÇENEK GRUBU
+========================== */
+
+.option-group {
+    margin-top: 30px;
 }
 
-.storage-options{
+.option-group h3 {
+    margin: 0;
 
-    display:flex;
+    font-size: 17px;
 
-    gap:12px;
+    font-weight: 600;
 
-    margin-top:15px;
+    color: #111827;
 }
 
-.storage-options button{
 
-    padding:12px 20px;
+/* ==========================
+   DEPOLAMA
+========================== */
 
-    border:1px solid #ddd;
+.storage-options {
+    display: flex;
 
-    background:#fff;
+    gap: 12px;
 
-    border-radius:10px;
-
-    cursor:pointer;
-
-    transition:.25s;
+    margin-top: 15px;
 }
 
-.storage-options button:hover{
+.storage-options button {
+    padding: 12px 20px;
 
-    border-color:#2563EB;
+    border: 1px solid #ddd;
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    transition: .25s;
 }
 
-.storage-options .active{
-
-    border:2px solid #2563EB;
-
-    color:#2563EB;
-
-    font-weight:600;
+.storage-options button:hover {
+    border-color: #2563EB;
 }
 
-.color-options{
+.storage-options .active {
+    border: 2px solid #2563EB;
 
-    display:flex;
+    color: #2563EB;
 
-    gap:14px;
-
-    margin-top:15px;
+    font-weight: 600;
 }
 
-.color{
 
-    width:38px;
+/* ==========================
+   RENK SEÇENEKLERİ
+========================== */
 
-    height:38px;
+.color-options {
+    display: flex;
 
-    border-radius:50%;
+    align-items: center;
 
-    border:2px solid #ddd;
+    gap: 14px;
 
-    cursor:pointer;
-
-    transition:.25s;
+    margin-top: 15px;
 }
 
-.color:hover{
 
-    transform:scale(1.08);
+/* ==========================
+   RENK DAİRESİ
+========================== */
+
+.color {
+    width: 38px;
+
+    height: 38px;
+
+    min-width: 38px;
+
+    padding: 0;
+
+    border-radius: 50%;
+
+    border: 2px solid #D1D5DB;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+    position: relative;
 }
 
-.black{
 
-    background:#111;
+/* Hover */
+
+.color:hover {
+    transform: scale(1.08);
+
+    border-color: #2563EB;
 }
 
-.white{
 
-    background:#fff;
+/* Seçili renk */
+
+.color.selected {
+    border: 3px solid #2563EB;
+
+    box-shadow:
+        0 0 0 3px #FFFFFF,
+        0 0 0 5px #2563EB;
 }
 
-.blue{
 
-    background:#2563EB;
+/* ==========================
+   SEÇİLİ RENK ADI
+========================== */
+
+.selected-color-name {
+    margin-top: 12px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #374151;
 }

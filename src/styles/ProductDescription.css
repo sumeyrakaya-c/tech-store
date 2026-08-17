@@ -2,51 +2,161 @@
    PRODUCT DESCRIPTION
 ========================== */
 
-.product-description{
-    border:1px solid #E5E7EB;
-    border-radius:16px;
-    padding:30px;
-    height:260px;
-    overflow:hidden;
+.product-description {
+    border: 1px solid #E5E7EB;
+
+    border-radius: 16px;
+
+    padding: 30px;
+
+    /* Sabit yükseklik kaldırıldı */
+    height: auto;
+
+    /* İçeriği kesmesin */
+    overflow: visible;
+
     position: relative;
+
     top: -30px;
-     transform: translateX(-40px);
-}
 
-.product-description h3{
+    transform: translateX(-40px);
 
-    font-size:24px;
-    color:#111827;
-    margin-bottom:20px;
-}
-
-.product-description p{
-    font-size:15px;
-    color:#656c7b;
-    line-height:1.8;
+    background: #FFFFFF;
 }
 
 
-.description-text{
-    max-height:220px;
-    overflow-y:auto;
-    padding-right:12px;
+/* ==========================
+   BAŞLIK
+========================== */
+
+.product-description h3 {
+    font-size: 24px;
+
+    color: #111827;
+
+    margin: 0 0 20px 0;
 }
 
-.description-text::-webkit-scrollbar{
-    width:6px;
+
+/* ==========================
+   AÇIKLAMA
+========================== */
+
+.product-description p {
+    font-size: 15px;
+
+    color: #656c7b;
+
+    line-height: 1.8;
+
+    margin: 0;
 }
 
-.description-text::-webkit-scrollbar-track{
-    background:#F3F4F6;
-    border-radius:999px;
+
+/* ==========================
+   AÇIKLAMA METNİ
+========================== */
+
+.description-text {
+    /*
+        Açıklama çok uzunsa kutunun içinde
+        kaydırılabilir olacak.
+    */
+
+    max-height: 220px;
+
+    overflow-y: auto;
+
+    padding-right: 12px;
+
+    /*
+        Kelimeler/kısımlar kutudan taşmasın
+    */
+    overflow-wrap: break-word;
+
+    word-break: normal;
 }
 
-.description-text::-webkit-scrollbar-thumb{
-    background:#3B82F6;
-    border-radius:999px;
+
+/* ==========================
+   SCROLLBAR
+========================== */
+
+.description-text::-webkit-scrollbar {
+    width: 6px;
 }
 
-.description-text::-webkit-scrollbar-thumb:hover{
-    background:#2563EB;
+
+.description-text::-webkit-scrollbar-track {
+    background: #F3F4F6;
+
+    border-radius: 999px;
+}
+
+
+.description-text::-webkit-scrollbar-thumb {
+    background: #3B82F6;
+
+    border-radius: 999px;
+}
+
+
+.description-text::-webkit-scrollbar-thumb:hover {
+    background: #2563EB;
+}
+
+/* =========================================
+   ÜRÜN AÇIKLAMASI SESLENDİRME
+========================================= */
+
+.description-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+
+.description-header h3 {
+    margin: 0;
+}
+
+
+.speak-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 9px 14px;
+
+    border: 1px solid #2563eb;
+    border-radius: 9px;
+
+    background: #eff6ff;
+    color: #2563eb;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+
+.speak-button:hover {
+    background: #2563eb;
+    color: white;
+}
+
+
+.speak-button.speaking {
+    background: #2563eb;
+    color: white;
+}
+
+
+.speak-button span {
+    font-size: 16px;
 }

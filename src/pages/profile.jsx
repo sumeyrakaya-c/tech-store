@@ -52,6 +52,11 @@ const [orders, setOrders] = useState([]);
 
 const [ordersLoading, setOrdersLoading] = useState(false);
 
+const [returns, setReturns] = useState([]);
+const [returningOrder, setReturningOrder] = useState(null);
+const [returnReason, setReturnReason] = useState("");
+const [returnLoading, setReturnLoading] = useState(false);
+
     const loadOrderReviews = () => {
 
     const user = JSON.parse(
@@ -141,6 +146,172 @@ const loadOrders = async () => {
 
 };
 
+// =========================================
+// KULLANICININ İADELERİNİ GETİR
+// =========================================
+
+const loadReturns = async () => {
+
+    const user = JSON.parse(
+        localStorage.getItem("user")
+    );
+
+    if (!user) {
+        return;
+    }
+
+    try {
+
+        const res = await fetch(
+            `http://localhost:5000/api/returns/user/${user.id}`
+        );
+
+        const data = await res.json();
+
+        if (!res.ok) {
+
+            console.log(
+                data.message || "İadeler getirilemedi."
+            );
+
+            return;
+        }
+
+        setReturns(data);
+
+    } catch (error) {
+
+        console.log(
+            "İADELERİ GETİRME HATASI:",
+            error
+        );
+
+    }
+
+};
+
+// =========================================
+// İADE FORMUNU AÇ
+// =========================================
+
+const openReturnForm = (order) => {
+
+    setReturningOrder(order);
+
+    setReturnReason("");
+
+};
+
+// =========================================
+// İADE TALEBİ OLUŞTUR
+// =========================================
+
+const createReturnRequest = async () => {
+
+    const user = JSON.parse(
+        localStorage.getItem("user")
+    );
+
+    if (!user) {
+
+        alert(
+            "İade talebi oluşturmak için giriş yapmalısınız."
+        );
+
+        return;
+
+    }
+
+    if (!returningOrder) {
+        return;
+    }
+
+    if (!returnReason.trim()) {
+
+        alert(
+            "Lütfen iade nedeninizi yazın."
+        );
+
+        return;
+
+    }
+
+    try {
+
+        setReturnLoading(true);
+
+        const response = await fetch(
+            "http://localhost:5000/api/returns",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    order_id: returningOrder.id,
+
+                    user_id: user.id,
+
+                    order_item_id: null,
+
+                    reason: returnReason.trim(),
+
+                    description: ""
+
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        console.log(
+            "İADE CEVABI:",
+            data
+        );
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "İade talebi oluşturulamadı."
+            );
+
+            return;
+
+        }
+
+        alert(
+            data.message ||
+            "İade talebiniz başarıyla oluşturuldu."
+        );
+
+        setReturningOrder(null);
+
+        setReturnReason("");
+
+        await loadReturns();
+
+    } catch (error) {
+
+        console.error(
+            "İADE TALEBİ HATASI:",
+            error
+        );
+
+        alert(
+            "İade talebi oluşturulurken bir hata oluştu."
+        );
+
+    } finally {
+
+        setReturnLoading(false);
+
+    }
+
+};
 
 const [isEditing, setIsEditing] = useState(false);
 
@@ -186,8 +357,9 @@ const [savingProfile, setSavingProfile] = useState(false);
 
             });
 
-    }, []);
+                loadReturns();
 
+    }, []);
 
     const loadReviews = () => {
 
@@ -349,11 +521,13 @@ const handleMenuClick = (menu) => {
 
     }
 
-    if (menu === "orders") {
+if (menu === "orders") {
 
-        loadOrders();
+    loadOrders();
 
-    }
+    loadReturns();
+
+}
 
 };
 
@@ -812,9 +986,12 @@ const startEmailChange = async () => {
 
             </div>
 
+            
+
         );
 
     }
+
 
 
     return (
@@ -1101,6 +1278,226 @@ const startEmailChange = async () => {
                             </p>
 
                         </div>
+
+                        {/* =========================================
+    İADE TALEBİ
+========================================= */}
+
+<div
+    style={{
+        marginTop: "20px",
+        paddingTop: "15px",
+        borderTop: "1px solid #e5e7eb"
+    }}
+>
+
+    {(() => {
+
+        const orderReturn = returns.find(
+            item =>
+                Number(item.order_id) ===
+                Number(order.id)
+        );
+
+        if (orderReturn) {
+
+            return (
+
+                <div
+                    style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "12px"
+                    }}
+                >
+
+                    <span
+                        style={{
+                            fontWeight: "600",
+                            color: "#555"
+                        }}
+                    >
+                        İade Talebi:
+                    </span>
+
+                    <span
+                        style={{
+                            padding: "8px 14px",
+                            borderRadius: "8px",
+                            border: "1px solid #ddd",
+                            background: "#f8f8f8"
+                        }}
+                    >
+                        {orderReturn.status}
+                    </span>
+
+                </div>
+
+            );
+
+        }
+
+        return (
+
+            <>
+
+                <button
+                    type="button"
+                    onClick={() =>
+                        openReturnForm(order)
+                    }
+                    style={{
+                        padding: "10px 18px",
+                        border: "none",
+                        borderRadius: "8px",
+                        background: "#dc2626",
+                        color: "#fff",
+                        fontWeight: "600",
+                        cursor: "pointer"
+                    }}
+                >
+                    ↩ İade Talebi
+                </button>
+
+
+                {/* =========================
+                    İADE FORMU
+                ========================= */}
+
+                {returningOrder?.id === order.id && (
+
+                    <div
+                        style={{
+                            marginTop: "15px",
+                            padding: "20px",
+                            borderRadius: "12px",
+                            background: "#f8fafc",
+                            border: "1px solid #e2e8f0"
+                        }}
+                    >
+
+                        <h3>
+                            İade Talebi Oluştur
+                        </h3>
+
+
+                        <label
+                            style={{
+                                display: "block",
+                                marginBottom: "8px",
+                                fontWeight: "600"
+                            }}
+                        >
+                            İade Nedeni
+                        </label>
+
+
+                        <select
+                            value={returnReason}
+                            onChange={(e) =>
+                                setReturnReason(
+                                    e.target.value
+                                )
+                            }
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "8px",
+                                border: "1px solid #cbd5e1",
+                                marginBottom: "15px"
+                            }}
+                        >
+
+                            <option value="">
+                                İade nedeni seçin
+                            </option>
+
+                            <option value="Ürün beklentimi karşılamadı">
+                                Ürün beklentimi karşılamadı
+                            </option>
+
+                            <option value="Yanlış ürün gönderildi">
+                                Yanlış ürün gönderildi
+                            </option>
+
+                            <option value="Ürün hasarlı geldi">
+                                Ürün hasarlı geldi
+                            </option>
+
+                            <option value="Ürün arızalı">
+                                Ürün arızalı
+                            </option>
+
+                            <option value="Farklı ürün istiyorum">
+                                Farklı ürün istiyorum
+                            </option>
+
+                            <option value="Diğer">
+                                Diğer
+                            </option>
+
+                        </select>
+
+
+                        <div
+                            style={{
+                                display: "flex",
+                                gap: "10px"
+                            }}
+                        >
+
+                            <button
+                                type="button"
+                                onClick={createReturnRequest}
+                                disabled={returnLoading}
+                                style={{
+                                    padding: "10px 18px",
+                                    border: "none",
+                                    borderRadius: "8px",
+                                    background: "#2563eb",
+                                    color: "#fff",
+                                    cursor: returnLoading
+                                        ? "not-allowed"
+                                        : "pointer"
+                                }}
+                            >
+                                {returnLoading
+                                    ? "Gönderiliyor..."
+                                    : "İade Talebi Gönder"}
+                            </button>
+
+
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setReturningOrder(null);
+                                    setReturnReason("");
+                                }}
+                                style={{
+                                    padding: "10px 18px",
+                                    border: "1px solid #d1d5db",
+                                    borderRadius: "8px",
+                                    background: "#fff",
+                                    color: "#374151",
+                                    cursor: "pointer"
+                                }}
+                            >
+                                Vazgeç
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                )}
+
+            </>
+
+        );
+
+    })()}
+
+</div>
 
                     </section>
 

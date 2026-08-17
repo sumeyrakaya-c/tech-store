@@ -8,6 +8,9 @@ import {
     useLocation,
 } from "react-router-dom";
 
+// Language
+import { LanguageProvider } from "./context/LanguageContext";
+
 // Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -20,9 +23,11 @@ import Favorites from "./pages/Favorites";
 import MyOrders from "./pages/MyOrders";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import Compare from "./pages/Compare";
 
 // Components
 import Navbar from "./components/Navbar";
+import AIChat from "./components/AIChat.jsx";
 
 // Admin
 import AdminLayout from "./admin/layout/AdminLayout";
@@ -35,20 +40,24 @@ function AppContent() {
 
     const location = useLocation();
 
-    const isAdmin = location.pathname.startsWith("/admin");
+    const isAdmin =
+        location.pathname.startsWith("/admin");
 
 
     return (
         <>
 
             {/* Admin sayfalarında normal Navbar gösterme */}
+
             {!isAdmin && (
+
                 <Navbar
                     search={search}
                     setSearch={setSearch}
                     category={category}
                     setCategory={setCategory}
                 />
+
             )}
 
 
@@ -68,60 +77,50 @@ function AppContent() {
                     }
                 />
 
-
                 <Route
                     path="/login"
                     element={<Login />}
                 />
-
 
                 <Route
                     path="/register"
                     element={<Register />}
                 />
 
-
                 <Route
                     path="/verify-email"
                     element={<VerifyEmail />}
                 />
-
 
                 <Route
                     path="/forgot-password"
                     element={<ForgotPassword />}
                 />
 
-
                 <Route
                     path="/reset-password"
                     element={<ResetPassword />}
                 />
-
 
                 <Route
                     path="/profile"
                     element={<Profile />}
                 />
 
-
                 <Route
                     path="/favorites"
                     element={<Favorites />}
                 />
-
 
                 <Route
                     path="/my-orders"
                     element={<MyOrders />}
                 />
 
-
                 <Route
                     path="/product/:id"
                     element={<ProductDetail />}
                 />
-
 
                 <Route
                     path="/cart"
@@ -138,22 +137,40 @@ function AppContent() {
                     element={<AdminLayout />}
                 />
 
+                <Route
+    path="/compare"
+    element={<Compare />}
+/>
+
             </Routes>
+
+
+            {/* AI ASİSTAN */}
+
+            {!isAdmin && <AIChat />}
 
         </>
     );
+
 }
 
 
 function App() {
 
     return (
-        <BrowserRouter>
 
-            <AppContent />
+        <LanguageProvider>
 
-        </BrowserRouter>
+            <BrowserRouter>
+
+                <AppContent />
+
+            </BrowserRouter>
+
+        </LanguageProvider>
+
     );
+
 }
 
 

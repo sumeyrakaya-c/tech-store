@@ -1,360 +1,677 @@
-/* =========================
+/* =========================================================
    NAVBAR
-========================= */
+========================================================= */
 
 .navbar {
     width: 100%;
-    height: 82px;
+    height: 86px;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    padding: 0 40px;
+    padding: 0 42px;
 
-    background: rgba(255, 255, 255, 0.96);
+    box-sizing: border-box;
+
+    background: #ffffff;
 
     border-bottom: 1px solid #e5e7eb;
 
-    position: sticky;
-    top: 0;
-
-    z-index: 1000;
+    position: relative;
+    z-index: 1500;
 }
 
 
-/* =========================
-   SOL
-========================= */
+/* =========================================================
+   SOL TARAF
+========================================================= */
 
 .nav-left {
     display: flex;
     align-items: center;
-    gap: 22px;
+
+    gap: 24px;
+
+    min-width: 220px;
 }
 
+
+/* =========================================================
+   MENU ICON
+========================================================= */
+
+.nav-left .icon {
+    font-size: 28px;
+
+    color: #172033;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.nav-left .icon:hover {
+    color: #2563eb;
+
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
 .logo {
-    font-size: 24px;
+    margin: 0;
+
+    font-size: 29px;
+
     font-weight: 800;
+
+    letter-spacing: -1.2px;
+
     color: #111827;
 }
 
 .logo span {
-    color: #0A84FF;
+    color: #1677e8;
 }
 
 
-/* =========================
-   ARAMA
-========================= */
+/* =========================================================
+   ARAMA ALANI
+========================================================= */
 
 .nav-center {
     flex: 1;
+
     display: flex;
     justify-content: center;
+
+    padding: 0 50px;
 }
 
+
+/* =========================================================
+   SEARCH BOX
+========================================================= */
+
 .search-box {
-    width: 420px;
-    height: 44px;
+    width: 100%;
+    max-width: 520px;
+
+    height: 48px;
 
     display: flex;
     align-items: center;
-    gap: 10px;
 
-    padding: 0 15px;
+    gap: 14px;
+
+    padding: 0 18px;
+
+    box-sizing: border-box;
 
     background: #f3f6fa;
 
-    border: 1px solid #d9e0e8;
+    border: 1px solid #dbe2ea;
 
-    border-radius: 12px;
+    border-radius: 13px;
 
     transition: 0.2s ease;
 }
 
 .search-box:focus-within {
-    border-color: #0A84FF;
-    box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.12);
+    background: #ffffff;
+
+    border-color: #2563eb;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 99, 235, 0.10);
 }
 
+
 .search-box svg {
-    color: #374151;
-    font-size: 20px;
+    flex-shrink: 0;
+
+    font-size: 22px;
+
+    color: #344054;
 }
+
 
 .search-box input {
     width: 100%;
 
     border: none;
+
     outline: none;
 
     background: transparent;
 
-    font-size: 14px;
-    color: #111827;
+    font-size: 15px;
+
+    color: #172033;
 }
 
 
-/* =========================
-   SAĞ
-========================= */
+.search-box input::placeholder {
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   SAĞ TARAF
+========================================================= */
 
 .nav-right {
     display: flex;
     align-items: center;
+
     gap: 22px;
+
+    min-width: 350px;
+
+    justify-content: flex-end;
 }
 
 
-/* =========================
-   İKONLAR
-========================= */
+/* =========================================================
+   GENEL ICON
+========================================================= */
 
-.nav-right .icon,
-.nav-left .icon {
+.nav-right .icon {
+    font-size: 25px;
 
-    width: 23px;
-    height: 23px;
-
-    color: #252b35;
-
-    stroke-width: 2;
+    color: #172033;
 
     cursor: pointer;
 
     transition:
         color 0.2s ease,
         transform 0.2s ease;
-
 }
 
-.nav-right .icon:hover,
-.nav-left .icon:hover {
 
-    color: #0A84FF;
+.nav-right .icon:hover {
+    color: #2563eb;
 
     transform: translateY(-1px);
-
 }
 
 
-/* =========================
-   SEPET
-========================= */
+/* =========================================================
+   LINKLER
+========================================================= */
 
-.cart-nav-link {
-
-    position: relative;
-
+.nav-right a {
     display: flex;
     align-items: center;
-    justify-content: center;
 
-    width: 30px;
-    height: 30px;
+    text-decoration: none;
+
+    color: inherit;
 }
 
 
-/* =========================
-   SEPET SAYISI
-========================= */
+/* =========================================================
+   SEPET
+========================================================= */
+
+.cart-nav-link {
+    position: relative;
+}
+
 
 .cart-badge {
-
     position: absolute;
 
     top: -9px;
-    right: -10px;
+    right: -11px;
 
-    min-width: 19px;
-    height: 19px;
+    min-width: 18px;
+    height: 18px;
 
-    padding: 0 5px;
+    padding: 0 4px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background: #0A84FF;
+    box-sizing: border-box;
 
-    color: white;
+    background: #2563eb;
 
-    border-radius: 50%;
+    color: #ffffff;
+
+    border-radius: 20px;
 
     font-size: 11px;
+
     font-weight: 700;
-
-    line-height: 1;
-
-    border: 2px solid white;
-
-    box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
 }
 
 
-/* =========================
+/* =========================================================
    GİRİŞ / KAYIT
-========================= */
+========================================================= */
 
-.auth-link,
-.nav-auth-link {
+.auth-group {
+    display: flex;
+    align-items: center;
 
-    color: #252b35;
+    gap: 8px;
+}
 
+
+.auth-user-icon {
+    font-size: 24px;
+
+    color: #172033;
+
+    flex-shrink: 0;
+}
+
+
+.auth-link {
     font-size: 14px;
-    font-weight: 600;
+
+    font-weight: 500;
+
+    color: #344054;
+
+    text-decoration: none;
 
     transition: 0.2s ease;
-
 }
 
-.auth-link:hover,
-.nav-auth-link:hover {
 
-    color: #0A84FF;
-
+.auth-link:hover {
+    color: #2563eb;
 }
+
+
+.auth-link.active {
+    color: #2563eb;
+
+    font-weight: 700;
+}
+
 
 .auth-separator {
+    color: #98a2b3;
 
-    color: #9ca3af;
-
-    margin: 0 -14px;
-
+    font-size: 14px;
 }
 
 
-/* =========================
+/* =========================================================
    ÇIKIŞ
-========================= */
+========================================================= */
 
 .logout-icon {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
 
     border: none;
 
     background: transparent;
 
+    color: #172033;
+
     cursor: pointer;
 
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-}
-
-.logout-icon svg {
-
-    width: 23px;
-    height: 23px;
-
-    color: #252b35;
+    border-radius: 8px;
 
     transition: 0.2s ease;
-
-}
-
-.logout-icon:hover svg {
-
-    color: #ef4444;
-
-    transform: translateX(2px);
-
 }
 
 
-/* =========================
+.logout-icon svg {
+    font-size: 24px;
+}
+
+
+.logout-icon:hover {
+    color: #dc2626;
+
+    background: #fef2f2;
+}
+
+
+/* =========================================================
    SIDEBAR
-========================= */
+========================================================= */
 
 .sidebar {
-
     position: fixed;
 
-    top: 82px;
+    top: 0;
     left: 0;
 
-    width: 280px;
+    width: 350px;
 
-    height: calc(100vh - 82px);
+    height: 100vh;
 
-    background: white;
+    box-sizing: border-box;
 
-    box-shadow: 8px 0 25px rgba(0, 0, 0, 0.08);
+    padding: 28px 18px 24px 28px;
 
-    z-index: 1100;
+    background: #ffffff;
 
-    padding: 28px 22px;
+    z-index: 3000;
+
+    box-shadow:
+        8px 0 30px rgba(0, 0, 0, 0.12);
+
+    overflow-y: auto;
+    overflow-x: hidden;
 
     transform: translateX(-100%);
 
-    transition: transform 0.25s ease;
-
+    transition:
+        transform 0.28s ease;
 }
+
+
+/* =========================================================
+   SIDEBAR AÇIK
+========================================================= */
 
 .sidebar.active {
-
     transform: translateX(0);
-
 }
 
+
+/* =========================================================
+   SIDEBAR BAŞLIK
+========================================================= */
+
 .sidebar h3 {
+    margin: 0;
 
-    margin-bottom: 20px;
+    padding: 8px 14px 17px 14px;
 
-    font-size: 20px;
+    font-size: 24px;
+
+    font-weight: 700;
 
     color: #111827;
 
+    border-bottom: 1px solid #e5e7eb;
 }
+
+
+/* =========================================================
+   SIDEBAR UL
+========================================================= */
 
 .sidebar ul {
-
     list-style: none;
 
+    margin: 10px 0 0 0;
+
+    padding: 0;
 }
 
+
+/* =========================================================
+   SIDEBAR KATEGORİ
+========================================================= */
+
 .sidebar li {
+    width: 100%;
 
-    padding: 13px 12px;
+    min-height: 44px;
 
-    border-radius: 10px;
+    display: flex;
+    align-items: center;
+
+    padding: 6px 14px;
+
+    margin: 1px 0;
+
+    box-sizing: border-box;
+
+    border-radius: 9px;
+
+    color: #172033;
+
+    font-size: 16px;
+
+    font-weight: 500;
+
+    line-height: 1.2;
 
     cursor: pointer;
 
-    color: #374151;
+    user-select: none;
 
-    font-size: 14px;
-
-    transition: 0.2s ease;
-
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        transform 0.18s ease;
 }
+
+
+/* =========================================================
+   SIDEBAR HOVER
+========================================================= */
 
 .sidebar li:hover {
+    background: #eef4ff;
 
-    background: #eff6ff;
-
-    color: #0A84FF;
+    color: #2563eb;
 
     transform: translateX(3px);
-
 }
 
 
-/* =========================
+/* =========================================================
+   SIDEBAR SCROLLBAR
+========================================================= */
+
+.sidebar::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+
+    border-radius: 20px;
+}
+
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+
+/* =========================================================
    OVERLAY
-========================= */
+========================================================= */
 
 .overlay {
-
     position: fixed;
 
     inset: 0;
 
-    background: rgba(0, 0, 0, 0.28);
+    width: 100%;
+    height: 100%;
 
-    z-index: 1050;
+    background: rgba(15, 23, 42, 0.42);
 
+    z-index: 2500;
+}
+
+
+/* =========================================================
+   MOBİL
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .navbar {
+        padding: 0 25px;
+    }
+
+    .nav-center {
+        padding: 0 25px;
+    }
+
+    .nav-right {
+        min-width: auto;
+
+        gap: 16px;
+    }
+
+    .auth-group {
+        gap: 5px;
+    }
+
+    .auth-link {
+        font-size: 13px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .navbar {
+        height: 76px;
+
+        padding: 0 20px;
+    }
+
+    .nav-left {
+        min-width: auto;
+
+        gap: 16px;
+    }
+
+    .logo {
+        font-size: 25px;
+    }
+
+    .nav-center {
+        padding: 0 15px;
+    }
+
+    .search-box {
+        height: 44px;
+    }
+
+    .nav-right {
+        gap: 14px;
+    }
+
+    .auth-group {
+        display: none;
+    }
+
+    .auth-user-icon {
+        display: block;
+    }
+}
+
+
+/* =========================================================
+   TELEFON
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .navbar {
+        height: 70px;
+
+        padding: 0 16px;
+    }
+
+    .nav-left {
+        gap: 13px;
+    }
+
+    .nav-left .icon {
+        font-size: 25px;
+    }
+
+    .logo {
+        font-size: 23px;
+    }
+
+    .nav-center {
+        display: none;
+    }
+
+    .nav-right {
+        gap: 14px;
+    }
+
+    .nav-right .icon {
+        font-size: 23px;
+    }
+
+    .sidebar {
+        width: 320px;
+
+        padding:
+            24px
+            16px
+            20px
+            24px;
+    }
+
+    .sidebar h3 {
+        font-size: 22px;
+
+        padding:
+            8px
+            12px
+            15px
+            12px;
+    }
+
+    .sidebar li {
+        min-height: 43px;
+
+        padding: 6px 12px;
+
+        font-size: 15px;
+    }
+}
+
+
+/* =========================================================
+   ÇOK KÜÇÜK EKRAN
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .sidebar {
+        width: 290px;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .nav-right {
+        gap: 10px;
+    }
 }

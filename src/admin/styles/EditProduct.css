@@ -195,3 +195,50 @@
     }
 
 }
+
+
+
+/* =========================================
+   TEKNİK ÖZELLİKLER
+========================================= */
+
+.spec-edit-section {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    padding: 25px;
+
+    background: #F8FAFC;
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 14px;
+}
+
+
+.spec-edit-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+
+.spec-edit-header h2 {
+    margin: 0;
+
+    color: #111827;
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+
+.spec-edit-header p {
+    margin: 0;
+
+    color: #6B7280;
+
+    font-size: 14px;
+}

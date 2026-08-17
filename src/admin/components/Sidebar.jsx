@@ -6,7 +6,8 @@ import {
     FiShoppingBag,
     FiUsers,
     FiMessageCircle,
-    FiLogOut
+    FiLogOut,
+    FiRefreshCw
 } from "react-icons/fi";
 
 import "../styles/Sidebar.css";
@@ -76,7 +77,16 @@ function Sidebar() {
                         </span>
 
                     </NavLink>
+                     
+                     <NavLink to="/admin/returns">
 
+    <FiRefreshCw />
+
+    <span>
+        İadeler
+    </span>
+
+</NavLink>
 
                     <NavLink to="/admin/users">
 

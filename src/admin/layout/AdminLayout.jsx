@@ -8,7 +8,7 @@ import AddProduct from "../pages/AddProduct";
 import Orders from "../pages/Orders";
 import Users from "../pages/Users";
 import Questions from "../pages/Questions";
-
+import Returns from "../pages/Returns";
 import "../styles/AdminLayout.css";
 
 function AdminLayout() {
@@ -37,6 +37,11 @@ function AdminLayout() {
                     <Route path="users" element={<Users />} />
 
                     <Route path="questions" element={<Questions />} />
+
+                    <Route
+    path="returns"
+    element={<Returns />}
+/>
 
                 </Routes>
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import {
     FiHeart,
     FiChevronLeft,
@@ -14,27 +15,45 @@ function ProductGallery({ product }) {
     const [favorite, setFavorite] = useState(false);
 
 
-    /*
-        Ürünün görsellerini hazırlıyoruz.
-
-        Backend'den image gelirse:
-        [image]
-
-        images dizisi gelirse:
-        images
-
-        Böylece ikisini de destekliyoruz.
-    */
+    // =========================================
+    // ÜRÜN GÖRSELLERİNİ HAZIRLA
+    // =========================================
 
     let images = [];
 
 
-    if (Array.isArray(product?.images)) {
-
-        images = product.images;
-
+    // image
+    if (product?.image) {
+        images.push(product.image);
     }
-    else if (product?.images) {
+
+
+    // image2
+    if (product?.image2) {
+        images.push(product.image2);
+    }
+
+
+    // image3
+    if (product?.image3) {
+        images.push(product.image3);
+    }
+
+
+    // Eğer backend ileride images dizisi gönderirse
+    if (
+        images.length === 0 &&
+        Array.isArray(product?.images)
+    ) {
+        images = product.images;
+    }
+
+
+    // Eğer images JSON string olarak gelirse
+    if (
+        images.length === 0 &&
+        typeof product?.images === "string"
+    ) {
 
         try {
 
@@ -42,9 +61,7 @@ function ProductGallery({ product }) {
                 JSON.parse(product.images);
 
             if (Array.isArray(parsedImages)) {
-
                 images = parsedImages;
-
             }
 
         } catch {
@@ -54,16 +71,11 @@ function ProductGallery({ product }) {
         }
 
     }
-    else if (product?.image) {
-
-        images = [product.image];
-
-    }
 
 
-    /*
-        Fotoğraf URL'sini oluştur
-    */
+    // =========================================
+    // FOTOĞRAF URL'Sİ
+    // =========================================
 
     const getImageUrl = (image) => {
 
@@ -88,6 +100,10 @@ function ProductGallery({ product }) {
     };
 
 
+    // =========================================
+    // SONRAKİ FOTOĞRAF
+    // =========================================
+
     const nextImage = () => {
 
         if (images.length <= 1) {
@@ -102,6 +118,10 @@ function ProductGallery({ product }) {
 
     };
 
+
+    // =========================================
+    // ÖNCEKİ FOTOĞRAF
+    // =========================================
 
     const previousImage = () => {
 
@@ -124,7 +144,9 @@ function ProductGallery({ product }) {
         <div className="product-gallery">
 
 
-            {/* FAVORİ */}
+            {/* =========================================
+                FAVORİ
+            ========================================= */}
 
             <button
                 type="button"
@@ -149,8 +171,9 @@ function ProductGallery({ product }) {
             </button>
 
 
-
-            {/* ANA FOTOĞRAF */}
+            {/* =========================================
+                ANA FOTOĞRAF
+            ========================================= */}
 
             {images.length > 0 ? (
 
@@ -186,8 +209,9 @@ function ProductGallery({ product }) {
             )}
 
 
-
-            {/* SOL OK */}
+            {/* =========================================
+                SOL OK
+            ========================================= */}
 
             {images.length > 1 && (
 
@@ -204,8 +228,9 @@ function ProductGallery({ product }) {
             )}
 
 
-
-            {/* SAĞ OK */}
+            {/* =========================================
+                SAĞ OK
+            ========================================= */}
 
             {images.length > 1 && (
 
@@ -222,18 +247,13 @@ function ProductGallery({ product }) {
             )}
 
 
-
-            {/* KÜÇÜK FOTOĞRAFLAR */}
+            {/* =========================================
+                KÜÇÜK FOTOĞRAFLAR
+            ========================================= */}
 
             {images.length > 1 && (
 
-                <div
-                    style={{
-                        display: "flex",
-                        gap: "10px",
-                        marginTop: "20px"
-                    }}
-                >
+                <div className="thumbnail-container">
 
                     {images.map(
                         (image, index) => (

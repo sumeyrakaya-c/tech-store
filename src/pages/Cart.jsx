@@ -75,24 +75,82 @@ function Cart() {
     // ÜRÜN SİL
     // ==============================
 
-    const deleteItem = async (id) => {
+const deleteItem = async (id) => {
 
-        try {
+    try {
 
-            await fetch(`http://localhost:5000/api/cart/${id}`, {
-                method: "DELETE"
-            });
+        await fetch(`http://localhost:5000/api/cart/${id}`, {
+            method: "DELETE"
+        });
 
-            loadCart();
+        loadCart();
 
-        } catch (error) {
+        window.dispatchEvent(new Event("cartUpdated"));
 
-            console.log(error);
+    } catch (error) {
 
-        }
+        console.log(error);
 
-    };
+    }
 
+};
+        // ==============================
+// TELEFON NUMARASI
+// ==============================
+
+const handlePhoneChange = (e) => {
+
+    let value = e.target.value.replace(/\D/g, "");
+
+    // Başında 0 yoksa ekle
+    if (value.length > 0 && value[0] !== "0") {
+        value = "0" + value;
+    }
+
+    // En fazla 11 hane
+    value = value.slice(0, 11);
+
+    let formatted = value;
+
+    if (value.length > 1) {
+        formatted = value.slice(0, 1) + " (" + value.slice(1);
+    }
+
+    if (value.length >= 4) {
+        formatted =
+            value.slice(0, 1) +
+            " (" +
+            value.slice(1, 4) +
+            ") " +
+            value.slice(4);
+    }
+
+    if (value.length >= 7) {
+        formatted =
+            value.slice(0, 1) +
+            " (" +
+            value.slice(1, 4) +
+            ") " +
+            value.slice(4, 7) +
+            " " +
+            value.slice(7);
+    }
+
+    if (value.length >= 9) {
+        formatted =
+            value.slice(0, 1) +
+            " (" +
+            value.slice(1, 4) +
+            ") " +
+            value.slice(4, 7) +
+            " " +
+            value.slice(7, 9) +
+            " " +
+            value.slice(9);
+    }
+
+    setPhone(formatted);
+};
 
     // ==============================
     // SON KULLANMA TARİHİ
@@ -609,234 +667,457 @@ function Cart() {
                             <div className="checkout-grid">
 
 
-                                {/* TESLİMAT */}
+                              {/* =========================================
+    TESLİMAT BİLGİLERİ
+========================================= */}
 
-                                <div className="checkout-card">
+<div className="checkout-card delivery-card">
 
-                                    <h2>
-                                        Teslimat Bilgileri
-                                    </h2>
+    <div className="checkout-card-header">
 
+        <div className="checkout-card-icon">
+            📍
+        </div>
 
-                                    <input
-                                        type="text"
-                                        placeholder="Ad Soyad"
-                                        value={fullName}
-                                        onChange={(e) =>
-                                            setFullName(e.target.value)
-                                        }
-                                    />
+        <div>
+            <h2>
+                Teslimat Bilgileri
+            </h2>
 
+            <p>
+                Siparişinizin teslim edileceği adresi girin.
+            </p>
+        </div>
 
-                                    <input
-                                        type="text"
-                                        placeholder="Telefon"
-                                        value={phone}
-                                        onChange={(e) =>
-                                            setPhone(e.target.value)
-                                        }
-                                    />
+    </div>
 
 
-                                    <div className="two-inputs">
+    {/* AD SOYAD */}
 
-                                        <input
-                                            type="text"
-                                            placeholder="İl"
-                                            value={city}
-                                            onChange={(e) =>
-                                                setCity(e.target.value)
-                                            }
-                                        />
+    <div className="form-group">
 
-                                        <input
-                                            type="text"
-                                            placeholder="İlçe"
-                                            value={district}
-                                            onChange={(e) =>
-                                                setDistrict(e.target.value)
-                                            }
-                                        />
+        <label>
+            Ad Soyad
+        </label>
 
-                                    </div>
+        <input
+            type="text"
+            placeholder="Adınız ve soyadınız"
+            value={fullName}
+            onChange={(e) =>
+                setFullName(e.target.value)
+            }
+        />
+
+    </div>
 
 
-                                    <textarea
-                                        placeholder="Açık Adres"
-                                        value={address}
-                                        onChange={(e) =>
-                                            setAddress(e.target.value)
-                                        }
-                                        rows={4}
-                                    />
+    {/* TELEFON */}
+
+    <div className="form-group">
+
+        <label>
+            Telefon
+        </label>
+
+        <input
+            type="tel"
+            placeholder="0 (5XX) XXX XX XX"
+            value={phone}
+            onChange={handlePhoneChange}
+            maxLength={17}
+        />
+
+        <small>
+            Teslimatla ilgili bilgilendirmeler bu numaraya yapılacaktır.
+        </small>
+
+    </div>
 
 
-                                    <textarea
-                                        placeholder="Sipariş Notu (İsteğe Bağlı)"
-                                        value={note}
-                                        onChange={(e) =>
-                                            setNote(e.target.value)
-                                        }
-                                        rows={3}
-                                    />
+    {/* İL / İLÇE */}
 
-                                </div>
+    <div className="form-row">
 
+        <div className="form-group">
 
-                                {/* ÖDEME */}
+            <label>
+                İl
+            </label>
 
-                                <div className="checkout-card">
+            <input
+                type="text"
+                placeholder="Örn. Malatya"
+                value={city}
+                onChange={(e) =>
+                    setCity(e.target.value)
+                }
+            />
 
-                                    <h2>
-                                        Ödeme Yöntemi
-                                    </h2>
-
-
-                                    <div className="payment-options">
-
-                                        <label>
-
-                                            <input
-                                                type="radio"
-                                                checked={
-                                                    paymentMethod === "cash"
-                                                }
-                                                onChange={() =>
-                                                    setPaymentMethod("cash")
-                                                }
-                                            />
-
-                                            Kapıda Ödeme
-
-                                        </label>
+        </div>
 
 
-                                        <label>
+        <div className="form-group">
 
-                                            <input
-                                                type="radio"
-                                                checked={
-                                                    paymentMethod === "card"
-                                                }
-                                                onChange={() =>
-                                                    setPaymentMethod("card")
-                                                }
-                                            />
+            <label>
+                İlçe
+            </label>
 
-                                            Banka / Kredi Kartı
+            <input
+                type="text"
+                placeholder="Örn. Battalgazi"
+                value={district}
+                onChange={(e) =>
+                    setDistrict(e.target.value)
+                }
+            />
 
-                                        </label>
+        </div>
 
-                                    </div>
-
-
-                                    {paymentMethod === "card" && (
-
-                                        <div className="card-box">
-
-                                            <h3>
-                                                Kart Bilgileri
-                                            </h3>
+    </div>
 
 
-                                            <input
-                                                type="text"
-                                                placeholder="Kart Numarası"
-                                                value={cardNumber}
-                                                onChange={
-                                                    handleCardNumberChange
-                                                }
-                                                maxLength={19}
-                                            />
+    {/* AÇIK ADRES */}
+
+    <div className="form-group">
+
+        <label>
+            Açık Adres
+        </label>
+
+        <textarea
+            placeholder="Mahalle, sokak, cadde, bina no, daire no..."
+            value={address}
+            onChange={(e) =>
+                setAddress(e.target.value)
+            }
+            rows={4}
+        />
+
+    </div>
 
 
-                                            <input
-                                                type="text"
-                                                placeholder="Kart Üzerindeki İsim"
-                                                value={cardName}
-                                                onChange={(e) =>
-                                                    setCardName(
-                                                        e.target.value
-                                                    )
-                                                }
-                                            />
+    {/* SİPARİŞ NOTU */}
+
+    <div className="form-group">
+
+        <label>
+            Sipariş Notu
+            <span> (İsteğe bağlı)</span>
+        </label>
+
+        <textarea
+            placeholder="Kurye için eklemek istediğiniz bir not varsa yazabilirsiniz."
+            value={note}
+            onChange={(e) =>
+                setNote(e.target.value)
+            }
+            rows={3}
+        />
+
+    </div>
+
+</div>
 
 
-                                            <div className="card-row">
+                               {/* =========================================
+    ÖDEME BİLGİLERİ
+========================================= */}
 
-                                                <input
-                                                    type="text"
-                                                    placeholder="AA/YY"
-                                                    value={expiry}
-                                                    onChange={
-                                                        handleExpiryChange
-                                                    }
-                                                    maxLength={5}
-                                                />
+<div className="checkout-card payment-card">
 
+    <div className="checkout-card-header">
 
-                                                <input
-                                                    type="password"
-                                                    placeholder="CVV"
-                                                    value={cvv}
-                                                    onChange={
-                                                        handleCvvChange
-                                                    }
-                                                    maxLength={3}
-                                                />
+        <div className="checkout-card-icon">
+            💳
+        </div>
 
-                                            </div>
+        <div>
 
-                                            <small>
-                                                Kart bilgileriniz güvenli ödeme
-                                                sistemi üzerinden işlenir.
-                                            </small>
+            <h2>
+                Ödeme Yöntemi
+            </h2>
 
-                                        </div>
+            <p>
+                Güvenli ödeme yönteminizi seçin.
+            </p>
 
-                                    )}
+        </div>
+
+    </div>
 
 
-                                    <div className="final-summary">
+    {/* ÖDEME SEÇENEKLERİ */}
 
-                                        <div>
-                                            <span>Ara Toplam</span>
-                                            <strong>
-                                                {totalPrice.toLocaleString("tr-TR")} ₺
-                                            </strong>
-                                        </div>
-
-                                        <div>
-                                            <span>Kargo</span>
-                                            <strong>
-                                                {shippingFee === 0
-                                                    ? "Ücretsiz"
-                                                    : `${shippingFee} ₺`
-                                                }
-                                            </strong>
-                                        </div>
-
-                                        <div className="final-total">
-
-                                            <span>Toplam</span>
-
-                                            <strong>
-                                                {grandTotal.toLocaleString("tr-TR")} ₺
-                                            </strong>
-
-                                        </div>
-
-                                    </div>
+    <div className="payment-options">
 
 
-                                    <button
-                                        className="complete-order-btn"
-                                        onClick={checkout}
-                                    >
-                                        Siparişi Tamamla
-                                    </button>
+        {/* KAPIDA ÖDEME */}
 
-                                </div>
+        <label
+            className={
+                paymentMethod === "cash"
+                    ? "payment-option active"
+                    : "payment-option"
+            }
+        >
+
+            <input
+                type="radio"
+                checked={
+                    paymentMethod === "cash"
+                }
+                onChange={() =>
+                    setPaymentMethod("cash")
+                }
+            />
+
+            <div className="payment-option-content">
+
+                <strong>
+                    🚚 Kapıda Ödeme
+                </strong>
+
+                <span>
+                    Siparişinizi teslim alırken ödeme yapın.
+                </span>
+
+            </div>
+
+        </label>
+
+
+        {/* KART */}
+
+        <label
+            className={
+                paymentMethod === "card"
+                    ? "payment-option active"
+                    : "payment-option"
+            }
+        >
+
+            <input
+                type="radio"
+                checked={
+                    paymentMethod === "card"
+                }
+                onChange={() =>
+                    setPaymentMethod("card")
+                }
+            />
+
+            <div className="payment-option-content">
+
+                <strong>
+                    💳 Banka / Kredi Kartı
+                </strong>
+
+                <span>
+                    Kartınızla güvenli şekilde ödeme yapın.
+                </span>
+
+            </div>
+
+        </label>
+
+    </div>
+
+
+    {/* =========================================
+        KART BİLGİLERİ
+    ========================================= */}
+
+    {paymentMethod === "card" && (
+
+        <div className="card-box">
+
+
+            <div className="card-box-header">
+
+                <div>
+
+                    <h3>
+                        Kart Bilgileri
+                    </h3>
+
+                    <p>
+                        Kart bilgilerinizi girin.
+                    </p>
+
+                </div>
+
+                <span>
+                    🔒
+                </span>
+
+            </div>
+
+
+            {/* KART NUMARASI */}
+
+            <div className="form-group">
+
+                <label>
+                    Kart Numarası
+                </label>
+
+                <input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="1234 5678 9012 3456"
+                    value={cardNumber}
+                    onChange={
+                        handleCardNumberChange
+                    }
+                    maxLength={19}
+                />
+
+            </div>
+
+
+            {/* KART İSMİ */}
+
+            <div className="form-group">
+
+                <label>
+                    Kart Üzerindeki İsim
+                </label>
+
+                <input
+                    type="text"
+                    placeholder="AD SOYAD"
+                    value={cardName}
+                    onChange={(e) =>
+                        setCardName(
+                            e.target.value.toUpperCase()
+                        )
+                    }
+                />
+
+            </div>
+
+
+            {/* SON KULLANMA / CVV */}
+
+            <div className="form-row">
+
+                <div className="form-group">
+
+                    <label>
+                        Son Kullanma Tarihi
+                    </label>
+
+                    <input
+                        type="text"
+                        inputMode="numeric"
+                        placeholder="AA/YY"
+                        value={expiry}
+                        onChange={
+                            handleExpiryChange
+                        }
+                        maxLength={5}
+                    />
+
+                </div>
+
+
+                <div className="form-group">
+
+                    <label>
+                        CVV
+                    </label>
+
+                    <input
+                        type="password"
+                        inputMode="numeric"
+                        placeholder="•••"
+                        value={cvv}
+                        onChange={
+                            handleCvvChange
+                        }
+                        maxLength={3}
+                    />
+
+                </div>
+
+            </div>
+
+
+            <div className="secure-payment">
+
+                🔒 Kart bilgileriniz güvenli ödeme
+                işlemi için kullanılır.
+
+            </div>
+
+        </div>
+
+    )}
+
+
+    {/* =========================================
+        SİPARİŞ ÖZETİ
+    ========================================= */}
+
+    <div className="final-summary">
+
+        <div>
+            <span>
+                Ara Toplam
+            </span>
+
+            <strong>
+                {totalPrice.toLocaleString("tr-TR")} ₺
+            </strong>
+        </div>
+
+
+        <div>
+            <span>
+                Kargo
+            </span>
+
+            <strong>
+                {shippingFee === 0
+                    ? "Ücretsiz"
+                    : `${shippingFee.toLocaleString("tr-TR")} ₺`
+                }
+            </strong>
+        </div>
+
+
+        <div className="final-total">
+
+            <span>
+                Genel Toplam
+            </span>
+
+            <strong>
+                {grandTotal.toLocaleString("tr-TR")} ₺
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <button
+        className="complete-order-btn"
+        onClick={checkout}
+    >
+        Siparişi Güvenle Tamamla
+    </button>
+
+
+    <div className="checkout-security">
+
+        🔒 Güvenli ödeme &nbsp; • &nbsp;
+        📦 Güvenli teslimat
+
+    </div>
+
+</div>
 
                             </div>
 

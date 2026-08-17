@@ -9,10 +9,14 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
+import { useLanguage } from "../context/LanguageContext";
+
 
 function PurchaseCard({ product }) {
 
     const navigate = useNavigate();
+
+    const { t } = useLanguage();
 
 
     // =========================================
@@ -45,13 +49,22 @@ function PurchaseCard({ product }) {
 
             if (response.ok) {
 
-                alert(data.message);
+                alert(
+                    data.message ||
+                    t("productAddedToCart")
+                );
+
+
+                window.dispatchEvent(
+                    new Event("cartUpdated")
+                );
+
 
             } else {
 
                 alert(
                     data.message ||
-                    "Ürün sepete eklenemedi."
+                    t("productCouldNotBeAdded")
                 );
 
             }
@@ -64,8 +77,9 @@ function PurchaseCard({ product }) {
                 error
             );
 
+
             alert(
-                "Ürün sepete eklenirken bir hata oluştu."
+                t("addToCartError")
             );
 
         }
@@ -81,7 +95,6 @@ function PurchaseCard({ product }) {
 
         try {
 
-            // Önce ürünü sepete ekle
             const response = await fetch(
                 "http://localhost:5000/api/cart",
                 {
@@ -106,7 +119,7 @@ function PurchaseCard({ product }) {
 
                 alert(
                     data.message ||
-                    "Ürün sepete eklenemedi."
+                    t("productCouldNotBeAdded")
                 );
 
                 return;
@@ -114,8 +127,6 @@ function PurchaseCard({ product }) {
             }
 
 
-            // Ürün başarıyla eklendiyse
-            // sepet sayfasına git
             navigate("/cart", {
 
                 state: {
@@ -132,8 +143,98 @@ function PurchaseCard({ product }) {
                 error
             );
 
+
             alert(
-                "Hızlı Al işlemi sırasında bir hata oluştu."
+                t("quickBuyError")
+            );
+
+        }
+
+    };
+
+
+    // =========================================
+    // PAYLAŞ
+    // =========================================
+
+    const shareProduct = async () => {
+
+        if (!product?.id) {
+
+            return;
+
+        }
+
+
+        const shareUrl =
+            `${window.location.origin}/product/${product.id}`;
+
+
+        try {
+
+            // =========================================
+            // TARAYICI PAYLAŞIM ÖZELLİĞİ
+            // =========================================
+
+            if (navigator.share) {
+
+                await navigator.share({
+
+                    title:
+                        product.name ||
+                        t("product"),
+
+                    text:
+                        `${product.name || t("thisProduct")} ${t("checkItOut")}`,
+
+                    url:
+                        shareUrl
+
+                });
+
+
+                return;
+
+            }
+
+
+            // =========================================
+            // PANoya KOPYALA
+            // =========================================
+
+            await navigator.clipboard.writeText(
+                shareUrl
+            );
+
+
+            alert(
+                t("productLinkCopied")
+            );
+
+
+        } catch (error) {
+
+            // Kullanıcı paylaşım penceresini
+            // kapattıysa hata göstermiyoruz
+
+            if (
+                error?.name ===
+                "AbortError"
+            ) {
+
+                return;
+
+            }
+
+
+            console.log(
+                "PAYLAŞMA HATASI:",
+                error
+            );
+
+
+            alert(
+                t("productCouldNotBeShared")
             );
 
         }
@@ -147,10 +248,15 @@ function PurchaseCard({ product }) {
 
 
             {/* =========================
-                PAYLAŞ
+                PAYLAŞ BUTONU
             ========================= */}
 
-            <button className="share-btn">
+            <button
+                type="button"
+                className="share-btn"
+                onClick={shareProduct}
+                title={t("shareProduct")}
+            >
 
                 <FiShare2 />
 
@@ -169,7 +275,7 @@ function PurchaseCard({ product }) {
                     <FiTruck />
 
                     <span>
-                        Ücretsiz Kargo
+                        {t("freeShipping")}
                     </span>
 
                 </div>
@@ -184,7 +290,7 @@ function PurchaseCard({ product }) {
                     <FiShield />
 
                     <span>
-                        Güvenli Ödeme
+                        {t("securePayment")}
                     </span>
 
                 </div>
@@ -199,7 +305,7 @@ function PurchaseCard({ product }) {
                     <FiRefreshCw />
 
                     <span>
-                        Kolay İade
+                        {t("easyReturn")}
                     </span>
 
                 </div>
@@ -213,7 +319,9 @@ function PurchaseCard({ product }) {
                     className="buy-now"
                     onClick={buyNow}
                 >
-                    ⚡ Hızlı Al
+
+                    ⚡ {t("buyNow")}
+
                 </button>
 
 
@@ -225,7 +333,9 @@ function PurchaseCard({ product }) {
                     className="add-cart"
                     onClick={addToCart}
                 >
-                    🛒 Sepete Ekle
+
+                    🛒 {t("addToCart")}
+
                 </button>
 
 

@@ -1,0 +1,159 @@
+/* =========================
+   FAVORITES PAGE
+========================= */
+
+.favorites-page {
+    min-height: calc(100vh - 80px);
+    padding: 40px 30px 60px;
+    background: #f5f7fb;
+}
+
+.favorites-container {
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.favorites-header {
+    margin-bottom: 30px;
+}
+
+.favorites-header h1 {
+    margin: 0 0 8px;
+    color: #16213e;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.favorites-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 15px;
+}
+
+
+/* =========================
+   PRODUCTS
+========================= */
+
+.favorites-products {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+}
+
+
+/* =========================
+   EMPTY FAVORITES
+========================= */
+
+.empty-favorites {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 50px 30px;
+
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.empty-favorites-icon {
+    width: 80px;
+    height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 20px;
+
+    border-radius: 50%;
+
+    background: #eef4ff;
+    color: #2563eb;
+
+    font-size: 42px;
+}
+
+.empty-favorites h2 {
+    margin: 0 0 10px;
+
+    color: #16213e;
+
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.empty-favorites p {
+    max-width: 500px;
+
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1100px) {
+
+    .favorites-products {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .favorites-page {
+        padding: 30px 20px 50px;
+    }
+
+    .favorites-products {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .favorites-page {
+        padding: 25px 15px 40px;
+    }
+
+    .favorites-header h1 {
+        font-size: 25px;
+    }
+
+    .favorites-products {
+        grid-template-columns: 1fr;
+    }
+
+    .empty-favorites {
+        min-height: 350px;
+        padding: 35px 20px;
+    }
+
+    .empty-favorites h2 {
+        font-size: 19px;
+    }
+
+}

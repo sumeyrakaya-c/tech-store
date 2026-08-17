@@ -493,3 +493,325 @@
 
 }
 
+/* =========================================
+   PROFESYONEL CHECKOUT
+========================================= */
+
+.checkout-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
+
+.checkout-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+
+.checkout-card-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    flex-shrink: 0;
+}
+
+
+.checkout-card-header h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #111827;
+}
+
+
+.checkout-card-header p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+
+.form-group label span {
+    color: #9ca3af;
+    font-weight: 400;
+}
+
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    padding: 13px 14px;
+    font-size: 14px;
+    color: #111827;
+    background: #ffffff;
+    outline: none;
+    transition: 0.2s;
+    font-family: inherit;
+}
+
+
+.form-group input {
+    height: 48px;
+}
+
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #9ca3af;
+}
+
+
+.form-group small {
+    margin-top: 6px;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+
+/* =========================================
+   ÖDEME SEÇENEKLERİ
+========================================= */
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+.payment-option:hover {
+    border-color: #93c5fd;
+    background: #f8fbff;
+}
+
+
+.payment-option.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+
+.payment-option input {
+    width: 17px;
+    height: 17px;
+    accent-color: #2563eb;
+}
+
+
+.payment-option-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.payment-option-content strong {
+    color: #111827;
+    font-size: 14px;
+}
+
+
+.payment-option-content span {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+
+/* =========================================
+   KART
+========================================= */
+
+.card-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 18px;
+    margin-bottom: 24px;
+}
+
+
+.card-box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
+.card-box-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #111827;
+}
+
+
+.card-box-header p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+
+.card-box-header span {
+    font-size: 22px;
+}
+
+
+.secure-payment {
+    padding: 11px 13px;
+    border-radius: 8px;
+    background: #ecfdf5;
+    color: #047857;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   TOPLAM
+========================================= */
+
+.final-summary {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+
+.final-summary > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+
+.final-summary span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+.final-summary strong {
+    color: #111827;
+    font-size: 14px;
+}
+
+
+.final-summary .final-total {
+    border-top: 1px solid #e5e7eb;
+    margin-top: 15px;
+    padding-top: 16px;
+}
+
+
+.final-summary .final-total span {
+    color: #111827;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+.final-summary .final-total strong {
+    color: #111827;
+    font-size: 22px;
+}
+
+
+/* =========================================
+   SİPARİŞ BUTONU
+========================================= */
+
+.complete-order-btn {
+    width: 100%;
+    margin-top: 22px;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    background: #2563eb;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+
+.complete-order-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+
+.checkout-security {
+    text-align: center;
+    margin-top: 13px;
+    color: #9ca3af;
+    font-size: 11px;
+}

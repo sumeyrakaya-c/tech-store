@@ -93,3 +93,56 @@
     gap:25px;
     align-items:start;
 }
+
+/* =========================================
+   ÜRÜN KARŞILAŞTIRMA
+========================================= */
+
+.product-compare-area {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0 30px 0;
+    padding: 0 20px;
+}
+
+.product-compare-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    border: 1px solid #2563eb;
+    background: white;
+    color: #2563eb;
+
+    padding: 11px 20px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.product-compare-button svg {
+    font-size: 18px;
+}
+
+.product-compare-button:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.compare-info {
+    color: #777;
+    font-size: 13px;
+}

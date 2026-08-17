@@ -1,243 +1,532 @@
 import "../styles/ProductCard.css";
 import { useEffect, useState } from "react";
+
 import {
     FiHeart,
     FiChevronLeft,
     FiChevronRight,
 } from "react-icons/fi";
+
 import { Link } from "react-router-dom";
+
 
 function ProductCard({
     id,
     name,
     price,
-    images,
+    images = [],
     onFavoriteRemoved
 }) {
+
     const [currentImage, setCurrentImage] = useState(0);
-
-    useEffect(() => {
-
-    if (!user) return;
-
-    fetch(`http://localhost:5000/api/favorites/${user.id}/${id}`)
-        .then(res => res.json())
-        .then(data => setIsFavorite(data.isFavorite))
-        .catch(err => console.log(err));
-
-}, [id]);
 
     const [isFavorite, setIsFavorite] = useState(false);
 
-const user = JSON.parse(localStorage.getItem("user"));
 
-    const nextImage = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+    // =========================================
+    // KULLANICI
+    // =========================================
 
-        setCurrentImage((prev) =>
-            prev === images.length - 1 ? 0 : prev + 1
+    const user =
+        JSON.parse(
+            localStorage.getItem("user")
         );
-    };
 
-    const prevImage = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
 
-        setCurrentImage((prev) =>
-            prev === 0 ? images.length - 1 : prev - 1
-        );
-    };
+    // =========================================
+    // FAVORİ DURUMUNU GETİR
+    // =========================================
 
-    const toggleFavorite = async () => {
+    useEffect(() => {
 
-    if (!user) {
-
-        alert("Favorilere eklemek için giriş yapmalısınız.");
-
-        return;
-
-    }
-
-    try {
-
-        if (!isFavorite) {
-
-            const res = await fetch("http://localhost:5000/api/favorites", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    user_id: user.id,
-                    product_id: id
-
-                })
-
-            });
-
-            const data = await res.json();
-
-            alert(data.message);
-
-            setIsFavorite(true);
-
-        } else {
-
-            const res = await fetch("http://localhost:5000/api/favorites", {
-
-                method: "DELETE",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    user_id: user.id,
-                    product_id: id
-
-                })
-
-            });
-
-            const data = await res.json();
-
-            alert(data.message);
+        if (!user) {
 
             setIsFavorite(false);
 
-            if (onFavoriteRemoved) {
-    onFavoriteRemoved(id);
-}
+            return;
 
         }
 
-    } catch (error) {
 
-        console.log(error);
+        fetch(
+            `http://localhost:5000/api/favorites/${user.id}/${id}`
+        )
+            .then(res => res.json())
+            .then(data => {
 
-    }
+                setIsFavorite(
+                    data.isFavorite
+                );
 
-};
+            })
+            .catch(err =>
+                console.log(
+                    "Favori durumu alınamadı:",
+                    err
+                )
+            );
+
+    }, [id]);
+
+
+    // =========================================
+    // SONRAKİ FOTOĞRAF
+    // =========================================
+
+    const nextImage = (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+
+        if (images.length <= 1) {
+            return;
+        }
+
+
+        setCurrentImage(
+            (prev) =>
+                prev === images.length - 1
+                    ? 0
+                    : prev + 1
+        );
+
+    };
+
+
+    // =========================================
+    // ÖNCEKİ FOTOĞRAF
+    // =========================================
+
+    const prevImage = (e) => {
+
+        e.preventDefault();
+
+        e.stopPropagation();
+
+
+        if (images.length <= 1) {
+            return;
+        }
+
+
+        setCurrentImage(
+            (prev) =>
+                prev === 0
+                    ? images.length - 1
+                    : prev - 1
+        );
+
+    };
+
+
+    // =========================================
+    // FAVORİ DEĞİŞTİR
+    // =========================================
+
+    const toggleFavorite = async () => {
+
+        if (!user) {
+
+            alert(
+                "Favorilere eklemek için giriş yapmalısınız."
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            if (!isFavorite) {
+
+                const res = await fetch(
+                    "http://localhost:5000/api/favorites",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            user_id: user.id,
+
+                            product_id: id
+
+                        })
+
+                    }
+                );
+
+
+                const data =
+                    await res.json();
+
+
+                if (!res.ok) {
+
+                    alert(
+                        data.message ||
+                        "Favorilere eklenemedi."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    data.message
+                );
+
+
+                setIsFavorite(true);
+
+
+            } else {
+
+                const res = await fetch(
+                    "http://localhost:5000/api/favorites",
+                    {
+                        method: "DELETE",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            user_id: user.id,
+
+                            product_id: id
+
+                        })
+
+                    }
+                );
+
+
+                const data =
+                    await res.json();
+
+
+                if (!res.ok) {
+
+                    alert(
+                        data.message ||
+                        "Favoriden çıkarılamadı."
+                    );
+
+                    return;
+
+                }
+
+
+                alert(
+                    data.message
+                );
+
+
+                setIsFavorite(false);
+
+
+                if (onFavoriteRemoved) {
+
+                    onFavoriteRemoved(id);
+
+                }
+
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Favori işlemi hatası:",
+                error
+            );
+
+        }
+
+    };
+
+
+    // =========================================
+    // SEPETE EKLE
+    // =========================================
 
     const addToCart = async (productId) => {
 
-    try {
+        try {
 
-        const response = await fetch("http://localhost:5000/api/cart", {
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/cart",
+                    {
+                        method: "POST",
 
-            method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+                        body: JSON.stringify({
 
-            body: JSON.stringify({
+                            product_id:
+                                productId,
 
-                product_id: productId,
-                quantity: 1
+                            quantity: 1
 
-            })
+                        })
 
-        });
+                    }
+                );
 
-        const data = await response.json();
 
-        alert(data.message);
+            const data =
+                await response.json();
 
-    } catch (error) {
 
-        console.log(error);
+            if (!response.ok) {
 
-    }
+                alert(
+                    data.message ||
+                    "Ürün sepete eklenemedi."
+                );
 
-};
+                return;
+
+            }
+
+
+            alert(
+                data.message
+            );
+
+
+            // Navbar'a sepetin
+            // değiştiğini bildir
+
+            window.dispatchEvent(
+                new Event("cartUpdated")
+            );
+
+
+        } catch (error) {
+
+            console.log(
+                "Sepete ekleme hatası:",
+                error
+            );
+
+        }
+
+    };
+
+
+    // =========================================
+    // EKRAN
+    // =========================================
 
     return (
+
         <div className="product-card">
 
-           <div
-    className="favorite-icon"
-    onClick={toggleFavorite}
-    style={{
-        color: isFavorite ? "red" : "#555",
-        cursor: "pointer"
-    }}
->
-    <FiHeart />
-</div>
 
-           <Link
-    to={`/product/${id}`}
-    className="product-link"
->
+            {/* =================================
+                FAVORİ
+            ================================= */}
+
+            <div
+                className="favorite-icon"
+
+                onClick={
+                    toggleFavorite
+                }
+
+                style={{
+
+                    color:
+                        isFavorite
+                            ? "red"
+                            : "#555",
+
+                    cursor:
+                        "pointer"
+
+                }}
+            >
+
+                <FiHeart />
+
+            </div>
+
+
+            {/* =================================
+                ÜRÜN DETAY LİNKİ
+            ================================= */}
+
+            <Link
+                to={`/product/${id}`}
+                className="product-link"
+            >
+
+
+                {/* =============================
+                    GÖRSEL
+                ============================= */}
 
                 <div className="image-container">
 
+
                     {images.length > 1 && (
+
                         <button
                             type="button"
+
                             className="image-arrow left"
-                            onClick={prevImage}
+
+                            onClick={
+                                prevImage
+                            }
                         >
+
                             <FiChevronLeft />
+
                         </button>
+
                     )}
 
+
                     <img
-                        src={images?.[currentImage] || "https://placehold.co/250x200"}
+                        src={
+                            images?.[
+                                currentImage
+                            ] ||
+                            "https://placehold.co/250x200"
+                        }
+
                         alt={name}
                     />
 
+
                     {images.length > 1 && (
+
                         <button
                             type="button"
+
                             className="image-arrow right"
-                            onClick={nextImage}
+
+                            onClick={
+                                nextImage
+                            }
                         >
+
                             <FiChevronRight />
+
                         </button>
+
                     )}
 
                 </div>
 
+
+                {/* =============================
+                    GÖRSEL NOKTALARI
+                ============================= */}
+
                 {images.length > 1 && (
+
                     <div className="image-dots">
-                        {images.map((_, index) => (
-                            <span
-                                key={index}
-                                className={`dot ${currentImage === index ? "active" : ""}`}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    setCurrentImage(index);
-                                }}
-                            />
-                        ))}
+
+                        {images.map(
+                            (_, index) => (
+
+                                <span
+                                    key={index}
+
+                                    className={
+                                        `dot ${
+                                            currentImage === index
+                                                ? "active"
+                                                : ""
+                                        }`
+                                    }
+
+                                    onClick={(e) => {
+
+                                        e.preventDefault();
+
+                                        e.stopPropagation();
+
+                                        setCurrentImage(
+                                            index
+                                        );
+
+                                    }}
+                                />
+
+                            )
+                        )}
+
                     </div>
+
                 )}
 
-                <h3>{name}</h3>
+
+                {/* =============================
+                    ÜRÜN ADI
+                ============================= */}
+
+                <h3>
+                    {name}
+                </h3>
+
+
+                {/* =============================
+                    FİYAT
+                ============================= */}
 
                 <p className="price">
-                    {price.toLocaleString("tr-TR")} ₺
+
+                    {Number(price || 0)
+                        .toLocaleString(
+                            "tr-TR"
+                        )} ₺
+
                 </p>
+
 
             </Link>
 
-           <button
-    type="button"
-    onClick={() => addToCart(id)}
->
-    Sepete Ekle
-</button>
+
+            {/* =================================
+                SEPETE EKLE
+            ================================= */}
+
+            <button
+                type="button"
+
+                onClick={() =>
+                    addToCart(id)
+                }
+            >
+
+                Sepete Ekle
+
+            </button>
+
+
         </div>
+
     );
+
 }
+
 
 export default ProductCard;

@@ -1,0 +1,777 @@
+/* =========================================
+   COMPARE PAGE
+========================================= */
+
+.compare-page {
+
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f5f8ff 0%,
+            #eef4ff 100%
+        );
+
+    padding:
+        35px
+        45px
+        70px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================================
+   TOP
+========================================= */
+
+.compare-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 30px;
+
+}
+
+
+.compare-top h1 {
+
+    margin:
+        8px
+        0
+        5px;
+
+    color: #14213d;
+
+    font-size: 32px;
+
+    font-weight: 800;
+
+}
+
+
+.compare-top p {
+
+    margin: 0;
+
+    color: #71809a;
+
+    font-size: 15px;
+
+}
+
+
+.compare-back {
+
+    border: none;
+
+    background: transparent;
+
+    color: #2367e8;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    padding: 0;
+
+}
+
+
+.compare-back:hover {
+
+    color: #174eb5;
+
+}
+
+
+/* =========================================
+   CLEAR BUTTON
+========================================= */
+
+.clear-all-button {
+
+    border: none;
+
+    background: #eaf1ff;
+
+    color: #2463e5;
+
+    padding:
+        13px
+        18px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+
+.clear-all-button:hover {
+
+    background: #dce8ff;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================================
+   TABLE WRAPPER
+========================================= */
+
+.compare-wrapper {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+    background: white;
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 12px 35px
+        rgba(
+            33,
+            72,
+            130,
+            .09
+        );
+
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.compare-table {
+
+    width: 100%;
+
+    min-width: 950px;
+
+    border-collapse: separate;
+
+    border-spacing: 0;
+
+    table-layout: fixed;
+
+}
+
+
+/* =========================================
+   HEAD
+========================================= */
+
+.compare-table thead th {
+
+    background: white;
+
+    border-bottom:
+        1px solid #e4eaf3;
+
+}
+
+
+.feature-column {
+
+    width: 190px;
+
+    text-align: left;
+
+    padding: 25px;
+
+    vertical-align: top;
+
+    color: #17233d;
+
+}
+
+
+.product-column {
+
+    padding:
+        25px
+        20px
+        30px;
+
+    vertical-align: top;
+
+}
+
+
+/* =========================================
+   PRODUCT CARD
+========================================= */
+
+.compare-product-card {
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+/* =========================================
+   DELETE
+========================================= */
+
+.remove-product {
+
+    position: absolute;
+
+    right: 0;
+
+    top: 0;
+
+    width: 38px;
+
+    height: 38px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #fff1f2;
+
+    color: #ef4444;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    transition: .2s;
+
+}
+
+
+.remove-product:hover {
+
+    background: #ffe1e4;
+
+    transform: scale(1.06);
+
+}
+
+
+/* =========================================
+   PRODUCT IMAGE
+========================================= */
+
+.compare-image-wrapper {
+
+    width: 210px;
+
+    height: 210px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin:
+        5px
+        auto
+        20px;
+
+}
+
+
+.compare-product-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+}
+
+
+.compare-no-image {
+
+    width: 170px;
+
+    height: 170px;
+
+    border-radius: 20px;
+
+    background: #f3f6fb;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 55px;
+
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.compare-brand {
+
+    color: #71809a;
+
+    font-size: 13px;
+
+    margin-bottom: 6px;
+
+}
+
+
+/* =========================================
+   NAME
+========================================= */
+
+.compare-product-card h3 {
+
+    margin:
+        0
+        0
+        14px;
+
+    color: #15223d;
+
+    font-size: 19px;
+
+    font-weight: 800;
+
+    text-align: center;
+
+}
+
+
+/* =========================================
+   VIEW PRODUCT
+========================================= */
+
+.view-product-button {
+
+    border: 1px solid #d9e4f7;
+
+    background: white;
+
+    color: #2463e5;
+
+    padding:
+        9px
+        15px;
+
+    border-radius: 9px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+
+.view-product-button:hover {
+
+    background: #2463e5;
+
+    border-color: #2463e5;
+
+    color: white;
+
+}
+
+
+/* =========================================
+   BODY
+========================================= */
+
+.compare-table tbody th,
+.compare-table tbody td {
+
+    border-bottom:
+        1px solid #e7ecf4;
+
+}
+
+
+.compare-table tbody th {
+
+    background: #f7f9fd;
+
+    text-align: left;
+
+    padding:
+        20px
+        25px;
+
+    color: #17243e;
+
+    font-size: 15px;
+
+    font-weight: 750;
+
+}
+
+
+.compare-table tbody td {
+
+    padding:
+        20px
+        25px;
+
+    text-align: center;
+
+    color: #52627b;
+
+    font-size: 15px;
+
+    vertical-align: middle;
+
+}
+
+
+/* =========================================
+   PRICE
+========================================= */
+
+.price-cell {
+
+    color: #2463e5 !important;
+
+    font-size: 20px !important;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================
+   COLOR
+========================================= */
+
+.color-value {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 90px;
+
+    padding:
+        7px
+        12px;
+
+    border-radius: 20px;
+
+    background: #f3f6fb;
+
+    color: #34445e;
+
+}
+
+
+/* =========================================
+   STOCK
+========================================= */
+
+.stock-available {
+
+    color: #16834b !important;
+
+    font-weight: 700;
+
+}
+
+
+.stock-empty {
+
+    color: #e53935 !important;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.description-cell {
+
+    line-height: 1.7;
+
+    text-align: left !important;
+
+    max-width: 380px;
+
+}
+
+
+/* =========================================
+   TECHNICAL SPECS
+========================================= */
+
+.spec-value {
+
+    color: #253754 !important;
+
+    font-weight: 600;
+
+}
+
+
+.missing-spec {
+
+    color: #a4afbf !important;
+
+}
+
+
+/* =========================================
+   LAST ROW
+========================================= */
+
+.last-row th,
+.last-row td {
+
+    border-bottom: none !important;
+
+    padding-top: 25px;
+
+    padding-bottom: 25px;
+
+}
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.compare-buy-button {
+
+    border: none;
+
+    background: #2463e5;
+
+    color: white;
+
+    padding:
+        11px
+        17px;
+
+    border-radius: 10px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: .2s;
+
+}
+
+
+.compare-buy-button:hover {
+
+    background: #174fbf;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.compare-empty {
+
+    min-height: 75vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f5f8ff,
+            #eef4ff
+        );
+
+}
+
+
+.compare-empty-icon {
+
+    width: 90px;
+
+    height: 90px;
+
+    border-radius: 25px;
+
+    background: #e8f0ff;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 42px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.compare-empty h2 {
+
+    color: #17243e;
+
+    margin:
+        0
+        0
+        8px;
+
+}
+
+
+.compare-empty p {
+
+    color: #71809a;
+
+    max-width: 450px;
+
+    line-height: 1.6;
+
+    margin-bottom: 22px;
+
+}
+
+
+.compare-empty button {
+
+    border: none;
+
+    background: #2463e5;
+
+    color: white;
+
+    border-radius: 10px;
+
+    padding:
+        12px
+        20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 800px) {
+
+    .compare-page {
+
+        padding:
+            25px
+            15px
+            50px;
+
+    }
+
+
+    .compare-top {
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+        flex-direction: column;
+
+    }
+
+
+    .compare-top h1 {
+
+        font-size: 26px;
+
+    }
+
+
+    .compare-wrapper {
+
+        border-radius: 15px;
+
+    }
+
+}

@@ -22,12 +22,14 @@
     );
 
     position:relative;
+
     overflow:hidden;
 
     border-radius:22px;
 
     box-shadow:0 15px 35px rgba(37,99,235,.25);
 }
+
 
 .product-specs h2{
 
@@ -41,6 +43,7 @@
 
     color:#fff;
 }
+
 
 .product-specs::before{
 
@@ -63,6 +66,7 @@
     filter:blur(30px);
 }
 
+
 /* ==========================
    SPECS GRID
 ========================== */
@@ -84,10 +88,12 @@
     z-index:2;
 }
 
+
 .specs-grid::-webkit-scrollbar{
 
     height:8px;
 }
+
 
 .specs-grid::-webkit-scrollbar-track{
 
@@ -96,6 +102,7 @@
     border-radius:20px;
 }
 
+
 .specs-grid::-webkit-scrollbar-thumb{
 
     background:rgba(255,255,255,.45);
@@ -103,10 +110,12 @@
     border-radius:20px;
 }
 
+
 .specs-grid::-webkit-scrollbar-thumb:hover{
 
     background:rgba(255,255,255,.65);
 }
+
 
 /* ==========================
    SPEC CARD
@@ -118,7 +127,13 @@
 
     width:120px;
 
-    height:120px;
+    /*
+       Sabit yüksekliği kaldırdık.
+       Uzun teknik özellikler artık kesilmeyecek.
+    */
+    min-height:120px;
+
+    height:auto;
 
     flex-shrink:0;
 
@@ -144,10 +159,14 @@
 
     padding:12px;
 
-    overflow:hidden;
+    /*
+       Yazının kart içinde kesilmesini engelliyoruz.
+    */
+    overflow:visible;
 
     transition:.35s;
 }
+
 
 .spec-card::before{
 
@@ -171,12 +190,18 @@
     );
 
     transition:.6s;
+
+    border-radius:12px;
+
+    pointer-events:none;
 }
+
 
 .spec-card:hover::before{
 
     left:100%;
 }
+
 
 .spec-card:hover{
 
@@ -187,6 +212,7 @@
     box-shadow:0 20px 35px rgba(0,0,0,.18);
 }
 
+
 .spec-card svg{
 
     color:white;
@@ -194,7 +220,10 @@
     font-size:20px;
 
     margin-bottom:6px;
+
+    flex-shrink:0;
 }
+
 
 .spec-card span{
 
@@ -205,7 +234,10 @@
     margin-bottom:8px;
 
     font-size:11px;
+
+    text-align:center;
 }
+
 
 .spec-card strong{
 
@@ -214,7 +246,26 @@
     font-size:13px;
 
     font-weight:700;
+
+    /*
+       Uzun yazılar artık tek satırda
+       kesilmeyecek.
+    */
+    white-space:normal;
+
+    text-align:center;
+
+    line-height:1.4;
+
+    overflow:visible;
+
+    text-overflow:clip;
+
+    word-break:break-word;
+
+    overflow-wrap:anywhere;
 }
+
 
 /* ==========================
    PRODUCT DESCRIPTION
@@ -231,6 +282,7 @@
     border-radius:16px;
 }
 
+
 .product-description p{
 
     font-size:15px;
@@ -246,10 +298,12 @@
     padding-right:8px;
 }
 
+
 .product-description p::-webkit-scrollbar{
 
     width:6px;
 }
+
 
 .product-description p::-webkit-scrollbar-track{
 
@@ -257,6 +311,7 @@
 
     border-radius:10px;
 }
+
 
 .product-description p::-webkit-scrollbar-thumb{
 
@@ -269,6 +324,7 @@
 
     border-radius:20px;
 }
+
 
 .product-description p::-webkit-scrollbar-thumb:hover{
 

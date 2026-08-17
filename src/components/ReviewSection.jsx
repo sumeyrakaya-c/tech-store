@@ -3,8 +3,11 @@ import "../styles/ReviewSection.css";
 import ReviewCard from "./ReviewCard";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import ReviewForm from "./ReviewForm";
+import { useLanguage } from "../context/LanguageContext";
 
 function ReviewSection({ productId }) {
+
+    const { language, t } = useLanguage();
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -33,7 +36,14 @@ function ReviewSection({ productId }) {
 
     const loadReviews = () => {
 
-        fetch(`http://localhost:5000/api/reviews/${productId}`)
+        fetch(
+    `http://localhost:5000/api/reviews/${productId}`,
+    {
+        headers: {
+            "Accept-Language": language
+        }
+    }
+)
             .then((res) => res.json())
             .then((data) => {
 
@@ -86,11 +96,11 @@ function ReviewSection({ productId }) {
     };
 
 
-    useEffect(() => {
+   useEffect(() => {
 
-        loadReviews();
+    loadReviews();
 
-    }, [productId]);
+}, [productId, language]);""
 
 
     // =========================
